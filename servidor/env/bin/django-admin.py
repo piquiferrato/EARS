@@ -1,4 +1,4 @@
-#!/home/stalker/PycharmProjects/EARS/servidor/env/bin/python3
+#!/mnt/d/Documentos/Archivos/universidad/2018/Ingenieria de Software/soft/EARS/servidor/env/bin/python3
 from django.core import management
 
 if __name__ == "__main__":
