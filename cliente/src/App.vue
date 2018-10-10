@@ -1,13 +1,19 @@
 <template>
-  <login ></login>
+  <div>
+    <!-- <menuUsuario></menuUsuario> -->
+    <login ></login>
+  </div>
+
 </template>
 
 <script>
 import  login from './components/Login.vue';
+import menuUsuario from './components/MenuUsuario.vue';
 export default {
 
   components: {
-    login
+    login,
+    menuUsuario
   },
   data () {
 

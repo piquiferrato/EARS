@@ -4,12 +4,12 @@
     <div class="col-xs-12 boxLogin">
       <form>
         <h1>BIENVENIDO</h1>
-        <label for="usuario">Usuario:</label>
+        <label class="textoNegro" for="usuario">Usuario:</label>
         <input required type="text" class="form-control" id="usuario" v-model="login.usuario">
-        <label for="contraseña">Contraseña</label>
+        <label class="textoNegro" for="contraseña">Contraseña</label>
         <input required type="password" class="form-control" id="contraseña"v-model="login.contraseña">
-        <a id="recuperarContraseña" href="#">¿Haz olvidado tu contraseña?</a>
-        <button type="submit" class="btn btn-primary" name="button" v-on:click="loguear">Ingregsar</button>
+        <a class="textoNegro" id="recuperarContraseña" href="#">¿Haz olvidado tu contraseña?</a>
+        <button type="submit" class="ingresar btn" name="button" v-on:click="loguear">Ingregsar</button>
       </form>
     </div>
   </div>
@@ -46,15 +46,29 @@ export default {
 }
 </script>
 <style>
+
   .minh-100 {
     height: 100vh;
   }
   .boxLogin {
-    background-color: primary;
+    background-color: #2699FB;
     padding: 10px;
     border-radius: 15px;
+    border-style: solid;
   }
-  .btn {
+  .ingresar {
     margin-top: 10px;
+    border-color: #000000;
+    background-color: #FFFFFF;
+    font-weight: bold;
+    border-width: 2px;
+  }
+  .ingresar:hover {
+    border-color: #FFFFFF;
+    background-color: #2699FB;
+    color: #FFFFFF;
+  }
+  .textoNegro {
+    color: #000000;
   }
 </style>
