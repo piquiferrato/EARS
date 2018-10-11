@@ -1,15 +1,15 @@
 <template>
-<div class="container">
+<div>
   <div class="row justify-content-center align-items-center minh-100">
     <div class="col-xs-12 boxLogin">
       <form @submit.prevent="loguear">
         <h1>BIENVENIDO</h1>
-        <label class="textoNegro" for="usuario">Usuario:</label>
+        <label class="blackText" for="username">Usuario:</label>
         <input required type="text" class="form-control" id="username" v-model="login.username">
-        <label class="textoNegro" for="contraseña">Contraseña</label>
+        <label class="blackText" for="password">Contraseña</label>
         <input required type="password" class="form-control" id="password"v-model="login.password">
-        <a class="textoNegro" id="recuperarContraseña" href="#">¿Haz olvidado tu contraseña?</a>
-        <button type="submit" class="ingresar btn" name="button" v-on:click="loguear">Ingregsar</button>
+        <a class="blackText" id="passwordResotore" href="#">¿Haz olvidado tu contraseña?</a>
+        <button type="submit" class="btnLogin btn" name="button" v-on:click="loguear">Ingregsar</button>
       </form>
     </div>
   </div>
@@ -59,7 +59,7 @@ export default {
   border-style: solid;
 }
 
-.ingresar {
+.btnLogin{
   margin-top: 10px;
   border-color: #000000;
   background-color: #FFFFFF;
@@ -67,13 +67,13 @@ export default {
   border-width: 2px;
 }
 
-.ingresar:hover {
+.btnLogin:hover {
   border-color: #FFFFFF;
   background-color: #2699FB;
   color: #FFFFFF;
 }
 
-.textoNegro {
+.blackText {
   color: #000000;
 }
 </style>
