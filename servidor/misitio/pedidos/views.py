@@ -35,7 +35,6 @@ class PedidoViewSet(viewsets.ModelViewSet):
     serializer_class = PedidoSerializer
     queryset = Pedido.objects.all()
 
-
 class PedidoMiUsuarioSet(viewsets.ModelViewSet):
     serializer_class = PedidoSerializer
     queryset = Pedido.objects.all().filter(autor = "2")
@@ -62,16 +61,16 @@ class Registrar(mixins.CreateModelMixin, viewsets.GenericViewSet):
         return Response({'detail': 'El usuario fue creado con el token: ' + token.key})
 
 
-class LoginView(mixins.CreateModelMixin, viewsets.GenericViewSet):
-    serializer_class = LoginSerializer
-
-    def create(self, request):
-        serializer = LoginSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data["usuario"]
-        django_login(request, user)
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key}, status=200)
+# class LoginView(mixins.CreateModelMixin, viewsets.GenericViewSet):
+#     serializer_class = LoginSerializer
+#
+#     def create(self, request):
+#         serializer = LoginSerializer(data=request.data)
+#         serializer.is_valid(raise_exception=True)
+#         user = serializer.validated_data["usuario"]
+#         django_login(request, user)
+#         token, created = Token.objects.get_or_create(user=user)
+#         return Response({"token": token.key}, status=200)
 
 
 class LogoutView(mixins.CreateModelMixin, viewsets.GenericViewSet):

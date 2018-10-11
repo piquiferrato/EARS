@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'pedidos',
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+)
 
 ROOT_URLCONF = 'misitio.urls'
 
@@ -126,6 +126,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_PASSWORD_REQUIRED = False
 CORS_ORIGIN_ALLOW_ALL = True
 
 # REST_FRAMEWORK = {
