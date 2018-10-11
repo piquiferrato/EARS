@@ -46,12 +46,12 @@ class Registrar(mixins.CreateModelMixin, viewsets.GenericViewSet):
     def create(self, request, *args, **kwargs):
         #  Creando un nuevo usuario
         username = request.POST.get('user.username')
+        email = request.POST.get('user.email')
         password = request.POST.get('user.password')
         # es_tecnico = request.POST.get('es_tecnico')
         es_tecnico = False
-        print(username)
 
-        user = User.objects.create_user(username, password)
+        user = User.objects.create_user(username, email, password)
         user.save()
 
         token = Token.objects.create(user=user)
