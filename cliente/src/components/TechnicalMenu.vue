@@ -23,8 +23,23 @@
 </div>
 </template>
 <script>
-export default {
+import axios from 'axios';
 
+export default {
+  mounted(){
+      axios.get('http://127.0.0.1:8000/users', {
+        headers: {'Authorization': 'JWT' + sessionStorage.getItem('idToken')},
+        // params: {
+        //   id: this.id,
+        // }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("No salio");
+      });
+  },
   data: () => ({
 
   })
