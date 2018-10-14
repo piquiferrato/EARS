@@ -7,42 +7,45 @@
         <label class="blackText" for="username">Usuario:</label>
         <input required type="text" class="form-control" id="username" v-model="login.username">
         <label class="blackText" for="password">Contraseña</label>
-        <input required type="password" class="form-control" id="password"v-model="login.password">
+        <input required type="password" class="form-control" id="password" v-model="login.password">
         <a class="blackText" id="passwordResotore" href="#">¿Haz olvidado tu contraseña?</a>
-        <button type="submit" class="btnLogin btn" name="button" v-on:click="loguear">Ingregsar</button>
+        <button type="submit" class="btnLogin btn" name="button" >Ingregsar</button>
       </form>
     </div>
   </div>
-
 </div>
 </template>
 <script>
-import axios from 'axios'
+// import {router} from '../router/router';
+// import store from '../store/store';
+import axios from 'axios';
 export default {
-  data() {
+  // store,
+  // router,
+  data: function() {
     return {
       login: {
-        username: null,
-        password: null
+        username: "",
+        password: ""
       }
     }
   },
   methods: {
     loguear() {
-      console.log(this.login);
-      axios.post('http://127.0.0.1:8000/login/', {
-          username: this.username,
-          password: this.password
+      axios.post('http://127.0.0.1:8000/rest-auth/login/', {
+          username: this.login.username,
+          password: this.login.password
         })
-        .then((response) => {
-          // this.logueado = !this.logueado;
-          console.log("sale");
-          console.log(response);
+        .then((data) => {
+          sessionStorage.setItem('idToken', data.data.key);
+          this.$router.push('/user');
         })
         .catch((error) => {
-          alert("usuario desconosido");
-          console.log(error);
+          console.log("salio mal");
         });
+    },
+    logOut: function() {
+      // this.$store.dispatch('logOut');
     }
   }
 }
@@ -59,7 +62,7 @@ export default {
   border-style: solid;
 }
 
-.btnLogin{
+.btnLogin {
   margin-top: 10px;
   border-color: #000000;
   background-color: #FFFFFF;
