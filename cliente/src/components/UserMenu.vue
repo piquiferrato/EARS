@@ -29,20 +29,19 @@ export default {
   components: {
     form1
   },
-  computed: {
-    var token = sessionStorage.getItem('idToken');
-    axios.get('http://127.0.0.1:8000/users', {
-      headers: 'Authorization': 'JWT' + this.token,
-      params: {
-        id: this.id,
-      }
-    })
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log("No salio");
-    });
+  mounted(){
+      axios.get('http://127.0.0.1:8000/users', {
+        headers: {'Authorization': 'JWT' + sessionStorage.getItem('idToken')},
+        // params: {
+        //   id: this.id,
+        // }
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("No salio");
+      });
   },
   methods: {
   new_requirement: function(){

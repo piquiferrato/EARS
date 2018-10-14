@@ -16,33 +16,19 @@ export default new Vuex.Store({
   mutations: {
     addWebToken: function(state, webToken) {
       // state.user.token = webToken;
-      sessionStorage.setItem('user', webToken);
+      // sessionStorage.setItem('user', webToken);
       state.authenticated = true;
     },
     removeWebToken: function(state) {
-      sessionStorage.removeItem('user');
+      sessionStorage.removeItem('idToken');
       state.authenticated = false;
-      // state.user.token = '';
     }
   },
   actions: {
-    loguear(context, userInPut) {
-      axios.post('http://127.0.0.1:8000/rest-auth/login/', {
-          username: userInPut.username,
-          password: userInPut.password
-        })
-        .then((data) => {
-          var webToken = data.data.key;
-          context.commit('addWebToken', webToken);
-          // router.push('/user');
-          // console.log(data.data.key);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    logIn(context, userInPut) {
+      context.commit('addWebToken', webToken);
     },
     logOut: function(context) {
-      //your logout functionality
       context.commit('removeWebToken');
     }
   }
