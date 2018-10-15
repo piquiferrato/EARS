@@ -61,7 +61,22 @@ export default {
     }
   },
   methods: {
-    
+    axios.post('/user', {
+      type = this.yo
+      subject = this.
+      date = this.
+      details = this.
+      priority = this.
+      affected_system = this.
+      module= this.
+      attached_file = this.
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   }
 }
 </script>
