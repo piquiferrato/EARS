@@ -1,15 +1,12 @@
 <template>
   <div class="container">
-    <!-- <router-view></router-view> -->
-    <requisition></requisition>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import requisition from './components/Requisition.vue';
-
 export default {
-  components: {requisition},
+  components: {},
   data() {
     return {
     }

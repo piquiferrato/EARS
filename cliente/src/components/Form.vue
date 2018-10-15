@@ -1,41 +1,95 @@
 <template>
 <div class="col-8 centerForm">
-  <form class="">
-    <label method="post">asunto</label>
-    <input type="text" id="asunto" class="form-control">
-    <label method="post">detalle</label>
-    <textarea class="form-control" rows="5"></textarea>
-    <label method="post">prioridad</label>
+  <form class="" method="post">
+    <label>Tipo de pedido</label>
     <div class="form-group">
-      <select name="" class="form-control">
+      <select name="" class="form-control" v-model="type">
+        <option value="requerimiento">Requerimiento</option>
+        <option value="error">Error</option>
+      </select>
+    </div>
+    <label>Asunto</label>
+    <input type="text" id="asunto" class="form-control" v-model="subject">
+    <label>Fecha</label>
+    <input type="text" class="form-control" name="date">
+    <label>Detalle</label>
+    <textarea class="form-control" rows="5" v-model="details"></textarea>
+    <label>Prioridad</label>
+    <div class="form-group">
+      <select name="" class="form-control" v-model="priority">
+        <option value="c">Baja</option>
+        <option value="b">Media</option>
+        <option value="a">Alta</option>
+      </select>
+    </div>
+    <label>Sistema</label>
+    <div class="form-group">
+      <select name="" class="form-control" v-model="affected_system">
+        <option value="administration">Administracion</option>
+        <option value="stock">Stock</option>
+        <option value="human resources">Recurso Humanos</option>
+      </select>
+    </div>
+    <label>Modulo</label>
+    <div class="form-group">
+      <select name="" class="form-control" v-model="module">
         <option value="uno">uno</option>
-        <option value="cuatro">cuatro</option>
+        <option value="dos">dos</option>
         <option value="tres">tres</option>
       </select>
     </div>
-    <label for="sistema" method="post">sistema</label>
-    <div class="form-group">
-      <select name="" class="form-control">
-        <option value="uno">uno</option>
-        <option value="cuatro">cuatro</option>
-        <option value="tres">tres</option>
-      </select>
-    </div>
-    <button type="submit" class="btn btn-primary form-control">ENVIAR</button>
+    <label for="inputFile">Archivo adjunto</label>
+    <input id="inputFile" type="file" >
+    <button type="submit" class="btn btn-primary form-control boldText">ENVIAR</button>
   </form>
 </div>
 </template>
 <script>
 export default {
 
-  data: () => ({
+  data() {
+    return {
+      type: '',
+      subject: '',
+      date: '',
+      details: '',
+      priority: '',
+      affected_system: '',
+      module: '',
+      attached_file: null
 
-  })
+    }
+  },
+  methods: {
+    
+  }
 }
 </script>
 <style>
+#inputFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+label[for="inputFile"] {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: #2699FB;
+  display: inline-block;
+  cursor: pointer;
+  padding: 15px 40px !important;
+  text-transform: uppercase;
+  width: fit-content;
+  text-align: center;
+}
+
 .formWidth {
-  width:80%;
+  width: 80%;
 }
 
 .centerForm {
