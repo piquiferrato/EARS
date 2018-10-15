@@ -51,7 +51,7 @@ export default {
   data() {
     return {
       type: '',
-      author: '18',
+      author: sessionStorage.getItem('idUser'),
       subject: '',
       date: '',
       details: '',
