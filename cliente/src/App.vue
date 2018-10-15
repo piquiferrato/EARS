@@ -1,21 +1,18 @@
 <template>
   <div class="container">
-    <!-- <technicalMenu></technicalMenu> -->
-    <!-- <userMenu></userMenu> -->
-    <!-- <login></login> -->
-    <router-view></router-view>
+    <!-- <router-view></router-view> -->
+    <requisition></requisition>
   </div>
 </template>
 
 <script>
-import login from './components/Login.vue';
-import userMenu from './components/UserMenu.vue';
-import technicalMenu from './components/TechnicalMenu.vue';
-export default {
+import requisition from './components/Requisition.vue';
 
-  components: {},
+export default {
+  components: {requisition},
   data() {
-    return {}
+    return {
+    }
   }
 }
 </script>

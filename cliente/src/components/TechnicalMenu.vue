@@ -3,7 +3,7 @@
   <div class="row backgroundColor">
     <div class="whiteText col-12">
       <a href="#" id="logOut" class="boldText whiteText ">LOGOUT</a>
-      <p class="boldText text-center">BIENVENIDO "tecnico"</p>
+      <p class="boldText text-center">BIENVENIDO {{ name }}</p>
     </div>
   </div>
   <div class="row backgroundColor">
@@ -26,23 +26,27 @@
 import axios from 'axios';
 
 export default {
-  mounted(){
-      axios.get('http://127.0.0.1:8000/users', {
-        headers: {'Authorization': 'JWT' + sessionStorage.getItem('idToken')},
-        // params: {
-        //   id: this.id,
-        // }
+  mounted() {
+    axios.get('http://127.0.0.1:8000/users/' + sessionStorage.getItem('idUser'), {
+        //  params: {
+        //   id: sessionStorage.getItem('idUser')
+        // },
+        headers: {
+          'Authorization': 'JWT' + sessionStorage.getItem('idToken')
+        }
       })
       .then((response) => {
-        console.log(response);
+        this.name = response.data.username;
       })
       .catch((error) => {
         console.log("No salio");
       });
   },
-  data: () => ({
-
-  })
+  data() {
+    return{
+       name: null
+    }
+  }
 }
 </script>
 <style>

@@ -12,8 +12,9 @@ class UserListView(generics.ListAPIView):
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.UserSerializer
 
-class UniqueUserListView(generics.ListAPIView):
-    queryset = models.CustomUser.objects.all()
+class UniqueUserListView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    queryset = models.CustomUser.objects
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
