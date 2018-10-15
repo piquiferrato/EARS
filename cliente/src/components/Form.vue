@@ -1,6 +1,6 @@
 <template>
 <div class="col-8 centerForm">
-  <form class="" method="post">
+  <form @submit.prevent="enviar">
     <label>Tipo de pedido</label>
     <div class="form-group">
       <select name="" class="form-control" v-model="type">
@@ -40,16 +40,18 @@
     </div>
     <label for="inputFile">Archivo adjunto</label>
     <input id="inputFile" type="file" >
-    <button type="submit" class="btn btn-primary form-control boldText">ENVIAR</button>
+    <button type="submit" class="btn btn-primary form-control boldText" v-on:click="enviar">ENVIAR</button>
   </form>
 </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
 
   data() {
     return {
       type: '',
+      author: '18',
       subject: '',
       date: '',
       details: '',
@@ -61,22 +63,26 @@ export default {
     }
   },
   methods: {
-    axios.post('/user', {
-      type = this.yo
-      subject = this.
-      date = this.
-      details = this.
-      priority = this.
-      affected_system = this.
-      module= this.
-      attached_file = this.
-  })
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    enviar() {
+      axios.post('http://127.0.0.1:8000/requisitions/', {
+          type: this.type,
+          author: this.author,
+          subject: this.subject,
+          date: this.date,
+          details: this.details,
+          priority: this.priority,
+          affected_system: this.affected_system,
+          module: this.module,
+          attached_file: this.attached_file
+        })
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    }
+
   }
 }
 </script>
