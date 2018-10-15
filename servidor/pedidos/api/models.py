@@ -12,16 +12,16 @@ class CustomUser(AbstractUser):
         return self.username
 
 class Requisition(models.Model):
-    type = models.TextField()
-    author = models.ForeignKey(CustomUser, related_name = 'author', on_delete=models.CASCADE, null=True)
-    assigned_technician = models.ForeignKey(CustomUser, related_name = 'assigned_technician', on_delete=models.CASCADE, null=True)
-    subject = models.TextField() #Asunto
-    details = models.TextField()
-    priority = models.TextField()
-    affected_system = models.TextField()
-    module = models.TextField()
-    date = models.TextField(null=True)
-    attached_file = models.FileField(null=True)
+    type = models.TextField(blank=True, null=True)
+    author = models.ForeignKey(CustomUser, related_name = 'author', on_delete=models.CASCADE, blank=True, null=True)
+    assigned_technician = models.ForeignKey(CustomUser, related_name = 'assigned_technician', blank=True, on_delete=models.CASCADE, null=True)
+    subject = models.TextField(blank=True, null=True) #Asunto
+    details = models.TextField(blank=True, null=True)
+    priority = models.TextField(blank=True, null=True)
+    affected_system = models.TextField(blank=True, null=True)
+    module = models.TextField(blank=True, null=True)
+    date = models.TextField(blank=True, null=True)
+    attached_file = models.FileField(blank=True, null=True)
 
     def __str__(self):
         return self.subject
