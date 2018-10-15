@@ -9,11 +9,13 @@ from . import models
 from . import serializers
 
 class UserListView(generics.ListAPIView):
+    lookup_field = 'id'
     queryset = models.CustomUser.objects.all()
     serializer_class = serializers.UserSerializer
 
-class UniqueUserListView(generics.ListAPIView):
-    queryset = models.CustomUser.objects.all()
+class UniqueUserListView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    queryset = models.CustomUser.objects
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
@@ -23,3 +25,8 @@ class UniqueUserListView(generics.ListAPIView):
         """
         id = self.kwargs['id']
         return models.CustomUser.objects.filter(id=id)
+
+class RequisitionListView(generics.ListCreateAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+    queryset = models.Requisition.objects.all()
