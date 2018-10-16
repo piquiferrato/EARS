@@ -40,10 +40,11 @@ class RequerimentsListView(generics.ListAPIView):
     queryset = models.Requisition.objects.filter(type='requerimiento')
     serializer_class = serializers.UserSerializer
 
-class MyRequisitionsListView(generics.RetrieveAPIView):
-    lookup_field = 'id'
-    queryset = models.CustomUser.objects
-    serializer_class = serializers.UserSerializer
+class MyRequisitionsListView(generics.ListAPIView):
+    lookup_field = 'slug'
+    lookup_url_kwarg = 'id'
+    # queryset = models.Requisition.objects
+    serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
         """
@@ -51,6 +52,4 @@ class MyRequisitionsListView(generics.RetrieveAPIView):
         the user as determined by the username portion of the URL.
         """
         id = self.kwargs['id']
-        return models.Requisition.objects.filter(autor=id)
-
-
+        return models.Requisition.objects.all().filter(author=id)

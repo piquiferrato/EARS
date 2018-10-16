@@ -27,6 +27,7 @@
 import form1 from './Form.vue';
 import requisition from './Requisition.vue';
 import axios from 'axios';
+import EventBus from '../bus/eventBus.js';
 export default {
   components: {
     form1,
@@ -64,6 +65,14 @@ export default {
       this.errorSection = false;
       this.requirementSection = false;
     }
+  },
+  created() {
+    EventBus.$on('changeSection', () => {
+      this.requirementSection = !this.requirementSection;
+      this.userRequisition = !this.userRequisition;
+      console.log("funciona");
+    });
+
   },
   data() {
     return {

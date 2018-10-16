@@ -28,16 +28,22 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      requisition: null
+      requisition: {}
     }
   },
   mounted() {
-    axios.get('./static/prueba.json')
+    axios.get('http://127.0.0.1:8000/requisitions/' +  sessionStorage.getItem('idUser'))
       .then((response) => {
-        this.requisition = response.data.data;
+        // for (var i = 0; i < response.data.length; i++) {
+        //   this.requisition[i] = response.data[i];
+        //
+        // }
+        console.log(response.data);
+
+        // this.requisition = response.data.data;
       })
       .catch((error) => {
-        console.log("No salio");
+        console.log(error);
       });
   }
 }

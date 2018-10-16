@@ -1,9 +1,9 @@
 <template>
 <div class="col-8 centerForm">
-  <form @submit.prevent="enviar">
+  <form v-on:submit.prevent id="form">
     <label>Tipo de pedido</label>
     <div class="form-group">
-      <select name="" class="form-control" v-model="type">
+      <select name="" class="form-control" id="select" v-model="type">
         <option value="requerimiento">Requerimiento</option>
         <option value="error">Error</option>
       </select>
@@ -16,7 +16,7 @@
     <textarea class="form-control" rows="5" v-model="details"></textarea>
     <label>Prioridad</label>
     <div class="form-group">
-      <select name="" class="form-control" v-model="priority">
+      <select name="" class="form-control" id="select" v-model="priority">
         <option value="c">Baja</option>
         <option value="b">Media</option>
         <option value="a">Alta</option>
@@ -24,7 +24,7 @@
     </div>
     <label>Sistema</label>
     <div class="form-group">
-      <select name="" class="form-control" v-model="affected_system">
+      <select name="" class="form-control" id="select"  v-model="affected_system">
         <option value="administration">Administracion</option>
         <option value="stock">Stock</option>
         <option value="human resources">Recurso Humanos</option>
@@ -32,7 +32,7 @@
     </div>
     <label>Modulo</label>
     <div class="form-group">
-      <select name="" class="form-control" v-model="module">
+      <select name="" class="form-control" id="select" v-model="module">
         <option value="uno">uno</option>
         <option value="dos">dos</option>
         <option value="tres">tres</option>
@@ -40,12 +40,13 @@
     </div>
     <label for="inputFile">Archivo adjunto</label>
     <input id="inputFile" type="file" >
-    <button type="submit" class="btn btn-primary form-control boldText" v-on:click="enviar">ENVIAR</button>
+    <button type="submit" class="btn btn-primary form-control boldText" v-on:click="send">ENVIAR</button>
   </form>
 </div>
 </template>
 <script>
 import axios from 'axios';
+import EventBus from '../bus/eventBus.js';
 export default {
 
   data() {
@@ -63,7 +64,7 @@ export default {
     }
   },
   methods: {
-    enviar() {
+    send() {
       axios.post('http://127.0.0.1:8000/requisitions/', {
           type: this.type,
           author: this.author,
@@ -76,7 +77,9 @@ export default {
           attached_file: this.attached_file
         })
         .then((data) => {
-          console.log(data);
+          document.getElementById("form").reset();
+          document.getElementById("select").SelectedIndex = -1;
+          EventBus.$emit('changeSection');
         })
         .catch((error) => {
           console.log(error.response);
