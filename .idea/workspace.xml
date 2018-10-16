@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0917d48c-0872-45ee-a547-f77001e17bbd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servidor/pedidos/api/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/servidor/pedidos/api/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/servidor/pedidos/api/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/servidor/pedidos/api/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/servidor/pedidos/api/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/servidor/pedidos/api/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,13 +37,21 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="79" />
+<<<<<<< HEAD
           <entry key="py" value="4715" />
+=======
+          <entry key="py" value="4587" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="79" />
+<<<<<<< HEAD
           <entry key="Python" value="4715" />
+=======
+          <entry key="Python" value="4587" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
         </counts>
       </usages-collector>
       <usages-collector id="statistics.vcs.git.usages" />
@@ -78,11 +83,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/urls.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="135">
               <caret line="9" column="81" selection-start-line="9" selection-start-column="81" selection-end-line="9" selection-end-column="81" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
+=======
+            <state relative-caret-position="15">
+              <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
             </state>
           </provider>
         </entry>
@@ -90,8 +100,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="427">
               <caret line="35" column="35" lean-forward="true" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
+=======
+            <state relative-caret-position="225">
+              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -102,7 +117,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="210">
               <caret line="15" column="65" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="65" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
@@ -114,12 +129,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/views.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="330">
               <caret line="41" column="12" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
                 <marker date="1539704122001" expanded="true" signature="733:742" ph="..." />
                 <marker date="1539704122001" expanded="true" signature="1238:1343" ph="..." />
+=======
+            <state relative-caret-position="495">
+              <caret line="84" column="8" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+                <marker date="1539699626189" expanded="true" signature="733:742" ph="..." />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
               </folding>
             </state>
           </provider>
@@ -304,7 +327,11 @@
     <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/forms.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
+<<<<<<< HEAD
           <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
+=======
+          <caret line="15" column="65" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="65" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
           <folding>
             <element signature="e#0#24#0" expanded="true" />
           </folding>
@@ -324,7 +351,11 @@
     <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
+<<<<<<< HEAD
           <caret line="15" column="65" selection-start-line="15" selection-start-column="59" selection-end-line="15" selection-end-column="65" />
+=======
+          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
@@ -333,8 +364,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/serializers.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="427">
           <caret line="35" column="35" lean-forward="true" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
+=======
+        <state relative-caret-position="210">
+          <caret line="14" column="43" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="43" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>
@@ -343,6 +379,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/views.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="330">
           <caret line="41" column="12" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
           <folding>
@@ -350,15 +387,27 @@
             <marker date="1539704122001" expanded="true" signature="733:742" ph="..." />
             <marker date="1539704122001" expanded="true" signature="1238:1343" ph="..." />
           </folding>
+=======
+        <state relative-caret-position="15">
+          <caret line="1" column="19" selection-start-line="1" selection-start-column="19" selection-end-line="1" selection-end-column="19" />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/servidor/pedidos/api/urls.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="135">
           <caret line="9" column="81" selection-start-line="9" selection-start-column="81" selection-end-line="9" selection-end-column="81" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
+=======
+        <state relative-caret-position="495">
+          <caret line="84" column="8" selection-start-line="84" selection-start-column="8" selection-end-line="84" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1539699626189" expanded="true" signature="733:742" ph="..." />
+>>>>>>> 0013a956593520d3683749156466bdcd966a90b2
           </folding>
         </state>
       </provider>

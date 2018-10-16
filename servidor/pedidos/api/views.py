@@ -34,6 +34,7 @@ class RequisitionListView(generics.ListCreateAPIView):
     serializer_class = serializers.RequisitionSerializer
     queryset = models.Requisition.objects.all()
 
+# <<<<<<< HEAD
 class DeleteRequisitionView(generics.DestroyAPIView):
     lookup_field = 'id'
     queryset = models.Requisition.objects.all()
@@ -65,30 +66,3 @@ class MyRequisitionsListView(generics.ListAPIView):
         id = self.kwargs['id']
         return models.Requisition.objects.filter(author=id)
 
-# class MyRequisitionsListView(generics.ListAPIView):
-#     lookup_field = 'slug'
-#     lookup_url_kwarg = 'id'
-#     # queryset = models.Requisition.objects
-#     serializer_class = serializers.RequisitionSerializer
-#
-#     def get_queryset(self):
-#         """
-#         This view should return a list of all the purchases for
-#         the user as determined by the username portion of the URL.
-#         """
-#         id = self.kwargs['id']
-#         return models.Requisition.objects.all().filter(author=id)
-
-# class MyRequisitionsListView(generics.ListAPIView):
-#     lookup_field = 'slug'
-#     lookup_url_kwarg = 'id'
-#     queryset = models.Requisition.objects
-#     serializer_class = serializers.RequisitionSerializer
-#
-#     def get_queryset(self):
-#         """
-#         This view should return a list of all the purchases for
-#         the user as determined by the username portion of the URL.
-#         """
-#         id = self.kwargs['id']
-#         return models.Requisition.objects.filter(author=id)
