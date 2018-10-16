@@ -15,8 +15,8 @@
         <div class="whiteBackground border">
           <p class="card-text textColor">{{ requi.date }}</p>
         </div>
-        <button type="button" class="boldText marginButton btn btn-light textColor">EDITAR</button>
-        <button type="button" class="boldText marginButton btn btn-danger">ELIMINAR</button>
+        <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">EDITAR</button>
+        <button type="button" class="boldText marginButton btn btn-danger" v-on:click="deletRequisition(requi.id)">ELIMINAR</button>
       </div>
     </div>
   </div>
@@ -24,7 +24,7 @@
 </template>
 <script>
 import axios from 'axios';
-
+import EventBus from '../bus/eventBus.js';
 export default {
   data() {
     return {
@@ -32,24 +32,45 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:8000/requisitions/' +  sessionStorage.getItem('idUser'))
+    axios.get('../static/prueba.json')
       .then((response) => {
-        // for (var i = 0; i < response.data.length; i++) {
-        //   this.requisition[i] = response.data[i];
-        //
-        // }
-        console.log(response.data);
-
-        // this.requisition = response.data.data;
+        this.requisition = response.data.data;
+        // console.log(this.requisition);
       })
       .catch((error) => {
         console.log(error);
       });
+    // axios.get('http://127.0.0.1:8000/requisitions/' +  sessionStorage.getItem('idUser'))
+    //   .then((response) => {
+    //     // for (var i = 0; i < response.data.length; i++) {
+    //     //   this.requisition[i] = response.data[i];
+    //     //
+    //     // }
+    //     console.log(response.data);
+    //
+    //     // this.requisition = response.data.data;
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+  },
+  methods: {
+    deletRequisition(id) {
+      console.log(id);
+    },
+    editRequisition(id) {
+      for (var i = 0; i < this.requisition.length; i++) {
+        if (this.requisition[i].id == id) {
+          // console.log(this.requisition[i]);
+          EventBus.$emit('edit_requisition', this.requisition[i]);
+          EventBus.$emit('view_edit_form');
+        }
+      }
+    }
   }
 }
 </script>
 <style>
-
 .border {
   border-radius: 5px;
 }

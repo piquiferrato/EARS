@@ -10,8 +10,6 @@
     </div>
     <label>Asunto</label>
     <input type="text" id="asunto" class="form-control" v-model="requisition.subject">
-    <label>Fecha</label>
-    <input type="text" class="form-control" v-model="requisition.date">
     <label>Detalle</label>
     <textarea class="form-control" rows="5" v-model="requisition.details"></textarea>
     <label>Prioridad</label>
@@ -40,7 +38,7 @@
     </div>
     <label for="inputFile">Archivo adjunto</label>
     <input id="inputFile" type="file" >
-    <button type="submit" class="btn btn-primary form-control boldText" v-on:click="send">ENVIAR</button>
+    <button type="submit" class="btn btn-primary form-control boldText" v-on:click="update">ENVIAR</button>
   </form>
 </div>
 </template>
@@ -65,57 +63,38 @@ export default {
     }
   },
   methods: {
-    send() {
-      axios.post('http://127.0.0.1:8000/requisitions/', {
-          type: this.requisition.type,
-          author: this.requisition.author,
-          subject: this.requisition.subject,
-          date: this.requisition.date,
-          details: this.requisition.details,
-          priority: this.requisition.priority,
-          affected_system: this.requisition.affected_system,
-          module: this.requisition.module,
-          attached_file: this.requisition.attached_file
-        })
-        .then((data) => {
-          EventBus.$emit('changeSection');
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
+    update() {
+      EventBus.$emit('change_section');
+      this.requisition = null;
+      // axios.post('', {
+      //     type: this.requisition.type,
+      //     author: this.requisition.author,
+      //     subject: this.requisition.subject,
+      //     date: this.requisition.date,
+      //     details: this.requisition.details,
+      //     priority: this.requisition.priority,
+      //     affected_system: this.requisition.affected_system,
+      //     module: this.requisition.module,
+      //     attached_file: this.requisition.attached_file
+      //   })
+      //   .then((data) => {
+      //     EventBus.$emit('change_section');
+      //   })
+      //   .catch((error) => {
+      //     console.log(error.response);
+      //   });
     }
 
+  },
+  created() {
+    EventBus.$on('edit_requisition', (response) => {
+      this.requisition = null;
+      this.requisition = response;
+      console.log(this.requisition);
+    });
   }
 }
 </script>
 <style>
-#inputFile {
-  width: 0.1px;
-  height: 0.1px;
-  opacity: 0;
-  overflow: hidden;
-  position: absolute;
-  z-index: -1;
-}
 
-label[for="inputFile"] {
-  font-size: 14px;
-  font-weight: 600;
-  color: #FFFFFF;
-  background-color: #2699FB;
-  display: inline-block;
-  cursor: pointer;
-  padding: 15px 40px !important;
-  text-transform: uppercase;
-  width: fit-content;
-  text-align: center;
-}
-
-.formWidth {
-  width: 80%;
-}
-
-.centerForm {
-  margin: 0 auto;
-}
 </style>

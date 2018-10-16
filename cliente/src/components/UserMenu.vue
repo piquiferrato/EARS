@@ -18,20 +18,25 @@
     </div>
   </div>
   <div class="row" v-if="requirementSection">
-    <form1></form1>
+    <formRequisition></formRequisition>
   </div>
   <requisition v-if="userRequisition"></requisition>
+  <div class="row" v-if="formEdit">
+    <formEditRequisition></formEditRequisition>
+  </div>
 </div>
 </template>
 <script>
-import form1 from './Form.vue';
+import formRequisition from './Form.vue';
+import formEditRequisition from './FormEdit.vue';
 import requisition from './Requisition.vue';
 import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
 export default {
   components: {
-    form1,
-    requisition
+    formRequisition,
+    requisition,
+    formEditRequisition
   },
   mounted() {
     axios.get('http://127.0.0.1:8000/users/' + sessionStorage.getItem('idUser'), {
@@ -54,6 +59,7 @@ export default {
       this.requirementSection = !this.requirementSection;
       this.errorSection = false;
       this.userRequisition = false;
+      this.formEdit = false;
     },
     new_error: function() {
       this.errorSection = !this.errorSection;
@@ -64,13 +70,18 @@ export default {
       this.userRequisition = !this.userRequisition;
       this.errorSection = false;
       this.requirementSection = false;
+      this.formEdit = false;
     }
   },
   created() {
-    EventBus.$on('changeSection', () => {
-      this.requirementSection = !this.requirementSection;
+    EventBus.$on('change_section', () => {
+      this.requirementSection = false;
       this.userRequisition = !this.userRequisition;
-      console.log("funciona");
+      this.formEdit = false;
+    });
+    EventBus.$on('view_edit_form', () => {
+      this.userRequisition = !this.userRequisition;
+      this.formEdit = !this.formEdit;
     });
 
   },
@@ -80,7 +91,7 @@ export default {
       requirementSection: false,
       errorSection: false,
       userRequisition: true,
-
+      formEdit: false
     }
   }
 }
