@@ -15,7 +15,7 @@
         <div class="whiteBackground border">
           <p class="card-text textColor">{{ requi.date }}</p>
         </div>
-        <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">EDITAR</button>
+        <button type="button"  class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">EDITAR</button>
         <button type="button" class="boldText marginButton btn btn-danger" v-on:click="deletRequisition(requi.id)">ELIMINAR</button>
       </div>
     </div>
@@ -29,19 +29,19 @@ export default {
   data() {
     return {
       requisition: [{
-        type: '',
-        author: '',
-        subject: '',
-        date: '',
-        details: '',
-        priority: '',
-        affected_system: '',
-        module: '',
-        attached_file: null
+        // type: '',
+        // author: '',
+        // subject: '',
+        // date: '',
+        // details: '',
+        // priority: '',
+        // affected_system: '',
+        // module: '',
+        // attached_file: null
       }]
     }
   },
-  mounted() {
+mounted() {
     // axios.get('../static/prueba.json')
     //   .then((response) => {
     //     this.requisition = response.data.data;
@@ -54,7 +54,7 @@ export default {
       .then((response) => {
         for (var i = 0; i < response.data.length; i++) {
           this.requisition[i] = response.data[i];
-          console.log(this.requisition[i]);
+          console.log("anda");
         }
       })
       .catch((error) => {
@@ -64,11 +64,11 @@ export default {
   methods: {
     deletRequisition(id) {
       console.log(id);
+      axios
     },
     editRequisition(id) {
       for (var i = 0; i < this.requisition.length; i++) {
         if (this.requisition[i].id == id) {
-          // console.log(this.requisition[i]);
           EventBus.$emit('edit_requisition', this.requisition[i]);
           EventBus.$emit('view_edit_form');
         }
