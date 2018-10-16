@@ -42,7 +42,7 @@ class RequerimentsListView(generics.ListAPIView):
     queryset = models.Requisition.objects.filter(type='requerimiento')
     serializer_class = serializers.UserSerializer
 
-<<<<<<< HEAD
+
 class MyRequisitionsListView(generics.ListAPIView):
     lookup_field = 'slug'
     lookup_url_kwarg = 'id'
@@ -56,7 +56,6 @@ class MyRequisitionsListView(generics.ListAPIView):
         """
         id = self.kwargs['id']
         return models.Requisition.objects.all().filter(author=id)
-=======
 
 # class MyRequisitionsListView(generics.ListAPIView):
 #     lookup_field = 'slug'
@@ -83,4 +82,3 @@ class RequisitionsListView2(generics.ListAPIView):
             """
             id = self.kwargs['id']
             return models.CustomUser.objects.filter(id=id)
->>>>>>> 04eaf9b8f5daeae71469ba91bcb608fa3cdfaba3

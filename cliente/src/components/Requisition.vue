@@ -35,7 +35,7 @@ export default {
     axios.get('../static/prueba.json')
       .then((response) => {
         this.requisition = response.data.data;
-        // console.log(this.requisition);
+        console.log(this.requisition);
       })
       .catch((error) => {
         console.log(error);

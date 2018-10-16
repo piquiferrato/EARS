@@ -16,8 +16,6 @@ class RequisitionSerializer(serializers.ModelSerializer):
                   'module',
                   'date',
                   'attached_file')
-<<<<<<< HEAD
-=======
         ordering = ['priority']
 
 
@@ -39,5 +37,3 @@ class UserSerializer2(serializers.ModelSerializer):
     class Meta:
         model = models.CustomUser
         fields = ('id','author')
-
->>>>>>> 04eaf9b8f5daeae71469ba91bcb608fa3cdfaba3
