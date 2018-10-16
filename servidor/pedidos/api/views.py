@@ -34,17 +34,17 @@ class RequisitionListView(generics.ListCreateAPIView):
     serializer_class = serializers.RequisitionSerializer
     queryset = models.Requisition.objects.all()
 
-<<<<<<< HEAD
+
 
 class ErrorsListView(generics.ListAPIView):
     queryset = models.Requisition.objects.filter(type='error')
     serializer_class = serializers.UserSerializer
-=======
+
 class DeleteRequisitionView(generics.DestroyAPIView):
     lookup_field = 'id'
     queryset = models.Requisition.objects.all()
     serializer_class = serializers.RequisitionSerializer
->>>>>>> ebd42008aae25fcd4b03bd447819f18eddd09e4f
+
 
     def get_queryset(self):
         """
@@ -86,7 +86,7 @@ class MyRequisitionsListView(generics.ListAPIView):
 #         id = self.kwargs['id']
 #         return models.Requisition.objects.all().filter(author=id)
 
-<<<<<<< HEAD
+
         def get_queryset(self):
             """
             This view should return a list of all the purchases for
@@ -107,7 +107,7 @@ class MyRequisitionsListView(generics.ListAPIView):
         """
         id = self.kwargs['id']
         return models.Requisition.objects.filter(author=id)
-=======
+
 # class MyRequisitionsListView(generics.ListAPIView):
 #     lookup_field = 'slug'
 #     lookup_url_kwarg = 'id'
@@ -121,4 +121,3 @@ class MyRequisitionsListView(generics.ListAPIView):
 #         """
 #         id = self.kwargs['id']
 #         return models.Requisition.objects.filter(author=id)
->>>>>>> ebd42008aae25fcd4b03bd447819f18eddd09e4f
