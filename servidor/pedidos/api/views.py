@@ -34,20 +34,9 @@ class RequisitionListView(generics.ListCreateAPIView):
     serializer_class = serializers.RequisitionSerializer
     queryset = models.Requisition.objects.all()
 
-<<<<<<< HEAD
-class ErrorsListView(generics.ListAPIView):
-    queryset = models.Requisition.objects.filter(type='error')
-    serializer_class = serializers.UserSerializer
-
-class RequerimentsListView(generics.ListAPIView):
-    queryset = models.Requisition.objects.filter(type='requerimiento')
-    serializer_class = serializers.UserSerializer
-
-
-class MyRequisitionsListView(generics.ListAPIView):
-    lookup_field = 'slug'
-    lookup_url_kwarg = 'id'
-    # queryset = models.Requisition.objects
+class DeleteRequisitionView(generics.DestroyAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects.all()
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
@@ -56,7 +45,39 @@ class MyRequisitionsListView(generics.ListAPIView):
         the user as determined by the username portion of the URL.
         """
         id = self.kwargs['id']
-        return models.Requisition.objects.all().filter(author=id)
+        return models.Requisition.objects.filter(id=id)
+
+class UpdateRequisitionView(generics.UpdateAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects.all()
+    serializer_class = serializers.RequisitionSerializer
+
+class MyRequisitionsListView(generics.ListAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the purchases for
+        the user as determined by the username portion of the URL.
+        """
+        id = self.kwargs['id']
+        return models.Requisition.objects.filter(author=id)
+
+# class MyRequisitionsListView(generics.ListAPIView):
+#     lookup_field = 'slug'
+#     lookup_url_kwarg = 'id'
+#     # queryset = models.Requisition.objects
+#     serializer_class = serializers.RequisitionSerializer
+#
+#     def get_queryset(self):
+#         """
+#         This view should return a list of all the purchases for
+#         the user as determined by the username portion of the URL.
+#         """
+#         id = self.kwargs['id']
+#         return models.Requisition.objects.all().filter(author=id)
 
 # class MyRequisitionsListView(generics.ListAPIView):
 #     lookup_field = 'slug'
@@ -71,29 +92,3 @@ class MyRequisitionsListView(generics.ListAPIView):
 #         """
 #         id = self.kwargs['id']
 #         return models.Requisition.objects.filter(author=id)
-
-class RequisitionsListView2(generics.ListAPIView):
-        lookup_field = 'author'
-        serializer_class = serializers.UserSerializer2
-
-        def get_queryset(self):
-            """
-            This view should return a list of all the purchases for
-            the user as determined by the username portion of the URL.
-            """
-            id = self.kwargs['id']
-            return models.CustomUser.objects.filter(id=id)
-=======
-class MyRequisitionsListView(generics.ListAPIView):
-    lookup_field = 'id'
-    queryset = models.Requisition.objects
-    serializer_class = serializers.RequisitionSerializer
-
-    def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
-        id = self.kwargs['id']
-        return models.Requisition.objects.filter(author=id)
->>>>>>> d9702492ed634c92027676e0e63a440805888c3c
