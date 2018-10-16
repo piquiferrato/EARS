@@ -15,7 +15,7 @@
         <div class="whiteBackground border">
           <p class="card-text textColor">{{ requi.date }}</p>
         </div>
-        <button type="button"  class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">EDITAR</button>
+        <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">EDITAR</button>
         <button type="button" class="boldText marginButton btn btn-danger" v-on:click="deletRequisition(requi.id)">ELIMINAR</button>
       </div>
     </div>
@@ -64,7 +64,7 @@ mounted() {
   methods: {
     deletRequisition(id) {
       console.log(id);
-      axios
+      axios.delete('http://127.0.0.1:8000/requisitions/delete/' + id);
     },
     editRequisition(id) {
       for (var i = 0; i < this.requisition.length; i++) {
