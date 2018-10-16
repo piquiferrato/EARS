@@ -1,6 +1,5 @@
 from django.urls import include, path
 from . import views
-from .views import *
 
 urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
@@ -8,4 +7,6 @@ urlpatterns = [
     path('users/<int:id>/', views.UniqueUserListView.as_view()),
     path('requisitions/', views.RequisitionListView.as_view()),
     path('requisitions/<int:id>/', views.MyRequisitionsListView.as_view()),
+    path('requisitions/update/<int:id>/', views.UpdateRequisitionView.as_view()),
+    path('requisitions/delete/<int:id>/', views.DeleteRequisitionView.as_view()),
 ]
