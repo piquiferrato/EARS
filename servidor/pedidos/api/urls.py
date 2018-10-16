@@ -9,5 +9,5 @@ urlpatterns = [
     path('requisitions/', views.RequisitionListView.as_view()),
     path('requisitions/errors/', views.ErrorsListView.as_view()),
     path('requisitions/requeriments/', views.RequerimentsListView.as_view()),
-    path('requisitions/<int:id>/', views.MyRequisitionsListView.as_view()),
+    path('requisitions/<int:id>/', views.RequisitionsListView2.as_view()),
 ]
