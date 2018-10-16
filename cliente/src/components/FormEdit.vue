@@ -90,7 +90,7 @@ export default {
     EventBus.$on('edit_requisition', (response) => {
       this.requisition = null;
       this.requisition = response;
-      console.log(this.requisition);
+      // console.log(this.requisition);
     });
   }
 }

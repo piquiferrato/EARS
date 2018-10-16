@@ -4,8 +4,8 @@
     <label>Tipo de pedido</label>
     <div class="form-group">
       <select name="" class="form-control" id="select" v-model="requisition.type">
-        <option value="requerimiento">Requerimiento</option>
-        <option value="error">Error</option>
+        <option value="REQUERIMIENTO">Requerimiento</option>
+        <option value="ERROR">Error</option>
       </select>
     </div>
     <label>Asunto</label>
@@ -17,9 +17,9 @@
     <label>Prioridad</label>
     <div class="form-group">
       <select name="" class="form-control" id="select" v-model="requisition.priority">
-        <option value="c">Baja</option>
-        <option value="b">Media</option>
-        <option value="a">Alta</option>
+        <option value="baja">Baja</option>
+        <option value="media">Media</option>
+        <option value="alta">Alta</option>
       </select>
     </div>
     <label>Sistema</label>
@@ -78,7 +78,7 @@ export default {
           attached_file: this.requisition.attached_file
         })
         .then((data) => {
-          EventBus.$emit('changeSection');
+          EventBus.$emit('change_section');
         })
         .catch((error) => {
           console.log(error.response);
