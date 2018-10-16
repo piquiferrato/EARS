@@ -16,14 +16,12 @@ class RequisitionSerializer(serializers.ModelSerializer):
                   'module',
                   'date',
                   'attached_file')
-        ordering = ['priority']
-
 
 class UserSerializer(serializers.ModelSerializer):
     # author = RequisitionSerializer(many=True, read_only=True)
     class Meta:
         model = models.CustomUser
-        fields = ('id', 'username', 'es_tecnico', 'author')
+        fields = ('id', 'username', 'es_tecnico')
         # fields = ('id', 'username', 'es_tecnico', 'author')
 
 class TokenSerializer(serializers.ModelSerializer):
@@ -32,9 +30,4 @@ class TokenSerializer(serializers.ModelSerializer):
         model = Token
         fields = ('key', 'user',)
 
-class UserSerializer2(serializers.ModelSerializer):
-    author = RequisitionSerializer(many=True, read_only=True)
-    class Meta:
-        model = models.CustomUser
-        fields = ('id','author')
 
