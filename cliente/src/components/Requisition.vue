@@ -3,7 +3,7 @@
   <div v-for="requi in requisition":key="requi.key" class="col-md-12 col-lg-6 ">
     <div class="card card-block backgroundColor text-center boldText marginCard">
       <div class="card-body">
-        <h3 class="card-title whiteText">{{ requi.type }}</h3>
+        <h3 class="card-title  whiteText">{{ requi.type }}</h3>
         <div class="whiteBackground border">
           <p class="card-text textColor">{{ requi.subject }}</p>
         </div>
@@ -54,7 +54,6 @@ mounted() {
       .then((response) => {
         for (var i = 0; i < response.data.length; i++) {
           this.requisition[i] = response.data[i];
-          console.log("anda");
         }
       })
       .catch((error) => {
