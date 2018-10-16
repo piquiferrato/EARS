@@ -34,7 +34,7 @@ class RequisitionListView(generics.ListCreateAPIView):
     serializer_class = serializers.RequisitionSerializer
     queryset = models.Requisition.objects.all()
 
-<<<<<<< HEAD
+
 class ErrorsListView(generics.ListAPIView):
     queryset = models.Requisition.objects.filter(type='error')
     serializer_class = serializers.UserSerializer
@@ -83,7 +83,7 @@ class RequisitionsListView2(generics.ListAPIView):
             """
             id = self.kwargs['id']
             return models.CustomUser.objects.filter(id=id)
-=======
+
 class MyRequisitionsListView(generics.ListAPIView):
     lookup_field = 'id'
     queryset = models.Requisition.objects
@@ -96,4 +96,3 @@ class MyRequisitionsListView(generics.ListAPIView):
         """
         id = self.kwargs['id']
         return models.Requisition.objects.filter(author=id)
->>>>>>> d9702492ed634c92027676e0e63a440805888c3c
