@@ -30,9 +30,18 @@ class TokenSerializer(serializers.ModelSerializer):
         model = Token
         fields = ('key', 'user',)
 
+<<<<<<< HEAD
+
+class UserSerializer2(serializers.ModelSerializer):
+    author = RequisitionSerializer(many=True, read_only=True)
+    class Meta:
+        model = models.CustomUser
+        fields = ('id','author')
+=======
 # class UserSerializer2(serializers.ModelSerializer):
 #     author = RequisitionSerializer(many=True, read_only=True)
 #     class Meta:
 #         model = models.CustomUser
 #         fields = ('id','author')
 
+>>>>>>> ebd42008aae25fcd4b03bd447819f18eddd09e4f

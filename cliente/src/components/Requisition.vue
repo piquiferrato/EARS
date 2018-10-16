@@ -3,7 +3,7 @@
   <div v-for="requi in requisition":key="requi.key" class="col-md-12 col-lg-6 ">
     <div class="card card-block backgroundColor text-center boldText marginCard">
       <div class="card-body">
-        <h3 class="card-title whiteText">{{ requi.type }}</h3>
+        <h3 class="card-title  whiteText">{{ requi.type }}</h3>
         <div class="whiteBackground border">
           <p class="card-text textColor">{{ requi.subject }}</p>
         </div>
@@ -29,19 +29,19 @@ export default {
   data() {
     return {
       requisition: [{
-        type: '',
-        author: '',
-        subject: '',
-        date: '',
-        details: '',
-        priority: '',
-        affected_system: '',
-        module: '',
-        attached_file: null
+        // type: '',
+        // author: '',
+        // subject: '',
+        // date: '',
+        // details: '',
+        // priority: '',
+        // affected_system: '',
+        // module: '',
+        // attached_file: null
       }]
     }
   },
-  mounted() {
+mounted() {
     // axios.get('../static/prueba.json')
     //   .then((response) => {
     //     this.requisition = response.data.data;
@@ -54,7 +54,6 @@ export default {
       .then((response) => {
         for (var i = 0; i < response.data.length; i++) {
           this.requisition[i] = response.data[i];
-          console.log(this.requisition[i]);
         }
       })
       .catch((error) => {
@@ -64,11 +63,11 @@ export default {
   methods: {
     deletRequisition(id) {
       console.log(id);
+      axios.delete('http://127.0.0.1:8000/requisitions/delete/' + id);
     },
     editRequisition(id) {
       for (var i = 0; i < this.requisition.length; i++) {
         if (this.requisition[i].id == id) {
-          // console.log(this.requisition[i]);
           EventBus.$emit('edit_requisition', this.requisition[i]);
           EventBus.$emit('view_edit_form');
         }
