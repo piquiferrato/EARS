@@ -7,13 +7,10 @@
     </div>
   </div>
   <div class="row backgroundColor">
-    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText" v-on:click="new_requirement" :class="{activeButton: requirementSection}">
+    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText" v-on:click="new_requirement" :class="{activeButton: requirementSection}">
       <p class="textoNegrita text-center mt-1">NUEVO REQUERIMIENTO</p>
     </div>
-    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText" v-on:click="new_error" :class="{activeButton: errorSection}">
-      <p class="textoNegrita text-center mt-1">INFORMAR ERROR</p>
-    </div>
-    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText" v-on:click="requisition" :class="{activeButton: userRequisition}">
+    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText" v-on:click="requisition" :class="{activeButton: userRequisition}">
       <p class="textoNegrita text-center mt-1">MIS PEDIDOS</p>
     </div>
   </div>
