@@ -6,14 +6,15 @@
       <p class="boldText text-center">BIENVENIDO {{ name }}</p>
     </div>
   </div>
-  <div class="row backgroundColor">
-    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText" v-on:click="new_requirement" :class="{activeButton: requirementSection}">
-      <p class="textoNegrita text-center mt-1">NUEVO REQUERIMIENTO</p>
-    </div>
-    <div class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText" v-on:click="requisition" :class="{activeButton: userRequisition}">
-      <p class="textoNegrita text-center mt-1">MIS PEDIDOS</p>
-    </div>
-  </div>
+  <b-navbar toggleable="md" class="row backgroundColor">
+  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+  <b-collapse is-nav id="nav_collapse">
+    <b-navbar-nav>
+      <b-nav-item class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText whiteText textoNegrita text-center mt-1" v-on:click="new_requirement" :class="{activeButton: requirementSection}">NUEVO REQUERIMIENTO</b-nav-item>
+      <b-nav-item class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText textoNegrita text-center mt-1" v-on:click="requisition" :class="{activeButton: userRequisition}">MIS PEDIDOS</b-nav-item>
+    </b-navbar-nav>
+  </b-collapse>
+</b-navbar>
   <div class="row" v-if="requirementSection">
     <formRequisition></formRequisition>
   </div>
@@ -97,6 +98,23 @@ export default {
   background: #2699FB;
   color: #FFFFFF;
   border: 1px solid #FFFFFF;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: inherit;
+}
+
+
+
+@media (min-width:768px) {
+  .navbar-nav {
+    margin: 0 auto;
+    }
+
+  .navbar-nav li {
+    padding-left: 50px;
+    padding-right: 50px;
+  }
 }
 
 @media (max-width:768px) {
