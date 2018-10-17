@@ -5,8 +5,5 @@ env/
 venv/
 ENV/
 env.bak/
-<<<<<<< HEAD
 venv.bak/
-=======
-venv.bak/
->>>>>>> 2b80f9cf56531fc1f4f929fca51ac4e2bdab03b2
+.idea/

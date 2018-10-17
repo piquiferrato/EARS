@@ -4,7 +4,9 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated
-
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # Create your views here.
 
@@ -33,8 +35,6 @@ class RequisitionListView(generics.ListCreateAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
     queryset = models.Requisition.objects.all()
-
-
 
 class ErrorsListView(generics.ListAPIView):
     queryset = models.Requisition.objects.filter(type='error')
