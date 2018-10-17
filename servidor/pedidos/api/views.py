@@ -5,7 +5,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated
 
-
 # Create your views here.
 
 from . import models
@@ -102,6 +101,7 @@ class MyRequisitionsListView(generics.ListAPIView):
         """
         id = self.kwargs['id']
         return models.Requisition.objects.filter(author=id)
+
 # class MyRequisitionsListView(generics.ListAPIView):
 #     lookup_field = 'slug'
 #     lookup_url_kwarg = 'id'
