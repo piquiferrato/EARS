@@ -3,27 +3,27 @@
   <form v-on:submit.prevent id="form">
     <label>Tipo de pedido</label>
     <div class="form-group">
-      <select name="" class="form-control" id="select" v-model="requisition.type">
+      <select required name="" class="form-control" id="select" v-model="requisition.type">
         <option value="REQUERIMIENTO">Requerimiento</option>
         <option value="ERROR">Error</option>
       </select>
     </div>
     <label>Asunto</label>
-    <input type="text" id="asunto" class="form-control" v-model="requisition.subject">
+    <input required type="text" id="asunto" class="form-control" v-model="requisition.subject">
     <label>Fecha</label>
-    <input type="text" class="form-control" v-model="requisition.date">
+    <input required type="date" class="form-control" v-model="requisition.date">
     <label>Detalle</label>
     <textarea class="form-control" rows="5" v-model="requisition.details"></textarea>
     <label>Prioridad</label>
     <div class="form-group">
-      <select name="" class="form-control" id="select" v-model="requisition.priority">
+      <select required name="" class="form-control" id="select" v-model="requisition.priority">
         <option value="baja">Baja</option>
         <option value="media">Media</option>
         <option value="alta">Alta</option>
       </select>
     </div>
     <label>Sistema</label>
-    <div class="form-group">
+    <div required class="form-group">
       <select name="" class="form-control" id="select"  v-model="requisition.affected_system">
         <option value="administration">Administracion</option>
         <option value="stock">Stock</option>
@@ -31,7 +31,7 @@
       </select>
     </div>
     <label>Modulo</label>
-    <div class="form-group">
+    <div required class="form-group">
       <select name="" class="form-control" id="select" v-model="requisition.module">
         <option value="uno">uno</option>
         <option value="dos">dos</option>
