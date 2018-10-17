@@ -12,14 +12,14 @@ Vue.use(Vuex);
 export default new VueRouter({
   routes: [
     // {
-    //   path: '/',
+    //   path: '/user',
     //   name: 'user',
     //   component: UserMenu,
     //   beforeEnter: (to, from, next) => {
-    //     if (store.state.authenticated) {
+    //     if (sessionStorage.getItem('authenticate') == true) {
     //       next();
     //     }else {
-    //       next('/login');
+    //       next('/');
     //     }
     //   }
     // },

@@ -2,7 +2,7 @@
 <div>
   <div class="row backgroundColor">
     <div class="whiteText col-12">
-      <a href="#" id="logOut" class="boldText whiteText ">LOGOUT</a>
+      <a href="#" id="logOut" class="boldText whiteText" v-on:click="logOut">LOGOUT</a>
       <p class="boldText text-center">BIENVENIDO {{ name }}</p>
     </div>
   </div>
@@ -45,6 +45,13 @@ export default {
   data() {
     return{
        name: null
+    }
+  },
+  methods: {
+    logOut: function() {
+      // axios.get('http://127.0.0.1:8000/rest-auth/logout/');
+      sessionStorage.clear();
+      this.$router.push('/');
     }
   }
 }

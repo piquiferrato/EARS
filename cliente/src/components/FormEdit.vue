@@ -50,15 +50,15 @@ export default {
   data() {
     return {
       requisition: {
-        // type: '',
-        // author: sessionStorage.getItem('idUser'),
-        // subject: '',
-        // date: '',
-        // details: '',
-        // priority: '',
-        // affected_system: '',
-        // module: '',
-        // attached_file: null
+        type: '',
+        author: sessionStorage.getItem('idUser'),
+        subject: '',
+        date: '',
+        details: '',
+        priority: '',
+        affected_system: '',
+        module: '',
+        attached_file: null
       }
     }
   },
@@ -89,11 +89,14 @@ export default {
   created() {
     EventBus.$on('edit_requisition', (prueba) => {
       // this.requisition = null;
-      // this.requisition = response;
+      this.requisition = prueba;
       console.log(prueba);
       console.log("arranca");
     });
-  }
+  },
+  beforeDestroy() {
+    // EventBus.$off('edit_requisition');
+  },
 }
 </script>
 <style>
