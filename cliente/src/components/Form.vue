@@ -23,16 +23,16 @@
       </select>
     </div>
     <label>Sistema</label>
-    <div required class="form-group">
-      <select name="" class="form-control" id="select"  v-model="requisition.affected_system">
+    <div class="form-group">
+      <select required name="" class="form-control" id="select"  v-model="requisition.affected_system">
         <option value="administration">Administracion</option>
         <option value="stock">Stock</option>
         <option value="human resources">Recurso Humanos</option>
       </select>
     </div>
     <label>Modulo</label>
-    <div required class="form-group">
-      <select name="" class="form-control" id="select" v-model="requisition.module">
+    <div class="form-group">
+      <select required name="" class="form-control" id="select" v-model="requisition.module">
         <option value="uno">uno</option>
         <option value="dos">dos</option>
         <option value="tres">tres</option>
