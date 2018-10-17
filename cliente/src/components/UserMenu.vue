@@ -2,7 +2,7 @@
 <div>
   <div class="row backgroundColor">
     <div class="whiteText col-12">
-      <a href="#" id="logOut" class="boldText whiteText">LOGOUT</a>
+      <a href="#" id="logOut" class="boldText whiteText" v-on:click="logOut">LOGOUT</a>
       <p class="boldText text-center">BIENVENIDO {{ name }}</p>
     </div>
   </div>
@@ -18,9 +18,9 @@
     <formRequisition></formRequisition>
   </div>
   <requisition v-if="userRequisition"></requisition>
-  <div class="row" v-if="formEdit">
-    <formEditRequisition></formEditRequisition>
-  </div>
+  <!-- <div class="row" v-if="formEdit"> -->
+    <!-- <formEditRequisition></formEditRequisition> -->
+  <!-- </div> -->
 </div>
 </template>
 <script>
@@ -33,7 +33,7 @@ export default {
   components: {
     formRequisition,
     requisition,
-    formEditRequisition
+    // formEditRequisition
   },
   mounted() {
     axios.get('http://127.0.0.1:8000/users/' + sessionStorage.getItem('idUser'), {
@@ -56,39 +56,38 @@ export default {
       this.requirementSection = !this.requirementSection;
       this.errorSection = false;
       this.userRequisition = false;
-      this.formEdit = false;
-    },
-    new_error: function() {
-      this.errorSection = !this.errorSection;
-      this.requirementSection = false;
-      this.userRequisition = false;
     },
     requisition: function() {
       this.userRequisition = !this.userRequisition;
       this.errorSection = false;
       this.requirementSection = false;
-      this.formEdit = false;
+    },
+    logOut: function() {
+      // axios.get('http://127.0.0.1:8000/rest-auth/logout/');
+      sessionStorage.clear();
+      this.$router.push('/');
     }
   },
   created() {
     EventBus.$on('change_section', () => {
       this.requirementSection = false;
-      this.userRequisition = !this.userRequisition;
-      this.formEdit = false;
+      this.userRequisition = true;
     });
-    EventBus.$on('view_edit_form', () => {
-      this.userRequisition = !this.userRequisition;
-      this.formEdit = !this.formEdit;
-    });
+    // EventBus.$on('change_module', () => {
+    //   this.userRequisition = false;
+    // });
+
+  },
+  beforeDestroy() {
+    // // EventBus.$off('change_section');
+    // EventBus.$off('view_edit_form');
 
   },
   data() {
     return {
       name: null,
       requirementSection: false,
-      errorSection: false,
       userRequisition: true,
-      formEdit: false
     }
   }
 }

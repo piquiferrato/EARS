@@ -37,6 +37,7 @@ export default {
         .then((data) => {
           sessionStorage.setItem('idToken', data.data.key);
           sessionStorage.setItem('idUser', data.data.user.id);
+          sessionStorage.setItem('authenticate', true);
           if (data.data.user.es_tecnico) {
             this.$router.push('/techUser');
           }else {
