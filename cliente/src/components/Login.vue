@@ -38,20 +38,18 @@ export default {
           sessionStorage.setItem('idToken', data.data.key);
           sessionStorage.setItem('idUser', data.data.user.id);
           sessionStorage.setItem('authenticate', true);
-          if (data.data.user.es_tecnico) {
-            this.$router.push('/techUser');
-          } else {
-            this.$router.push('/user');
-          }
+          // if (data.data.user.isTechnican) {
+          //   this.$router.push('/technicanUser');
+          // } else {
+          //   this.$router.push('/user');
+          // }
+          console.log(data.data);
         })
         .catch((error) => {
-          alert("El usuario o contraseña son incorrectos");
-          console.log("salio mal");
+          // alert("El usuario o contraseña son incorrectos");
+          console.log(error.response);
         });
     },
-    logOut: function() {
-      // this.$store.dispatch('logOut');
-    }
   }
 }
 </script>
