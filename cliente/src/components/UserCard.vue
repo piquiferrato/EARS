@@ -49,7 +49,7 @@
       </div>
       <label>Sistema</label>
       <div class="form-group">
-        <select name="" class="form-control" id="select"  v-model="requisitionEdit.affected_system">
+        <select name="" class="form-control" id="select"  v-model="requisitionEdit.affectedSystem">
           <option value="administration">Administracion</option>
           <option value="stock">Stock</option>
           <option value="human resources">Recurso Humanos</option>
@@ -86,7 +86,7 @@ export default {
         date: '',
         details: '',
         priority: '',
-        affected_system: '',
+        affectedSystem: '',
         module: '',
         attached_file: null
       }
@@ -148,7 +148,7 @@ export default {
           date: this.requisitionEdit.date,
           details: this.requisitionEdit.details,
           priority: this.requisitionEdit.priority,
-          affected_system: this.requisitionEdit.affected_system,
+          affectedSystem: this.requisitionEdit.affected_system,
           module: this.requisitionEdit.module,
           attached_file: this.requisitionEdit.attached_file
         })

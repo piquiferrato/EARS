@@ -66,6 +66,7 @@ export default {
   },
   methods: {
     send() {
+      var self = this;
       axios.post('http://127.0.0.1:8000/requisitions/', {
           type: this.requisition.type,
           author: this.requisition.author,
@@ -81,6 +82,7 @@ export default {
           EventBus.$emit('change_section');
         })
         .catch((error) => {
+          console.log(self.requisition);
           console.log(error.response);
         });
     }

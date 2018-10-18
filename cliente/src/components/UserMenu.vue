@@ -19,7 +19,7 @@
   <div class="row" v-if="requirementSection">
     <formRequisition></formRequisition>
   </div>
-  <requisition v-if="userRequisition"></requisition>
+  <userCard v-if="userRequisition"></userCard>
   <!-- <div class="row" v-if="formEdit"> -->
   <!-- <formEditRequisition></formEditRequisition> -->
   <!-- </div> -->
@@ -28,13 +28,13 @@
 <script>
 import formRequisition from './Form.vue';
 import formEditRequisition from './FormEdit.vue';
-import requisition from './Requisition.vue';
+import userCard from './UserCard.vue';
 import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
 export default {
   components: {
     formRequisition,
-    requisition,
+    userCard,
     // formEditRequisition
   },
   mounted() {

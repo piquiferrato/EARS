@@ -1,14 +1,12 @@
 <template>
   <div class="container">
     <router-view></router-view>
-    <!-- <formEdit></formEdit> -->
   </div>
 </template>
 
 <script>
-import formEdit from './components/FormEdit.vue'
 export default {
-  components: {formEdit},
+  components: {},
   data() {
     return {
     }
