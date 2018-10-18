@@ -21,10 +21,13 @@ class Module(models.Model):
     name = models.CharField(blank=True, max_length=255)
     system = models.ForeignKey(System,related_name = 'system', on_delete=models.CASCADE, blank=True, null=True)
 
+    def __str__(self):
+        return self.name
+
 class Requisition(models.Model):
     type = models.TextField(blank=True, null=True)
     author = models.ForeignKey(CustomUser, related_name = 'author', on_delete=models.CASCADE, blank=True, null=True)
-    assignedTechnician = models.ForeignKey(CustomUser, related_name = 'assignedTechnician', blank=True, on_delete=models.CASCADE, null=True)
+    assignedTechnician = models.ForeignKey(CustomUser, related_name = 'assignedTechnician', blank=True,on_delete=models.CASCADE, null=True)
     subject = models.TextField(blank=True, null=True)
     details = models.TextField(blank=True, null=True)
     priority = models.TextField(blank=True, null=True)
