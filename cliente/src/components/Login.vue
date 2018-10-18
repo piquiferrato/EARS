@@ -40,11 +40,12 @@ export default {
           sessionStorage.setItem('authenticate', true);
           if (data.data.user.es_tecnico) {
             this.$router.push('/techUser');
-          }else {
+          } else {
             this.$router.push('/user');
           }
         })
         .catch((error) => {
+          alert("El usuario o contraseña son incorrectos");
           console.log("salio mal");
         });
     },
