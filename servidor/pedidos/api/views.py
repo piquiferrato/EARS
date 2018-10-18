@@ -73,3 +73,8 @@ class ModulesView(generics.ListCreateAPIView):
     lookup_filed = 'id'
     queryset = models.Module.objects.all()
     serializer_class = serializers.ModuleSerializer
+
+class ConstancysView(generics.ListCreateAPIView):
+    lookup_field = 'id'
+    queryset = models.Constancy.objects.all()
+    serializer_class = serializers.ConstansySerializer
