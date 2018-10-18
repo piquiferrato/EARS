@@ -9,4 +9,6 @@ urlpatterns = [
     path('requisitions/<int:id>/', views.MyRequisitionsListView.as_view()),
     path('requisitions/update/<int:id>/', views.UpdateRequisitionView.as_view()),
     path('requisitions/delete/<int:id>/', views.DeleteRequisitionView.as_view()),
+    path('requisitions/systems', views.SystemsView.as_view()),
+    path('requisitions/modules', views.ModulesView.as_view()),
 ]
