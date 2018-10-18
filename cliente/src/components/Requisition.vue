@@ -31,8 +31,8 @@
       <label>Tipo de pedido</label>
       <div class="form-group">
         <select name="" class="form-control" id="select" v-model="requisitionEdit.type">
-          <option value="requerimiento">Requerimiento</option>
-          <option value="error">Error</option>
+          <option value="REQUERIMIENTO">Requerimiento</option>
+          <option value="ERROR">Error</option>
         </select>
       </div>
       <label>Asunto</label>

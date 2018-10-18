@@ -7,20 +7,21 @@
     </div>
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
-  <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-  <b-collapse is-nav id="nav_collapse">
-    <b-navbar-nav>
-      <b-nav-item class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText whiteText textoNegrita text-center mt-1" v-on:click="new_requirement" :class="{activeButton: requirementSection}">NUEVO REQUERIMIENTO</b-nav-item>
-      <b-nav-item class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText textoNegrita text-center mt-1" v-on:click="requisition" :class="{activeButton: userRequisition}">MIS PEDIDOS</b-nav-item>
-    </b-navbar-nav>
-  </b-collapse>
-</b-navbar>
+    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+    <b-collapse is-nav id="nav_collapse">
+      <b-navbar-nav>
+        <b-nav-item class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText whiteText textoNegrita text-center mt-1" v-on:click="new_requirement" :class="{activeButton: requirementSection}">NUEVO
+          PEDIDO</b-nav-item>
+        <b-nav-item class="btn margin mBottom divSize textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText textoNegrita text-center mt-1" v-on:click="requisition" :class="{activeButton: userRequisition}">MIS PEDIDOS</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
   <div class="row" v-if="requirementSection">
     <formRequisition></formRequisition>
   </div>
   <requisition v-if="userRequisition"></requisition>
   <!-- <div class="row" v-if="formEdit"> -->
-    <!-- <formEditRequisition></formEditRequisition> -->
+  <!-- <formEditRequisition></formEditRequisition> -->
   <!-- </div> -->
 </div>
 </template>
@@ -109,11 +110,11 @@ export default {
 @media (min-width:768px) {
   .navbar-nav {
     margin: 0 auto;
-    }
+  }
 
   .navbar-nav li {
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 30px;
+    padding-right: 60px;
   }
 }
 
