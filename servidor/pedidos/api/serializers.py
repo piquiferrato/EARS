@@ -3,9 +3,12 @@ from rest_framework.authtoken.models import Token
 from . import models
 
 class ModuleSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
     class Meta:
         model = models.Module
-        fields = ('name', 'system')
+        fields = ('id',
+                  'name',
+                  'system')
 
 class RequisitionSerializer(serializers.ModelSerializer):
     type = serializers.CharField(required=True)
@@ -45,18 +48,16 @@ class TokenSerializer(serializers.ModelSerializer):
                   'user')
 
 class SystemSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
     class Meta:
         model = models.System
-        fields = ('name')
+        fields = ('id',
+                  'name')
 
-class ConstansySerializer(serializers.ModelSerializer):
+class ConstancySerializer(serializers.ModelSerializer):
+    description = serializers.CharField(required=True)
     class Meta:
         model = models.Constancy
-        fields = ('description',
+        fields = ('id',
+                  'description',
                   'attachedFile')
-
-# class UserSerializer2(serializers.ModelSerializer):
-#     author = RequisitionSerializer(many=True, read_only=True)
-#     class Meta:
-#         model = models.CustomUser
-#         fields = ('id','author')
