@@ -38,7 +38,7 @@ export default {
           sessionStorage.setItem('idToken', data.data.key);
           sessionStorage.setItem('idUser', data.data.user.id);
           sessionStorage.setItem('authenticate', true);
-          if (data.data.user.es_tecnico) {
+          if (data.data.user.is_technical) {
             this.$router.push('/techUser');
           } else {
             this.$router.push('/user');
@@ -49,9 +49,6 @@ export default {
           console.log("salio mal");
         });
     },
-    logOut: function() {
-      // this.$store.dispatch('logOut');
-    }
   }
 }
 </script>
