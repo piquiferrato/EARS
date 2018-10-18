@@ -21,10 +21,6 @@ class UniqueUserListView(generics.RetrieveAPIView):
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         id = self.kwargs['id']
         return models.CustomUser.objects.filter(id=id)
 
@@ -39,10 +35,6 @@ class DeleteRequisitionView(generics.DestroyAPIView):
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         id = self.kwargs['id']
         return models.Requisition.objects.filter(id=id)
 
@@ -57,10 +49,69 @@ class MyRequisitionsListView(generics.ListAPIView):
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         id = self.kwargs['id']
         return models.Requisition.objects.filter(author=id)
 
+class SystemsView(generics.ListCreateAPIView):
+    lookup_filed = 'id'
+    queryset = models.System.objects.all()
+    serializer_class = serializers.SystemSerializer
+
+class ModulesView(generics.ListCreateAPIView):
+    lookup_filed = 'id'
+    queryset = models.Module.objects.all()
+    serializer_class = serializers.ModuleSerializer
+
+class ConstancysView(generics.ListCreateAPIView):
+    lookup_field = 'id'
+    queryset = models.Constancy.objects.all()
+    serializer_class = serializers.ConstancySerializer
+
+class UniqueSystemView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.SystemSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.System.objects.filter(id=id)
+
+class DeleteSystemView(generics.DestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.SystemSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.System.objects.filter(id=id)
+
+class UniqueModuleView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.ModuleSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Module.objects.filter(id=id)
+
+class DeleteModuleView(generics.DestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.ModuleSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Module.objects.filter(id=id)
+
+class UniqueConstancyView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.ConstancySerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Constancy.objects.filter(id=id)
+
+class DeleteConstancyView(generics.DestroyAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.ConstancySerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+
+        return models.Constancy.objects.filter(id=id)

@@ -3,7 +3,6 @@ from django.db import models
 
 # Create your models here.
 
-
 class CustomUser(AbstractUser):
     name = models.CharField(blank=True, max_length=255)
     isTechnician = models.BooleanField(default=False)
@@ -11,17 +10,32 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
+class Constancy(models.Model):
+    description = models.TextField(blank=True, null=True)
+    attachedFile = models.FileField(blank=True, null=True)
+
+class System(models.Model):
+    name = models.CharField(blank=True, max_length=255)
+
+class Module(models.Model):
+    name = models.CharField(blank=True, max_length=255)
+    system = models.ForeignKey(System,related_name = 'system', on_delete=models.CASCADE, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
 class Requisition(models.Model):
     type = models.TextField(blank=True, null=True)
     author = models.ForeignKey(CustomUser, related_name = 'author', on_delete=models.CASCADE, blank=True, null=True)
-    assigned_technician = models.ForeignKey(CustomUser, related_name = 'assigned_technician', blank=True, on_delete=models.CASCADE, null=True)
-    subject = models.TextField(blank=True, null=True) #Asunto
+    assignedTechnician = models.ForeignKey(CustomUser, related_name = 'assignedTechnician', blank=True,on_delete=models.CASCADE, null=True)
+    subject = models.TextField(blank=True, null=True)
     details = models.TextField(blank=True, null=True)
     priority = models.TextField(blank=True, null=True)
-    affected_system = models.TextField(blank=True, null=True)
-    module = models.TextField(blank=True, null=True)
-    date = models.TextField(blank=True, null=True)
-    attached_file = models.FileField(blank=True, null=True)
+    affectedSystem = models.ForeignKey(System,related_name = 'affectedSystem', on_delete=models.CASCADE, blank=True, null=True)
+    module = models.ForeignKey(Module, related_name = 'module', on_delete=models.CASCADE, blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    attachedFile = models.FileField(blank=True, null=True)
+    constancy = models.ForeignKey(Constancy, related_name = 'constancy', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.subject
