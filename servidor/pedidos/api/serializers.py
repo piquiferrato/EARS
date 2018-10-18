@@ -2,8 +2,6 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from . import models
 
-
-
 class RequisitionSerializer(serializers.ModelSerializer):
     type = serializers.CharField(required=True)
     subject = serializers.CharField(required=True)
