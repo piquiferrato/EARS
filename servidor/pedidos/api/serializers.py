@@ -29,7 +29,7 @@ class UserSerializer(serializers.ModelSerializer):
     # author = RequisitionSerializer(many=True, read_only=True)
     class Meta:
         model = models.CustomUser
-        fields = ('id','username', 'es_tecnico')
+        fields = ('id','username', 'isTechnician')
 
 class TokenSerializer(serializers.ModelSerializer):
     user = UserSerializer()
