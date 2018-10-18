@@ -82,7 +82,6 @@ export default {
           EventBus.$emit('change_section');
         })
         .catch((error) => {
-          console.log(self.requisition);
           console.log(error.response);
         });
     }
