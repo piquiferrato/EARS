@@ -20,12 +20,16 @@
       <p class="boldText text-center mt-1">TERMINADO</p>
     </div>
   </div>
+  <techCard></techCard>
 </div>
 </template>
 <script>
 import axios from 'axios';
-
+import techCard from './TechCard'
 export default {
+  components: {
+    techCard
+  },
   mounted() {
     axios.get('http://127.0.0.1:8000/users/' + sessionStorage.getItem('idUser'), {
         //  params: {
