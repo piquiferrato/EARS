@@ -38,8 +38,8 @@ export default {
           sessionStorage.setItem('idToken', data.data.key);
           sessionStorage.setItem('idUser', data.data.user.id);
           sessionStorage.setItem('authenticate', true);
-          if (data.data.user.is_technical) {
-            this.$router.push('/techUser');
+          if (data.data.user.isTechnical) {
+            this.$router.push('/technicalUser');
           } else {
             this.$router.push('/user');
           }
