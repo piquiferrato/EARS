@@ -64,3 +64,12 @@ class MyRequisitionsListView(generics.ListAPIView):
         id = self.kwargs['id']
         return models.Requisition.objects.filter(author=id)
 
+class SystemsView(generics.ListCreateAPIView):
+    lookup_filed = 'id'
+    queryset = models.System.objects.all()
+    serializer_class = serializers.SystemSerializer
+
+class ModulesView(generics.ListCreateAPIView):
+    lookup_filed = 'id'
+    queryset = models.Module.objects.all()
+    serializer_class = serializers.ModuleSerializer
