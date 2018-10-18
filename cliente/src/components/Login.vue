@@ -38,12 +38,11 @@ export default {
           sessionStorage.setItem('idToken', data.data.key);
           sessionStorage.setItem('idUser', data.data.user.id);
           sessionStorage.setItem('authenticate', true);
-          // if (data.data.user.isTechnican) {
-          //   this.$router.push('/technicanUser');
-          // } else {
-          //   this.$router.push('/user');
-          // }
-          console.log(data.data);
+          if (data.data.user.isTechnician) {
+            this.$router.push('/technicianUser');
+          } else {
+            this.$router.push('/user');
+          }
         })
         .catch((error) => {
           // alert("El usuario o contraseña son incorrectos");

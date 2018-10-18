@@ -26,7 +26,7 @@ export default new VueRouter({
     {path: '/', component: Login},
     {path: '/user', component: UserMenu},
     {
-      path: '/technicalUser',
+      path: '/technicianUser',
       name: 'TechnicalMenu',
       component: TechnicalMenu
     },
