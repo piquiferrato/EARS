@@ -15,7 +15,7 @@ class RequisitionSerializer(serializers.ModelSerializer):
     subject = serializers.CharField(required=True)
     priority = serializers.CharField(required=True)
     date = serializers.DateField(required=True)
-
+    status = serializers.CharField(required=True)
     class Meta:
         model = models.Requisition
         fields = ('id',
@@ -29,7 +29,8 @@ class RequisitionSerializer(serializers.ModelSerializer):
                   'module',
                   'date',
                   'attachedFile',
-                  'constancy')
+                  'constancy',
+                  'status',)
 
 
 class UserSerializer(serializers.ModelSerializer):

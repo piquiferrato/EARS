@@ -36,6 +36,7 @@ class Requisition(models.Model):
     date = models.DateField(blank=True, null=True)
     attachedFile = models.FileField(blank=True, null=True)
     constancy = models.ForeignKey(Constancy, related_name = 'constancy', on_delete=models.CASCADE, blank=True, null=True)
+    status = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.subject
