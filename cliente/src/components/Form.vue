@@ -24,19 +24,21 @@
     </div>
     <label>Sistema</label>
     <div class="form-group">
-      <select required name="" class="form-control" id="select"  v-model="requisition.affected_system">
-        <option value="administration">Administracion</option>
-        <option value="stock">Stock</option>
-        <option value="human resources">Recurso Humanos</option>
-      </select>
+      <!-- <select required name="" class="form-control" id="select"  v-model="requisition.affectedSystem" v-on:change="moduleSystem($event.target.value)">
+        <option v-for="(system, index) in requisition.system" :key="index" value="1">{{ system.name }}</option>
+      </select> -->
+      <v-select  label="name" :options="system" v-model="requisition.affectedSystem"
+       :on-change="moduleSystem(requisition.affectedSystem.id)" :searchable="false"></v-select>
     </div>
-    <label>Modulo</label>
-    <div class="form-group">
-      <select required name="" class="form-control" id="select" v-model="requisition.module">
-        <option value="uno">uno</option>
-        <option value="dos">dos</option>
-        <option value="tres">tres</option>
-      </select>
+    <div v-if="moduleSelect">
+      <label >Modulo</label>
+      <div class="form-group">
+        <!-- <select required name="" class="form-control" id="select" v-model="requisition.affectedModule" >
+          <option v-for="(module, index) in requisition.module" :key="index" value="module">{{ module.name }}</option>
+        </select> -->
+        <v-select  label="name" :options="module" v-model="requisition.affectedModule"
+          :searchable="false"></v-select>
+      </div>
     </div>
     <label for="inputFile">Archivo adjunto</label>
     <input id="inputFile" type="file" >
@@ -51,6 +53,10 @@ export default {
 
   data() {
     return {
+      systemId: null,
+      moduleSelect: false,
+      system: null,
+      module: null,
       requisition: {
         type: '',
         author: sessionStorage.getItem('idUser'),
@@ -58,11 +64,34 @@ export default {
         date: '',
         details: '',
         priority: '',
-        affected_system: '',
-        module: '',
+        affectedSystem: '',
+        affectedModule: null,
         attached_file: null
       }
     }
+  },
+  mounted() {
+    axios.get('http://127.0.0.1:8000/requisitions/systems')
+      .then((response) => {
+        this.system = response.data
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+  },
+  computed: {
+    // moduleSystem(systemId) {
+    //   axios.get('http://127.0.0.1:8000/requisitions/modules' + systemId)
+    //     .then((response) => {
+    //       console.log("aca");
+    //       this.moduleSelect = true
+    //       this.requisition.module = response.data
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    //   }
   },
   methods: {
     send() {
@@ -74,7 +103,7 @@ export default {
           date: this.requisition.date,
           details: this.requisition.details,
           priority: this.requisition.priority,
-          affected_system: this.requisition.affected_system,
+          affectedSystem: this.requisition.affectedSystem,
           module: this.requisition.module,
           attached_file: this.requisition.attached_file
         })
@@ -84,8 +113,18 @@ export default {
         .catch((error) => {
           console.log(error.response);
         });
-    }
-
+    },
+    moduleSystem(systemId) {
+      axios.get('http://127.0.0.1:8000/requisitions/modules/' + systemId + '/')
+        .then((response) => {
+          this.moduleSelect = true
+          this.requisition.module = response.data
+          console.log(this.requisition.module);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      }
   }
 }
 </script>

@@ -148,7 +148,7 @@ export default {
           date: this.requisitionEdit.date,
           details: this.requisitionEdit.details,
           priority: this.requisitionEdit.priority,
-          affectedSystem: this.requisitionEdit.affected_system,
+          affectedSystem: this.requisitionEdit.affectedSystem,
           module: this.requisitionEdit.module,
           attached_file: this.requisitionEdit.attached_file
         })
