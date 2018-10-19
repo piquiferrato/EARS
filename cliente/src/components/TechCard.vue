@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="row">
+  <div class="row" v-if="requisitionSection">
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
@@ -17,13 +17,31 @@
           <div class="whiteBackground border">
             <p class="card-text textColor">{{ requi.date }}</p>
           </div>
-          <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">VER</button>
+          <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watchRequisition(requi.id)">VER</button>
         </div>
       </div>
     </div>
     <div class="textColor" id="dontExistRequisition" v-if="requisition.length == 0">
       <h1>NO HAY PEDIDOS</h1>
     </div>
+  </div>
+  <div class="col-8 center" v-if="requisitionDetails">
+    <label>Tipo de pedido</label>
+    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.type }}</h3>
+    <label>Asunto</label>
+    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.subject }}</h3>
+    <label>Detalle</label>
+    <h4 class="border text-center backgroundRequisition whiteText">{{ userRequisition.details }}</h4>
+    <label>Prioridad</label>
+    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.priority }}</h3>
+    <label>Sistema</label>
+    <h3 class="border text-center backgroundRequisition whiteText">{{ systemName }}</h3>
+    <label>Modulo</label>
+    <h3 class="border text-center backgroundRequisition whiteText">{{ moduleName }}</h3>
+    <label>Descargar archivo adjunto</label>
+    <h3 class="border text-center backgroundRequisition whiteText">ARCHIVO</h3>
+    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="takeRequisition()">TOMAR</button>
+    <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancelRequisition()">CANCELAR</button>
   </div>
 </div>
 </template>
@@ -34,6 +52,13 @@ export default {
   data() {
     return {
       requisition: null,
+      requisitionSection: true,
+      requisitionDetails: false,
+      userRequisition: null,
+      system: null,
+      module: null,
+      systemName: null,
+      moduleName: null
     }
   },
   // computed: {
@@ -56,9 +81,44 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+
   },
   methods: {
+    watchRequisition(id) {
+      var self = this;
+      this.requisition.forEach(function(requi) {
+        if (requi.id == id) {
+          axios.get('http://127.0.0.1:8000/requisitions/systems/' + requi.affectedSystem + '/')
+            .then((response) => {
+              self.system = response.data
+              console.log(requi.module)  
+              axios.get('http://127.0.0.1:8000/requisitions/modules/' + requi.module + '/')
+                .then((response) => {
+                  self.module = response.data
+                  if (requi.affectedSystem == self.system.id && requi.module == self.module.id) {
+                    self.systemName = self.system.name
+                    self.moduleName = self.module.name
+                    self.userRequisition = requi;
+                    self.requisitionSection = false;
+                    self.requisitionDetails = true;
+                  }
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          // EventBus.$emit('change_module');
+        }
+      });
+    },
+    cancelRequisition() {
+      this.requisitionSection = true;
+      this.requisitionDetails = false;
 
+    }
   }
 }
 </script>
@@ -102,5 +162,13 @@ export default {
   color: white;
   border: 1px solid rgb(0, 255, 0);
   border-radius: 5px;
+}
+
+.backgroundRequisition {
+  background-color: rgba(38, 153, 251, 0.83);
+}
+
+.center {
+  margin: 0 auto;
 }
 </style>

@@ -27,7 +27,7 @@
       <!-- <select required name="" class="form-control" id="select"  v-model="requisition.affectedSystem" v-on:change="moduleSystem($event.target.value)">
         <option v-for="(system, index) in requisition.system" :key="index" value="1">{{ system.name }}</option>
       </select> -->
-      <v-select  label="name" :options="requisition.system" v-model="requisition.system" :on-change="moduleSystem" :searchable="false"></v-select>
+      <v-select  label="name" :options="requisition.system" :on-change="moduleSystem" :searchable="false"></v-select>
     </div>
     <div v-if="moduleSelect">
       <label >Modulo</label>
@@ -35,7 +35,7 @@
         <!-- <select required name="" class="form-control" id="select" v-model="requisition.affectedModule" >
           <option v-for="(module, index) in requisition.module" :key="index" value="module">{{ module.name }}</option>
         </select> -->
-        <v-select  label="name" :options="requisition.module" v-model="requisition.module" :searchable="false"></v-select>
+        <v-select  label="name" :options="requisition.module" :on-change="moduleId" :searchable="false"></v-select>
       </div>
     </div>
     <label for="inputFile">Archivo adjunto</label>
@@ -63,7 +63,7 @@ export default {
         details: '',
         priority: '',
         affectedSystem: '',
-        // affectedModule: null,
+        affectedModule: null,
         system: null,
         module: null,
         attached_file: null
@@ -107,7 +107,7 @@ export default {
           details: this.requisition.details,
           priority: this.requisition.priority,
           affectedSystem: this.requisition.affectedSystem,
-          module: this.requisition.module.id,
+          module: this.requisition.affectedModule,
           attached_file: this.requisition.attached_file
         })
         .then((data) => {
@@ -123,10 +123,14 @@ export default {
         .then((response) => {
           this.requisition.module = response.data
           this.moduleSelect = true
+          console.log(this.requisition.module);
         })
         .catch((error) => {
           console.log(error);
         });
+      },
+      moduleId(id) {
+        this.requisition.affectedModule = id.id;
       }
   }
 }
