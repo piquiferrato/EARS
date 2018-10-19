@@ -15,6 +15,7 @@ urlpatterns = [
     path('requisitions/modules/', views.ModulesView.as_view()),
     path('requisitions/modules/<int:id>/', views.UniqueModuleView.as_view()),
     path('requisitions/modules/delete/<int:id>/', views.DeleteModuleView.as_view()),
+    path('requisitions/modules/system/<int:id>/', views.SystemModulesView.as_view()),
     path('requisitions/constancys/', views.ConstancysView.as_view()),
     path('requisitions/constancys/<int:id>/', views.UniqueConstancyView.as_view()),
     path('requisitions/constancys/delete/<int:id>/', views.DeleteConstancyView.as_view()),
