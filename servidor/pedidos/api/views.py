@@ -115,3 +115,11 @@ class DeleteConstancyView(generics.DestroyAPIView):
         id = self.kwargs['id']
 
         return models.Constancy.objects.filter(id=id)
+
+class SystemModulesView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.ModuleSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Module.objects.all().filter(system=id)
