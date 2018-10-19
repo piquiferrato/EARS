@@ -27,8 +27,7 @@
       <!-- <select required name="" class="form-control" id="select"  v-model="requisition.affectedSystem" v-on:change="moduleSystem($event.target.value)">
         <option v-for="(system, index) in requisition.system" :key="index" value="1">{{ system.name }}</option>
       </select> -->
-      <v-select  label="name" :options="system" v-model="requisition.affectedSystem"
-       :on-change="moduleSystem(requisition.affectedSystem.id)" :searchable="false"></v-select>
+      <v-select  label="name" :options="requisition.system" v-model="requisition.system" :on-change="moduleSystem" :searchable="false"></v-select>
     </div>
     <div v-if="moduleSelect">
       <label >Modulo</label>
@@ -36,8 +35,7 @@
         <!-- <select required name="" class="form-control" id="select" v-model="requisition.affectedModule" >
           <option v-for="(module, index) in requisition.module" :key="index" value="module">{{ module.name }}</option>
         </select> -->
-        <v-select  label="name" :options="module" v-model="requisition.affectedModule"
-          :searchable="false"></v-select>
+        <v-select  label="name" :options="requisition.module" v-model="requisition.module" :searchable="false"></v-select>
       </div>
     </div>
     <label for="inputFile">Archivo adjunto</label>
@@ -49,14 +47,14 @@
 <script>
 import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
+
+
 export default {
 
   data() {
     return {
-      systemId: null,
       moduleSelect: false,
-      system: null,
-      module: null,
+
       requisition: {
         type: '',
         author: sessionStorage.getItem('idUser'),
@@ -65,7 +63,9 @@ export default {
         details: '',
         priority: '',
         affectedSystem: '',
-        affectedModule: null,
+        // affectedModule: null,
+        system: null,
+        module: null,
         attached_file: null
       }
     }
@@ -73,7 +73,7 @@ export default {
   mounted() {
     axios.get('http://127.0.0.1:8000/requisitions/systems')
       .then((response) => {
-        this.system = response.data
+        this.requisition.system = response.data
       })
       .catch((error) => {
         console.log(error);
@@ -81,6 +81,9 @@ export default {
 
   },
   computed: {
+    id() {
+    console.log();
+    }
     // moduleSystem(systemId) {
     //   axios.get('http://127.0.0.1:8000/requisitions/modules' + systemId)
     //     .then((response) => {
@@ -104,7 +107,7 @@ export default {
           details: this.requisition.details,
           priority: this.requisition.priority,
           affectedSystem: this.requisition.affectedSystem,
-          module: this.requisition.module,
+          module: this.requisition.module.id,
           attached_file: this.requisition.attached_file
         })
         .then((data) => {
@@ -115,11 +118,11 @@ export default {
         });
     },
     moduleSystem(systemId) {
-      axios.get('http://127.0.0.1:8000/requisitions/modules/' + systemId + '/')
+      this.requisition.affectedSystem = systemId.id;
+      axios.get('http://127.0.0.1:8000/requisitions/modules/system/' + systemId.id + '/')
         .then((response) => {
-          this.moduleSelect = true
           this.requisition.module = response.data
-          console.log(this.requisition.module);
+          this.moduleSelect = true
         })
         .catch((error) => {
           console.log(error);

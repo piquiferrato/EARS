@@ -47,7 +47,7 @@
           <option value="alta">Alta</option>
         </select>
       </div>
-      <label>Sistema</label>
+      <!-- <label>Sistema</label>
       <div class="form-group">
         <select name="" class="form-control" id="select"  v-model="requisitionEdit.affectedSystem">
           <option value="administration">Administracion</option>
@@ -62,7 +62,7 @@
           <option value="dos">dos</option>
           <option value="tres">tres</option>
         </select>
-      </div>
+      </div> -->
       <label for="inputFile">Archivo adjunto</label>
       <input id="inputFile" type="file" >
       <button type="submit" class="btn btn-primary form-control boldText" v-on:click="update(requisitionEdit.id)">ENVIAR</button>
