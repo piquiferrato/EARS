@@ -16,18 +16,19 @@
     <textarea class="form-control" rows="5" v-model="requisition.details"></textarea>
     <label>Prioridad</label>
     <div class="form-group">
-      <select required name="" class="form-control" id="select" v-model="requisition.priority">
+      <!-- <select required name="" class="form-control" id="select" v-model="requisition.priority">
         <option value="3">Baja</option>
         <option value="2">Media</option>
         <option value="1">Alta</option>
-      </select>
+      </select> -->
+      <v-select label="name" :options="requisition.priority" :on-change="priorityId" :searchable="false"></v-select>
     </div>
     <label>Sistema</label>
     <div class="form-group">
       <!-- <select required name="" class="form-control" id="select"  v-model="requisition.affectedSystem" v-on:change="moduleSystem($event.target.value)">
         <option v-for="(system, index) in requisition.system" :key="index" value="1">{{ system.name }}</option>
       </select> -->
-      <v-select  label="name" :options="requisition.system" :on-change="moduleSystem" :searchable="false"></v-select>
+      <v-select label="name" :options="requisition.system" :on-change="moduleSystem" :searchable="false"></v-select>
     </div>
     <div v-if="moduleSelect">
       <label >Modulo</label>
@@ -35,7 +36,7 @@
         <!-- <select required name="" class="form-control" id="select" v-model="requisition.affectedModule" >
           <option v-for="(module, index) in requisition.module" :key="index" value="module">{{ module.name }}</option>
         </select> -->
-        <v-select  label="name" :options="requisition.module" :on-change="moduleId" :searchable="false"></v-select>
+        <v-select label="name" :options="requisition.module" :on-change="moduleId" :searchable="false"></v-select>
       </div>
     </div>
     <label for="inputFile">Archivo adjunto</label>
@@ -72,9 +73,19 @@ export default {
     }
   },
   mounted() {
+    //La API devuelve todos los sistemas
     axios.get('http://127.0.0.1:8000/requisitions/systems')
       .then((response) => {
         this.requisition.system = response.data
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    //La API devuelve todas las prioridades
+    axios.get('http://127.0.0.1:8000/priority/')
+      .then((response) => {
+        this.requisition.priority = response.data
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -83,7 +94,7 @@ export default {
   },
   computed: {
     id() {
-    console.log();
+      console.log();
     }
     // moduleSystem(systemId) {
     //   axios.get('http://127.0.0.1:8000/requisitions/modules' + systemId)
@@ -130,10 +141,14 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-      },
-      moduleId(id) {
-        this.requisition.affectedModule = id.id;
-      }
+    },
+    moduleId(module) {
+      this.requisition.affectedModule = module.id;
+    },
+    priorityId(priority) {
+      // console.log(priority.id);
+      this.requisition.priority = priority.id;
+    }
   }
 }
 </script>

@@ -91,7 +91,6 @@ export default {
           axios.get('http://127.0.0.1:8000/requisitions/systems/' + requi.affectedSystem + '/')
             .then((response) => {
               self.system = response.data
-              console.log(requi.module)  
               axios.get('http://127.0.0.1:8000/requisitions/modules/' + requi.module + '/')
                 .then((response) => {
                   self.module = response.data

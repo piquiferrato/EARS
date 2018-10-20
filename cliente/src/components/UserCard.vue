@@ -10,8 +10,8 @@
           </div>
           <h3 class="card-title whiteText">Prioridad</h3>
           <div class="whiteBackground border">
-            <p class="card-text textColor" :class="{low: requi.priority == 'baja',
-            medium: requi.priority == 'media', high: requi.priority == 'alta'}">{{ requi.priority }}</p>
+            <p class="card-text textColor" :class="{low: priorityName == 'Baja',
+            medium: priorityName == 'Media', high: priorityName == 'Alta'}">{{ priorityName }}</p>
           </div>
           <h3 class="card-title whiteText">Fecha</h3>
           <div class="whiteBackground border">
@@ -39,14 +39,14 @@
       <input type="text" id="asunto" class="form-control" v-model="requisitionEdit.subject">
       <label>Detalle</label>
       <textarea class="form-control" rows="5" v-model="requisitionEdit.details"></textarea>
-      <label>Prioridad</label>
+      <!-- <label>Prioridad</label>
       <div class="form-group">
         <select name="" class="form-control" id="select" v-model="requisitionEdit.priority">
-          <option value="baja">Baja</option>
-          <option value="media">Media</option>
-          <option value="alta">Alta</option>
+          <option value="3">Baja</option>
+          <option value="2">Media</option>
+          <option value="1">Alta</option>
         </select>
-      </div>
+      </div> -->
       <!-- <label>Sistema</label>
       <div class="form-group">
         <select name="" class="form-control" id="select"  v-model="requisitionEdit.affectedSystem">
@@ -79,6 +79,7 @@ export default {
       editForm: false,
       requisition: null,
       requisitionSection: true,
+      priorityName: '',
       requisitionEdit: {
         type: '',
         author: sessionStorage.getItem('idUser'),
@@ -104,14 +105,28 @@ export default {
   //   }
   // },
   mounted() {
+    var self = this;
     //Devuelve todos los pedidos del usuario
     axios.get('http://127.0.0.1:8000/requisitions/' + sessionStorage.getItem('idUser'))
       .then((response) => {
         this.requisition = response.data;
+        this.requisition.forEach(function(requi) {
+          //La API devuelve todas las prioridades
+          axios.get('http://127.0.0.1:8000/priority/' +  requi.priority)
+            .then((response) => {
+                  self.priorityName = response.data.name  
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+
       })
       .catch((error) => {
         console.log(error);
       });
+
   },
   methods: {
     deletRequisition(id, index) {
