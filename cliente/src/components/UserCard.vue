@@ -10,12 +10,18 @@
           </div>
           <h3 class="card-title whiteText">Prioridad</h3>
           <div class="whiteBackground border">
-            <p class="card-text textColor" :class="{low: priorityName == 'Baja',
-            medium: priorityName == 'Media', high: priorityName == 'Alta'}">{{ priorityName }}</p>
+            <p class="card-text textColor" :class="{low: requi.priority == '3',
+            medium: requi.priority == '2', high: requi.priority == '1'}"></p>
           </div>
           <h3 class="card-title whiteText">Fecha</h3>
           <div class="whiteBackground border">
             <p class="card-text textColor">{{ requi.date }}</p>
+          </div>
+          <h3 class="card-title whiteText">Estado</h3>
+          <div class="whiteBackground border">
+            <p class="card-text textColor" :class="{onHold: requi.status == '1',
+            inProcess: requi.status == '2', cancelled: requi.status == '3',
+            finished: requi.status == '4'}"></p>
           </div>
           <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="editRequisition(requi.id)">EDITAR</button>
           <button type="button" class="boldText marginButton btn btn-danger" v-on:click="deletRequisition(requi.id, index)">ELIMINAR</button>
@@ -78,8 +84,8 @@ export default {
     return {
       editForm: false,
       requisition: null,
+      priorities: null,
       requisitionSection: true,
-      priorityName: '',
       requisitionEdit: {
         type: '',
         author: sessionStorage.getItem('idUser'),
@@ -93,39 +99,37 @@ export default {
       }
     }
   },
-  // computed: {
-  //   isHigh: function() {
-  //     return this.requisition.priority;
-  //   },
-  //   isMedium: function() {
-  //     return this.requisition.priority === 'media';
-  //   },
-  //   isLow: function() {
-  //     return this.requisition.priority === 'baja';
-  //   }
-  // },
+  computed: {
+    //   isHigh: function() {
+    //     return this.requisition.priority;
+    //   },
+    //   isMedium: function() {
+    //     return this.requisition.priority === 'media';
+    //   },
+    //   isLow: function() {
+    //     return this.requisition.priority === 'baja';
+    //   }
+    //
+
+  },
   mounted() {
     var self = this;
     //Devuelve todos los pedidos del usuario
     axios.get('http://127.0.0.1:8000/requisitions/' + sessionStorage.getItem('idUser'))
       .then((response) => {
-        this.requisition = response.data;
-        this.requisition.forEach(function(requi) {
-          //La API devuelve todas las prioridades
-          axios.get('http://127.0.0.1:8000/requisitions/priority/' +  requi.priority + '/')
-            .then((response) => {
-              console.log(response);
-                  self.priorityName = response.data.name
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        });
-
+        this.requisition = response.data
+        axios.get('http://127.0.0.1:8000/priority')
+          .then((response) => {
+            this.priorities = response.data
+          })
+          .catch((error) => {
+            console.log(error);
+          })
       })
       .catch((error) => {
         console.log(error);
       });
+
 
   },
   methods: {
@@ -174,6 +178,13 @@ export default {
         .catch((error) => {
           console.log(error.response);
         });
+    },
+    priorityName(priorityId) {
+      this.priorities.forEach(function(priority) {
+        if (priorityId == priority.id) {
+          return priority.name
+        }
+      });
     }
   }
 }
@@ -218,5 +229,33 @@ export default {
   color: white;
   border: 1px solid rgb(0, 255, 0);
   border-radius: 5px;
+}
+
+.low:before {
+  content: "Baja";
+}
+
+.medium:before {
+  content: "Media";
+}
+
+.high:before {
+  content: "Alta";
+}
+
+.onHold:before {
+  content: "En espera";
+}
+
+.inProcess:before {
+  content: "En proceso";
+}
+
+.cancelled:before {
+  content: "Cancelado";
+}
+
+.finished:before {
+  content: "Terminado";
 }
 </style>
