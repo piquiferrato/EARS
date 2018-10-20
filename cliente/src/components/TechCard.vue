@@ -10,12 +10,16 @@
           </div>
           <h3 class="card-title whiteText">Prioridad</h3>
           <div class="whiteBackground border">
-            <p class="card-text textColor" :class="{low: requi.priority == 'baja',
-            medium: requi.priority == 'media', high: requi.priority == 'alta'}">{{ requi.priority }}</p>
+            <p class="card-text textColor" :class="{low: requi.priority == '3',
+            medium: requi.priority == '2', high: requi.priority == '1'}"></p>
           </div>
           <h3 class="card-title whiteText">Fecha</h3>
           <div class="whiteBackground border">
             <p class="card-text textColor">{{ requi.date }}</p>
+          </div>
+          <h3 class="card-title whiteText">Tomado por</h3>
+          <div class="whiteBackground border">
+            <p class="card-text textColor">vacio</p>
           </div>
           <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watchRequisition(requi.id)">VER</button>
         </div>
@@ -33,7 +37,7 @@
     <label>Detalle</label>
     <h4 class="border text-center backgroundRequisition whiteText">{{ userRequisition.details }}</h4>
     <label>Prioridad</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.priority }}</h3>
+    <h3 class="border text-center backgroundRequisition whiteText">{{ priorityName }}</h3>
     <label>Sistema</label>
     <h3 class="border text-center backgroundRequisition whiteText">{{ systemName }}</h3>
     <label>Modulo</label>
@@ -57,8 +61,10 @@ export default {
       userRequisition: null,
       system: null,
       module: null,
+      priority: null,
       systemName: null,
-      moduleName: null
+      moduleName: null,
+      priorityName: null
     }
   },
   // computed: {
@@ -88,30 +94,59 @@ export default {
       var self = this;
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
-          axios.get('http://127.0.0.1:8000/requisitions/systems/' + requi.affectedSystem + '/')
-            .then((response) => {
-              self.system = response.data
-              axios.get('http://127.0.0.1:8000/requisitions/modules/' + requi.module + '/')
-                .then((response) => {
-                  self.module = response.data
-                  if (requi.affectedSystem == self.system.id && requi.module == self.module.id) {
-                    self.systemName = self.system.name
-                    self.moduleName = self.module.name
-                    self.userRequisition = requi;
-                    self.requisitionSection = false;
-                    self.requisitionDetails = true;
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
+          self.search_affected_system(requi.affectedSystem, requi.module, requi.priority, requi)
           // EventBus.$emit('change_module');
         }
       });
+    },
+    search_affected_system(systemId, moduleId, priorityId, requi) {
+      axios.get('http://127.0.0.1:8000/requisitions/systems/' + systemId + '/')
+        .then((response) => {
+          this.system = response.data
+          this.search_affected_module(moduleId, priorityId, requi)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    search_affected_module(moduleId, priorityId, requi) {
+      axios.get('http://127.0.0.1:8000/requisitions/modules/' + moduleId + '/')
+        .then((response) => {
+          this.module = response.data
+          this.search_priority(priorityId, requi)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    search_priority(priorityId, requi) {
+      axios.get('http://127.0.0.1:8000/priority/' + priorityId + '/')
+        .then((response) => {
+          this.priority = response.data
+          if (this.correct_parameters(requi.affectedSystem, requi.module, requi.priority)) {
+            this.systemName = this.system.name
+            this.moduleName = this.module.name
+            this.priorityName = this.priority.name
+            this.userRequisition = requi
+            this.requisitionSection = false
+            this.requisitionDetails = true
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+    correct_parameters(systemId, moduleId, priorityId) {
+      return this.correct_system(systemId) && this.correct_module(moduleId) && this.correct_priority(priorityId)
+    },
+    correct_system(systemId) {
+      return systemId === this.system.id
+    },
+    correct_module(moduleId) {
+      return moduleId === this.module.id
+    },
+    correct_priority(priorityId) {
+      return priorityId === this.priority.id
     },
     cancelRequisition() {
       this.requisitionSection = true;
@@ -169,5 +204,17 @@ export default {
 
 .center {
   margin: 0 auto;
+}
+
+.low:before {
+  content: "Baja";
+}
+
+.medium:before {
+  content: "Media";
+}
+
+.high:before {
+  content: "Alta";
 }
 </style>

@@ -84,7 +84,6 @@ export default {
     return {
       editForm: false,
       requisition: null,
-      priorities: null,
       requisitionSection: true,
       requisitionEdit: {
         type: '',
@@ -118,18 +117,10 @@ export default {
     axios.get('http://127.0.0.1:8000/requisitions/' + sessionStorage.getItem('idUser'))
       .then((response) => {
         this.requisition = response.data
-        axios.get('http://127.0.0.1:8000/priority')
-          .then((response) => {
-            this.priorities = response.data
-          })
-          .catch((error) => {
-            console.log(error);
-          })
       })
       .catch((error) => {
         console.log(error);
       });
-
 
   },
   methods: {
@@ -178,13 +169,6 @@ export default {
         .catch((error) => {
           console.log(error.response);
         });
-    },
-    priorityName(priorityId) {
-      this.priorities.forEach(function(priority) {
-        if (priorityId == priority.id) {
-          return priority.name
-        }
-      });
     }
   }
 }
