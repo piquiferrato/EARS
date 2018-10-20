@@ -62,3 +62,17 @@ class ConstancySerializer(serializers.ModelSerializer):
         fields = ('id',
                   'description',
                   'attachedFile')
+
+class StatusSerializer(serializers.ModelSerializer):
+    current = serializers.CharField(required=True)
+    class Meta:
+        model = models.Status
+        fields = ('id',
+                  'current')
+
+class PrioritySerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
+    class Meta:
+        model = models.Priority
+        fields = ('id',
+                  'name')

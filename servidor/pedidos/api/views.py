@@ -123,3 +123,36 @@ class SystemModulesView(generics.ListAPIView):
     def get_queryset(self):
         id = self.kwargs['id']
         return models.Module.objects.all().filter(system=id)
+
+class StatusView(generics.ListCreateAPIView):
+    lookup_field = 'id'
+    queryset = models.Status.objects.all()
+    serializer_class = serializers.StatusSerializer
+
+class PriorityView(generics.ListCreateAPIView):
+    lookup_field = 'id'
+    queryset = models.Priority.objects.all()
+    serializer_class = serializers.PrioritySerializer
+
+class RequisitionByStatusView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.System.objects.all().filter(status=id)
+
+class OrderRequisitionByPriority(generics.ListAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects.all().order_by('priority')
+    serializer_class = serializers.RequisitionSerializer
+
+class OrderRequisitionByDate(generics.ListAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects.all().order_by('date')
+    serializer_class = serializers.RequisitionSerializer
+
+class OrderRequisitionByAuthor(generics.ListAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects.all().order_by('author')
+    serializer_class = serializers.RequisitionSerializer
