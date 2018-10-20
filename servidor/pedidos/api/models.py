@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
 class Priority(models.Model):
     name = models.CharField(blank=True, max_length=255)
 
