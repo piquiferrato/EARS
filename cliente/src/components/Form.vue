@@ -17,9 +17,9 @@
     <label>Prioridad</label>
     <div class="form-group">
       <select required name="" class="form-control" id="select" v-model="requisition.priority">
-        <option value="baja">Baja</option>
-        <option value="media">Media</option>
-        <option value="alta">Alta</option>
+        <option value="3">Baja</option>
+        <option value="2">Media</option>
+        <option value="1">Alta</option>
       </select>
     </div>
     <label>Sistema</label>
@@ -61,12 +61,13 @@ export default {
         subject: '',
         date: '',
         details: '',
-        priority: '',
+        priority: null,
         affectedSystem: '',
         affectedModule: null,
         system: null,
         module: null,
-        attached_file: null
+        attached_file: null,
+        status: '1'
       }
     }
   },
@@ -108,7 +109,8 @@ export default {
           priority: this.requisition.priority,
           affectedSystem: this.requisition.affectedSystem,
           module: this.requisition.affectedModule,
-          attached_file: this.requisition.attached_file
+          attached_file: this.requisition.attached_file,
+          status: this.requisition.status
         })
         .then((data) => {
           EventBus.$emit('change_section');

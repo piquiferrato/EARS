@@ -15,6 +15,12 @@ class Priority(models.Model):
 class Status(models.Model):
     current = models.TextField(blank=True, null = True)
 
+class Priority(models.Model):
+    name = models.CharField(blank=True, max_length=255)
+
+class Status(models.Model):
+    current = models.TextField(blank=True, null = True)
+
 class Constancy(models.Model):
     description = models.TextField(blank=True, null=True)
     attachedFile = models.FileField(blank=True, null=True)
