@@ -112,10 +112,10 @@ export default {
         this.requisition = response.data;
         this.requisition.forEach(function(requi) {
           //La API devuelve todas las prioridades
-          axios.get('http://127.0.0.1:8000/priority/' +  requi.priority)
+          axios.get('http://127.0.0.1:8000/requisitions/priority/' +  requi.priority + '/')
             .then((response) => {
-                  self.priorityName = response.data.name  
-              });
+              console.log(response);
+                  self.priorityName = response.data.name
             })
             .catch((error) => {
               console.log(error);
