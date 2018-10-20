@@ -156,3 +156,11 @@ class OrderRequisitionByAuthor(generics.ListAPIView):
     lookup_field = 'id'
     queryset = models.Requisition.objects.all().order_by('author')
     serializer_class = serializers.RequisitionSerializer
+
+class RequisitionsPriority(generics.ListAPIView):
+    lookup_field = 'id'
+    queryset = models.Requisition.objects.all()
+    serializer_class = serializers.RequisitionSerializer
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Requisition.objects.all().filter(priority=id)
