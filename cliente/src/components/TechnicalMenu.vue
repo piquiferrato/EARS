@@ -7,16 +7,16 @@
     </div>
   </div>
   <div class="row backgroundColor">
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3 ">
-      <p class="boldText text-center mt-1">PEDIDO</p>
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)">
+      <p class="boldText text-center mt-1">EN ESPERA</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(2)">
       <p class="boldText text-center mt-1">EN PROCESO</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(3)">
       <p class="boldText text-center mt-1">CANCELADO</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(4)">
       <p class="boldText text-center mt-1">TERMINADO</p>
     </div>
   </div>
@@ -52,12 +52,21 @@ export default {
     }
   },
   methods: {
-    logOut: function() {
+    logOut() {
       // axios.get('http://127.0.0.1:8000/rest-auth/logout/');
       sessionStorage.clear();
       this.$router.push('/');
-    }
+    },
+    search_requisitions(status) {
+      axios.get('http://127.0.0.1:8000/requisition/status/' + status + '/')
+      .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error.response);
+    });
   }
+}
 }
 </script>
 <style>

@@ -21,7 +21,7 @@
           <div class="whiteBackground border">
             <p class="card-text textColor">vacio</p>
           </div>
-          <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watchRequisition(requi.id)">VER</button>
+          <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
         </div>
       </div>
     </div>
@@ -44,7 +44,7 @@
     <h3 class="border text-center backgroundRequisition whiteText">{{ moduleName }}</h3>
     <label>Descargar archivo adjunto</label>
     <h3 class="border text-center backgroundRequisition whiteText">ARCHIVO</h3>
-    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="takeRequisition()">TOMAR</button>
+    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="takeRequisition(sessionStorage.getItem("userId"))">TOMAR</button>
     <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancelRequisition()">CANCELAR</button>
   </div>
 </div>
@@ -87,10 +87,11 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    //
 
   },
   methods: {
-    watchRequisition(id) {
+    watch_requisition(id) {
       var self = this;
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
@@ -151,6 +152,8 @@ export default {
     cancelRequisition() {
       this.requisitionSection = true;
       this.requisitionDetails = false;
+    },
+    takeRequisition(userId) {
 
     }
   }
