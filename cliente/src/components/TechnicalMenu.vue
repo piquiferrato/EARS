@@ -26,6 +26,7 @@
 <script>
 import axios from 'axios';
 import techCard from './TechCard'
+import EventBus from '../bus/eventBus.js';
 export default {
   components: {
     techCard
@@ -58,13 +59,8 @@ export default {
       this.$router.push('/');
     },
     search_requisitions(status) {
-      axios.get('http://127.0.0.1:8000/requisition/status/' + status + '/')
-      .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
+      EventBus.$emit('watch_requisition',status)
+
   }
 }
 }

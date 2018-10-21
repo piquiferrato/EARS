@@ -44,7 +44,7 @@
     <h3 class="border text-center backgroundRequisition whiteText">{{ moduleName }}</h3>
     <label>Descargar archivo adjunto</label>
     <h3 class="border text-center backgroundRequisition whiteText">ARCHIVO</h3>
-    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="takeRequisition(sessionStorage.getItem("userId"))">TOMAR</button>
+    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="takeRequisition(user, userRequisition.id)">TOMAR</button>
     <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancelRequisition()">CANCELAR</button>
   </div>
 </div>
@@ -55,6 +55,7 @@ import EventBus from '../bus/eventBus.js';
 export default {
   data() {
     return {
+      user: sessionStorage.getItem('idUser'),
       requisition: null,
       requisitionSection: true,
       requisitionDetails: false,
@@ -79,16 +80,16 @@ export default {
   //   }
   // },
   mounted() {
-    // Devuelve todos los pedidos del usuario
-    axios.get('http://127.0.0.1:8000/requisitions/')
-      .then((response) => {
-        this.requisition = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    //
-
+    EventBus.$on('watch_requisition', (status) => {
+      // Devuelve todos los pedidos del usuario
+      axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/')
+        .then((response) => {
+          this.requisition = response.data
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    })
   },
   methods: {
     watch_requisition(id) {
@@ -153,7 +154,31 @@ export default {
       this.requisitionSection = true;
       this.requisitionDetails = false;
     },
-    takeRequisition(userId) {
+    takeRequisition(userId, requisitionId) {
+      var self = this
+      this.requisition.forEach(function(requi) {
+        if (requi.id === requisitionId) {
+          axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
+              type: requi.type,
+              assignedTechnician: userId,
+              subject: requi.subject,
+              date: requi.date,
+              details: requi.details,
+              priority: requi.priority,
+              affectedSystem: requi.affectedSystem,
+              module: requi.module,
+              attached_file: requi.attached_file,
+              status: 2
+            })
+            .then((data) => {
+              // EventBus.$emit('change_section');
+              console.log(data);
+            })
+            .catch((error) => {
+              console.log(error.response);
+            });
+        }
+      })
 
     }
   }

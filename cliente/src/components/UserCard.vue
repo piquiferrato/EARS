@@ -148,7 +148,6 @@ export default {
     },
     update(id) {
       // EventBus.$emit('change_section');
-      console.log("entra");
       this.editForm = false;
       this.requisitionSection = true;
       axios.put('http://127.0.0.1:8000/requisitions/update/' + id + '/', {
