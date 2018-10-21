@@ -140,7 +140,7 @@ class RequisitionByStatusView(generics.ListAPIView):
 
     def get_queryset(self):
         id = self.kwargs['id']
-        return models.System.objects.all().filter(status=id)
+        return models.Requisition.objects.all().filter(status=id)
 
 class OrderRequisitionByPriority(generics.ListAPIView):
     lookup_field = 'id'
