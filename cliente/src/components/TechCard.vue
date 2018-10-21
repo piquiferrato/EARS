@@ -21,7 +21,16 @@
           <div class="whiteBackground border">
             <p class="card-text textColor">vacio</p>
           </div>
-          <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
+          <div v-if="!inProcess">
+            <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
+          </div>
+          <div v-if="inProcess">
+            <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="close_requisition(requi.id)">FINALIZAR</button>
+            <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancel_requisition(requi.id)">CANCELAR</button>
+          </div>
+          <!-- <div v-if="cancelled">
+            <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="">VER</button>
+          </div> -->
         </div>
       </div>
     </div>
@@ -29,43 +38,25 @@
       <h1>NO HAY PEDIDOS</h1>
     </div>
   </div>
-  <div class="col-8 center" v-if="requisitionDetails">
-    <label>Tipo de pedido</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.type }}</h3>
-    <label>Asunto</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.subject }}</h3>
-    <label>Detalle</label>
-    <h4 class="border text-center backgroundRequisition whiteText">{{ userRequisition.details }}</h4>
-    <label>Prioridad</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ priorityName }}</h3>
-    <label>Sistema</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ systemName }}</h3>
-    <label>Modulo</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ moduleName }}</h3>
-    <label>Descargar archivo adjunto</label>
-    <h3 class="border text-center backgroundRequisition whiteText">ARCHIVO</h3>
-    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="takeRequisition(user, userRequisition.id)">TOMAR</button>
-    <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancelRequisition()">CANCELAR</button>
-  </div>
+  <detailRequisition></detailRequisition>
 </div>
 </template>
 <script>
 import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
+import detailRequisition from './DetailRequisition.vue'
 export default {
+  components: {
+    detailRequisition
+  },
   data() {
     return {
-      user: sessionStorage.getItem('idUser'),
+      inProcess: false,
+      cancelled: false,
+      // user: sessionStorage.getItem('idUser'),
       requisition: null,
       requisitionSection: true,
-      requisitionDetails: false,
-      userRequisition: null,
-      system: null,
-      module: null,
-      priority: null,
-      systemName: null,
-      moduleName: null,
-      priorityName: null
+      requisitionDetails: false
     }
   },
   // computed: {
@@ -80,15 +71,32 @@ export default {
   //   }
   // },
   mounted() {
+    axios.get('http://127.0.0.1:8000/requisitions/status/' + 1 + '/')
+      .then((response) => {
+        this.inProcess = false
+        this.requisition = response.data
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
     EventBus.$on('watch_requisition', (status) => {
       // Devuelve todos los pedidos del usuario
       axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/')
         .then((response) => {
+          EventBus.$emit('select_nav_btn', status)
+          if (status === 2) {
+            this.inProcess = true
+          } else if (status != 2) {
+            this.inProcess = false
+          }
           this.requisition = response.data
         })
         .catch((error) => {
           console.log(error.response);
         });
+    })
+    EventBus.$on('go_back', ()=> {
+      this.requisitionSection = true
     })
   },
   methods: {
@@ -96,90 +104,68 @@ export default {
       var self = this;
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
-          self.search_affected_system(requi.affectedSystem, requi.module, requi.priority, requi)
-          // EventBus.$emit('change_module');
+          self.requisitionDetails = true
+          self.requisitionSection = false
+          EventBus.$emit('requisition_detail', requi)
         }
       });
     },
-    search_affected_system(systemId, moduleId, priorityId, requi) {
-      axios.get('http://127.0.0.1:8000/requisitions/systems/' + systemId + '/')
-        .then((response) => {
-          this.system = response.data
-          this.search_affected_module(moduleId, priorityId, requi)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    search_affected_module(moduleId, priorityId, requi) {
-      axios.get('http://127.0.0.1:8000/requisitions/modules/' + moduleId + '/')
-        .then((response) => {
-          this.module = response.data
-          this.search_priority(priorityId, requi)
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    search_priority(priorityId, requi) {
-      axios.get('http://127.0.0.1:8000/priority/' + priorityId + '/')
-        .then((response) => {
-          this.priority = response.data
-          if (this.correct_parameters(requi.affectedSystem, requi.module, requi.priority)) {
-            this.systemName = this.system.name
-            this.moduleName = this.module.name
-            this.priorityName = this.priority.name
-            this.userRequisition = requi
-            this.requisitionSection = false
-            this.requisitionDetails = true
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    },
-    correct_parameters(systemId, moduleId, priorityId) {
-      return this.correct_system(systemId) && this.correct_module(moduleId) && this.correct_priority(priorityId)
-    },
-    correct_system(systemId) {
-      return systemId === this.system.id
-    },
-    correct_module(moduleId) {
-      return moduleId === this.module.id
-    },
-    correct_priority(priorityId) {
-      return priorityId === this.priority.id
-    },
-    cancelRequisition() {
-      this.requisitionSection = true;
-      this.requisitionDetails = false;
-    },
-    takeRequisition(userId, requisitionId) {
+    cancel_requisition(requisitionId) {
       var self = this
       this.requisition.forEach(function(requi) {
         if (requi.id === requisitionId) {
+          var state = 3
           axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
-              type: requi.type,
-              assignedTechnician: userId,
+              // type: requi.type,
+              assignedTechnician: null,
               subject: requi.subject,
               date: requi.date,
-              details: requi.details,
-              priority: requi.priority,
-              affectedSystem: requi.affectedSystem,
-              module: requi.module,
-              attached_file: requi.attached_file,
-              status: 2
+              // details: requi.details,
+              // priority: requi.priority,
+              // affectedSystem: requi.affectedSystem,
+              // module: requi.module,
+              // attached_file: requi.attached_file,
+              status: state
             })
             .then((data) => {
+              EventBus.$emit('watch_requisition', state)
+              self.requisitionSection = true
+              self.requisitionDetails = false
               // EventBus.$emit('change_section');
-              console.log(data);
             })
             .catch((error) => {
               console.log(error.response);
             });
         }
       })
-
+    },
+    close_requisition(requisitionId) {
+      var self = this
+      this.requisition.forEach(function(requi) {
+        if (requi.id === requisitionId) {
+          var state = 4
+          axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
+              // type: requi.type,
+              subject: requi.subject,
+              date: requi.date,
+              // details: requi.details,
+              // priority: requi.priority,
+              // affectedSystem: requi.affectedSystem,
+              // module: requi.module,
+              // attached_file: requi.attached_file,
+              status: state
+            })
+            .then((data) => {
+              EventBus.$emit('watch_requisition', state)
+              self.requisitionSection = true
+              self.requisitionDetails = false
+              // EventBus.$emit('change_section');
+            })
+            .catch((error) => {
+              console.log(error.response);
+            });
+        }
+      })
     }
   }
 }

@@ -7,16 +7,16 @@
     </div>
   </div>
   <div class="row backgroundColor">
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
       <p class="boldText text-center mt-1">EN ESPERA</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(2)">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
       <p class="boldText text-center mt-1">EN PROCESO</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(3)">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
       <p class="boldText text-center mt-1">CANCELADO</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(4)">
+    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
       <p class="boldText text-center mt-1">TERMINADO</p>
     </div>
   </div>
@@ -46,10 +46,17 @@ export default {
       .catch((error) => {
         console.log("No salio");
       });
+      EventBus.$on('select_nav_btn', (status) =>{
+        this.correct_section(status)
+      })
   },
   data() {
     return {
-      name: null
+      name: null,
+      onHold: true,
+      inProcess: false,
+      cancelled: false,
+      finished: false,
     }
   },
   methods: {
@@ -59,12 +66,39 @@ export default {
       this.$router.push('/');
     },
     search_requisitions(status) {
-      EventBus.$emit('watch_requisition',status)
-
+      this.correct_section(status)
+      EventBus.$emit('watch_requisition', status)
+    },
+    correct_section(status) {
+      if (status === 1) {
+        this.onHold = true
+        this.inProcess = false
+        this.finished = false
+        this.cancelled = false
+      }else if (status === 2) {
+        this.onHold = false
+        this.inProcess = true
+        this.finished = false
+        this.cancelled = false
+      }else if (status === 3) {
+        this.onHold = false
+        this.inProcess = false
+        this.finished = false
+        this.cancelled = true
+      }else if (status === 4) {
+        this.onHold = false
+        this.inProcess = false
+        this.finished = true
+        this.cancelled = false
+      }
+    }
   }
-}
 }
 </script>
 <style>
-
+.activeButton {
+  background: #2699FB;
+  color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+}
 </style>
