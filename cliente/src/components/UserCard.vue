@@ -32,7 +32,8 @@
       <h1>NO HAY PEDIDOS</h1>
     </div>
   </div>
-  <div class="col-8 centerForm" v-if="editForm">
+  <formEdit></formEdit>
+  <!-- <div class="col-8 centerForm" v-if="editForm">
     <form v-on:submit.prevent id="form">
       <label>Tipo de pedido</label>
       <div class="form-group">
@@ -45,15 +46,15 @@
       <input type="text" id="asunto" class="form-control" v-model="requisitionEdit.subject">
       <label>Detalle</label>
       <textarea class="form-control" rows="5" v-model="requisitionEdit.details"></textarea>
-      <!-- <label>Prioridad</label>
+      <label>Prioridad</label>
       <div class="form-group">
         <select name="" class="form-control" id="select" v-model="requisitionEdit.priority">
           <option value="3">Baja</option>
           <option value="2">Media</option>
           <option value="1">Alta</option>
         </select>
-      </div> -->
-      <!-- <label>Sistema</label>
+      </div>
+      <label>Sistema</label>
       <div class="form-group">
         <select name="" class="form-control" id="select"  v-model="requisitionEdit.affectedSystem">
           <option value="administration">Administracion</option>
@@ -68,34 +69,26 @@
           <option value="dos">dos</option>
           <option value="tres">tres</option>
         </select>
-      </div> -->
+      </div>
       <label for="inputFile">Archivo adjunto</label>
       <input id="inputFile" type="file" >
       <button type="submit" class="btn btn-primary form-control boldText" v-on:click="update(requisitionEdit.id)">ENVIAR</button>
     </form>
-  </div>
+  </div> -->
 </div>
 </template>
 <script>
-import axios from 'axios';
-import EventBus from '../bus/eventBus.js';
+import axios from 'axios'
+import EventBus from '../bus/eventBus.js'
+import formEdit from './FormEdit'
 export default {
+  components: {
+    formEdit
+  },
   data() {
     return {
-      editForm: false,
       requisition: null,
-      requisitionSection: true,
-      requisitionEdit: {
-        type: '',
-        author: sessionStorage.getItem('idUser'),
-        subject: '',
-        date: '',
-        details: '',
-        priority: '',
-        affectedSystem: '',
-        module: '',
-        attached_file: null
-      }
+      requisitionSection: true
     }
   },
   computed: {
@@ -121,6 +114,9 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    EventBus.$on('change_section', () => {
+      this.requisitionSection = true
+    })
 
   },
   methods: {
@@ -132,43 +128,12 @@ export default {
       var self = this;
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
-          self.requisitionEdit = requi;
+          EventBus.$emit('edit_form', requi)
           self.requisitionSection = false;
-          self.editForm = true;
           // EventBus.$emit('change_module');
         }
       })
-      // for (var i = 0; i < this.requisition.length; i++) {
-      //   if (this.requisition[i].id == id) {
-      //     var prueba = this.requisition[i];
-      //     // EventBus.$emit('edit_requisition', prueba);
-      //     // EventBus.$emit('view_edit_form');
-      //   }
-      // }
     },
-    update(id) {
-      // EventBus.$emit('change_section');
-      this.editForm = false;
-      this.requisitionSection = true;
-      axios.put('http://127.0.0.1:8000/requisitions/update/' + id + '/', {
-          type: this.requisitionEdit.type,
-          author: this.requisitionEdit.author,
-          subject: this.requisitionEdit.subject,
-          date: this.requisitionEdit.date,
-          details: this.requisitionEdit.details,
-          priority: this.requisitionEdit.priority,
-          affectedSystem: this.requisitionEdit.affectedSystem,
-          module: this.requisitionEdit.module,
-          attached_file: this.requisitionEdit.attached_file
-        })
-        .then((data) => {
-          // EventBus.$emit('change_section');
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    }
   }
 }
 </script>
