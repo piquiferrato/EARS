@@ -1,22 +1,24 @@
 <template>
 <div v-if="detailSection">
-  <div class="col-8 center" id="detailSection">
-    <label>Tipo de pedido</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.type }}</h3>
-    <label>Asunto</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ userRequisition.subject }}</h3>
-    <label>Detalle</label>
-    <h4 class="border text-center backgroundRequisition whiteText">{{ userRequisition.details }}</h4>
-    <label>Prioridad</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ priorityName }}</h3>
-    <label>Sistema</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ systemName }}</h3>
-    <label>Modulo</label>
-    <h3 class="border text-center backgroundRequisition whiteText">{{ moduleName }}</h3>
-    <label>Descargar archivo adjunto</label>
-    <h3 class="border text-center backgroundRequisition whiteText">ARCHIVO</h3>
-    <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="take_requisition(user, userRequisition.id)">TOMAR</button>
-    <button type="button" class="boldText marginButton btn btn-danger" v-on:click="go_back()">VOLVER</button>
+  <div class="row">
+    <div class="col-8 center text-center" id="detailSection">
+      <label>Tipo de pedido</label>
+      <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.type }}</h3>
+      <label>Asunto</label>
+      <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.subject }}</h3>
+      <label>Detalle</label>
+      <h4 class="border  backgroundRequisition whiteText">{{ userRequisition.details }}</h4>
+      <label>Prioridad</label>
+      <h3 class="border  backgroundRequisition whiteText">{{ priorityName }}</h3>
+      <label>Sistema</label>
+      <h3 class="border  backgroundRequisition whiteText">{{ systemName }}</h3>
+      <label>Modulo</label>
+      <h3 class="border  backgroundRequisition whiteText">{{ moduleName }}</h3>
+      <label>Descargar archivo adjunto</label>
+      <h3 class="border  backgroundRequisition whiteText">ARCHIVO</h3>
+      <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="take_requisition(user, userRequisition.id)">TOMAR</button>
+      <button type="button" class="boldText marginButton btn btn-danger" v-on:click="go_back()">VOLVER</button>
+    </div>
   </div>
 </div>
 </template>
@@ -101,27 +103,27 @@ export default {
       // var self = this
       // this.userRequisition.forEach(function(requi) {
       //   if (requi.id === requisitionId) {
-          var state = 2
-          axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
-              type: this.userRequisition.type,
-              assignedTechnician: userId,
-              subject: this.userRequisition.subject,
-              date: this.userRequisition.date,
-              details: this.userRequisition.details,
-              priority: this.userRequisition.priority,
-              affectedSystem: this.userRequisition.affectedSystem,
-              module: this.userRequisition.module,
-              attached_file: this.userRequisition.attached_file,
-              status: state
-            })
-            .then((data) => {
-              EventBus.$emit('watch_requisition', 2)
-              this.go_back()
-              this.detailSection = false
-            })
-            .catch((error) => {
-              console.log(error.response);
-            });
+      var state = 2
+      axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
+          type: this.userRequisition.type,
+          assignedTechnician: userId,
+          subject: this.userRequisition.subject,
+          date: this.userRequisition.date,
+          details: this.userRequisition.details,
+          priority: this.userRequisition.priority,
+          affectedSystem: this.userRequisition.affectedSystem,
+          module: this.userRequisition.module,
+          attached_file: this.userRequisition.attached_file,
+          status: state
+        })
+        .then((data) => {
+          EventBus.$emit('watch_requisition', 2)
+          this.go_back()
+          this.detailSection = false
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
       //   }
       // })
     }
@@ -130,5 +132,7 @@ export default {
 }
 </script>
 <style>
-
+.center {
+  margin: 0 auto;
+}
 </style>
