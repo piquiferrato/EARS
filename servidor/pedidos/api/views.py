@@ -164,3 +164,17 @@ class Priority(generics.RetrieveAPIView):
     def get_queryset(self):
         id = self.kwargs['id']
         return models.Priority.objects.all().filter(id=id)
+
+class UnderwayByTechnicianView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Requisition.objects.all().filter(assignedTechnician = id, status = 2)
+
+class ImplementedByTechnicianView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Requisition.objects.all().filter(assignedTechnician = id, status = 4)
