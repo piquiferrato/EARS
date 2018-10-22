@@ -29,7 +29,6 @@ class RequisitionSerializer(serializers.ModelSerializer):
                   'constancy',
                   'status',)
 
-
 class UserSerializer(serializers.ModelSerializer):
     # author = RequisitionSerializer(many=True, read_only=True)
     class Meta:
@@ -54,11 +53,21 @@ class SystemSerializer(serializers.ModelSerializer):
 
 class ConstancySerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=True)
+    finishDate = serializers.DateField(required=True)
     class Meta:
         model = models.Constancy
         fields = ('id',
                   'description',
-                  'attachedFile')
+                  'attachedFile',
+                  'finishDate')
+
+class RequerimentConstancySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Requisition
+        fields = ('id',
+                  'affectedSystem',
+                  'type',
+                  'constancy')
 
 class StatusSerializer(serializers.ModelSerializer):
     current = serializers.CharField(required=True)
@@ -71,5 +80,12 @@ class PrioritySerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
     class Meta:
         model = models.Priority
+        fields = ('id',
+                  'name')
+
+class TypeSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
+    class Meta:
+        model = models.Type
         fields = ('id',
                   'name')

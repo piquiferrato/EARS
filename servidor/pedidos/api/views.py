@@ -10,6 +10,11 @@ from rest_framework.permissions import BasePermission, IsAuthenticated
 from . import models
 from . import serializers
 
+WAITING = 1
+INPROGRESS = 2
+CANCELLED = 3
+DONE = 4
+
 class UserListView(generics.ListAPIView):
     lookup_field = 'id'
     queryset = models.CustomUser.objects.all()
@@ -161,6 +166,7 @@ class Priority(generics.RetrieveAPIView):
     lookup_field = 'id'
     queryset = models.Requisition.objects.all()
     serializer_class = serializers.PrioritySerializer
+
     def get_queryset(self):
         id = self.kwargs['id']
         return models.Priority.objects.all().filter(id=id)
@@ -168,13 +174,30 @@ class Priority(generics.RetrieveAPIView):
 class UnderwayByTechnicianView(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
+
     def get_queryset(self):
         id = self.kwargs['id']
-        return models.Requisition.objects.all().filter(assignedTechnician = id, status = 2)
+        underwayId = 2
+        return models.Requisition.objects.all().filter(assignedTechnician = id, status = INPROGRESS)
 
 class ImplementedByTechnicianView(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
+
     def get_queryset(self):
         id = self.kwargs['id']
-        return models.Requisition.objects.all().filter(assignedTechnician = id, status = 4)
+        doneId = 4
+        return models.Requisition.objects.all().filter(assignedTechnician = id, status = DONE)
+
+class FinishedModulesBySystem(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequerimentConstancySerializer
+
+    def get_queryset(self):
+        systemId = self.kwargs['system']
+        return models.Requisition.objects.all().filter(affectedSystem = systemId, status = DONE)
+
+class TypesView(generics.ListCreateAPIView):
+    lookup_filed = 'id'
+    queryset = models.Type.objects.all()
+    serializer_class = serializers.TypeSerializer
