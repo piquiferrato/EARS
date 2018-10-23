@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <router-view></router-view>
-    <!-- <techCard></techCard> -->
+    <!-- <router-view></router-view> -->
+    <techCard></techCard>
   </div>
 </template>
 
 <script>
-import techCard from './components/TechCard.vue'
+import techCard from './components/RequisitionSolution.vue'
 export default {
   components: {techCard},
   data() {
