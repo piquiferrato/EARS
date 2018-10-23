@@ -5,6 +5,7 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
     path('users/', views.UserListView.as_view()),
     path('users/<int:id>/', views.UniqueUserListView.as_view()),
+    path('types/', views.TypesView.as_view()),
     path('status/', views.StatusView.as_view()),
     path('priority/', views.PriorityView.as_view()),
     path('requisitions/', views.RequisitionListView.as_view()),
@@ -28,4 +29,7 @@ urlpatterns = [
     path('requisitions/underway/technician/<int:id>', views.UnderwayByTechnicianView.as_view()),
     path('requisitions/done/technician/<int:id>', views.ImplementedByTechnicianView.as_view()),
     path('priority/<int:id>/', views.Priority.as_view()),
+    path('systems/affected/', views.AffectedSystems.as_view()),
+    path('modules/done/<int:system>/', views.SystemAffectedModules.as_view()),
+    path('constancys/module/<int:module>', views.ModulesConstancy.as_view()),
 ]
