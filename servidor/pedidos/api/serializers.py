@@ -67,6 +67,7 @@ class RequerimentConstancySerializer(serializers.ModelSerializer):
         fields = ('id',
                   'affectedSystem',
                   'type',
+                  'module',
                   'constancy')
 
 class StatusSerializer(serializers.ModelSerializer):
@@ -89,3 +90,18 @@ class TypeSerializer(serializers.ModelSerializer):
         model = models.Type
         fields = ('id',
                   'name')
+
+class AffectedSystemsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Requisition
+        fields = 'affectedSystem'
+
+class AffectedModulesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Requisition
+        fields = 'module'
+
+class AffectedConstancySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Requisition
+        fields = 'constancy'
