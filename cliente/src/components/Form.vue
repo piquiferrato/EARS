@@ -3,10 +3,11 @@
   <form v-on:submit.prevent id="form">
     <label>Tipo de pedido</label>
     <div class="form-group">
-      <select required name="" class="form-control" id="select" v-model="requisition.type">
+      <!-- <select required name="" class="form-control" id="select" v-model="requisition.type">
         <option value="REQUERIMIENTO">Requerimiento</option>
         <option value="ERROR">Error</option>
-      </select>
+      </select> -->
+      <v-select label="name" :options="requisition.typeRequisition" :on-change="typeId" :searchable="false"></v-select>
     </div>
     <label>Asunto</label>
     <input required type="text" id="asunto" class="form-control" v-model="requisition.subject">
@@ -58,6 +59,7 @@ export default {
 
       requisition: {
         type: '',
+        typeRequisition:'',
         author: sessionStorage.getItem('idUser'),
         subject: '',
         date: '',
@@ -90,7 +92,15 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-
+    //La API devuelve todos los tipos de pedidos
+    axios.get('http://127.0.0.1:8000/types/')
+      .then((response) => {
+        this.requisition.typeRequisition = response.data
+        // console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   computed: {
     id() {
@@ -148,6 +158,9 @@ export default {
     priorityId(priority) {
       // console.log(priority.id);
       this.requisition.priority = priority.id;
+    },
+    typeId(type){
+      this.requisition.type = type.id
     }
   }
 }

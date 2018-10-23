@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <!-- <router-view></router-view> -->
-    <techCard></techCard>
+    <router-view></router-view>
+    <!-- <techCard></techCard> -->
   </div>
 </template>
 

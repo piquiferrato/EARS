@@ -39,15 +39,18 @@
     </div>
   </div>
   <detailRequisition></detailRequisition>
+  <requisitionSolution></requisitionSolution>
 </div>
 </template>
 <script>
 import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
 import detailRequisition from './DetailRequisition.vue'
+import requisitionSolution from './RequisitionSolution'
 export default {
   components: {
-    detailRequisition
+    detailRequisition,
+    requisitionSolution
   },
   data() {
     return {
@@ -143,27 +146,29 @@ export default {
       var self = this
       this.requisition.forEach(function(requi) {
         if (requi.id === requisitionId) {
-          var state = 4
-          axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
-              // type: requi.type,
-              subject: requi.subject,
-              date: requi.date,
-              // details: requi.details,
-              // priority: requi.priority,
-              // affectedSystem: requi.affectedSystem,
-              // module: requi.module,
-              // attached_file: requi.attached_file,
-              status: state
-            })
-            .then((data) => {
-              EventBus.$emit('watch_requisition', state)
-              self.requisitionSection = true
-              self.requisitionDetails = false
-              // EventBus.$emit('change_section');
-            })
-            .catch((error) => {
-              console.log(error.response);
-            });
+          EventBus.$emit('save_constancy', requi)
+          self.requisitionSection = false
+          // var state = 4
+          // axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
+          //     // type: requi.type,
+          //     subject: requi.subject,
+          //     date: requi.date,
+          //     // details: requi.details,
+          //     // priority: requi.priority,
+          //     // affectedSystem: requi.affectedSystem,
+          //     // module: requi.module,
+          //     // attached_file: requi.attached_file,
+          //     status: state
+          //   })
+          //   .then((data) => {
+          //     EventBus.$emit('watch_requisition', state)
+          //     self.requisitionSection = true
+          //     self.requisitionDetails = false
+          //     // EventBus.$emit('change_section');
+          //   })
+          //   .catch((error) => {
+          //     console.log(error.response);
+          //   });
         }
       })
     }

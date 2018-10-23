@@ -83,8 +83,6 @@ class PrioritySerializer(serializers.ModelSerializer):
         model = models.Priority
         fields = ('id',
                   'name')
-<<<<<<< HEAD
-=======
 
 class TypeSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
@@ -107,4 +105,3 @@ class AffectedConstancySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Requisition
         fields = 'constancy'
->>>>>>> dc60256847b55d3e7bdc2696e3a1b3bd2d9b85f3
