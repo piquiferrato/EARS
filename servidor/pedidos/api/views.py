@@ -189,15 +189,37 @@ class ImplementedByTechnicianView(generics.ListAPIView):
         doneId = 4
         return models.Requisition.objects.all().filter(assignedTechnician = id, status = DONE)
 
-class FinishedModulesBySystem(generics.ListAPIView):
-    lookup_field = 'id'
-    serializer_class = serializers.RequerimentConstancySerializer
-
-    def get_queryset(self):
-        systemId = self.kwargs['system']
-        return models.Requisition.objects.all().filter(affectedSystem = systemId, status = DONE)
+# class FinishedModulesBySystem(generics.ListAPIView):
+#     lookup_field = 'id'
+#     serializer_class = serializers.RequerimentConstancySerializer
+#
+#     def get_queryset(self):
+#         systemId = self.kwargs['system']
+#         return models.Requisition.objects.all().filter(affectedSystem = systemId, status = DONE)
 
 class TypesView(generics.ListCreateAPIView):
     lookup_filed = 'id'
     queryset = models.Type.objects.all()
     serializer_class = serializers.TypeSerializer
+
+class AffectedSystems(generics.ListAPIView):
+    lookup_filed = 'id'
+    queryset = models.Requisition.objects.all().filter(status = DONE)
+    serializer_class = serializers.AffectedSystemsSerializer
+
+class SystemAffectedModules(generics.ListAPIView):
+    lookup_filed = 'id'
+    serializer_class = serializers.AffectedModulesSerializer
+
+    def get_queryset(self):
+        systemId = self.kwargs['system']
+        return models.Requisition.objects.all().filter(affectedSystem = systemId, status = DONE)
+
+class ModulesConstancy(generics.ListAPIView):
+    lookup_filed = 'id'
+    serializer_class = serializers.AffectedConstancySerializer
+
+    def get_queryset(self):
+        moduleId = self.kwargs['module']
+        return models.Requisition.objects.all().filter(module = moduleId, status = DONE)
+
