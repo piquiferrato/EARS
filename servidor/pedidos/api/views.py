@@ -29,6 +29,14 @@ class UniqueUserListView(generics.RetrieveAPIView):
         id = self.kwargs['id']
         return models.CustomUser.objects.filter(id=id)
 
+class CommonUsersListView(generics.ListAPIView):
+    queryset = models.CustomUser.objects.all().filter(isTechnician = False)
+    serializer_class = serializers.UserSerializer
+
+class TechniciansListView(generics.ListAPIView):
+    queryset = models.CustomUser.objects.all().filter(isTechnician = True)
+    serializer_class = serializers.UserSerializer
+
 class RequisitionListView(generics.ListCreateAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer

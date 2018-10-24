@@ -146,7 +146,6 @@ export default {
         .then((response) => {
           this.requisition.module = response.data
           this.moduleSelect = true
-          console.log(this.requisition.module);
         })
         .catch((error) => {
           console.log(error);

@@ -86,6 +86,7 @@ export default {
         this.finished = false
         this.cancelled = true
       }else if (status === 4) {
+        EventBus.$emit('load_technical_name')
         this.onHold = false
         this.inProcess = false
         this.finished = true

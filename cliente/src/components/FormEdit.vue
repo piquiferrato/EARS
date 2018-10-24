@@ -2,13 +2,13 @@
   <div>
     <div class="col-8 " v-if="editForm">
       <form v-on:submit.prevent id="form">
-        <label>Tipo de pedido</label>
+        <!-- <label>Tipo de pedido</label>
         <div class="form-group">
           <select name="" class="form-control" id="select" v-model="requisitionEdit.type">
             <option value="REQUERIMIENTO">Requerimiento</option>
             <option value="ERROR">Error</option>
           </select>
-        </div>
+        </div> -->
         <label>Asunto</label>
         <input type="text" id="asunto" class="form-control" v-model="requisitionEdit.subject">
         <label>Detalle</label>

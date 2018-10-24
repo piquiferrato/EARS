@@ -42,7 +42,6 @@ export default {
         })
         .then((data) => {
           this.update_constancyId_requisition(data.data.id)
-          console.log("pasa");
         })
         .catch((error) => {
           console.log(error.response);
@@ -54,11 +53,11 @@ export default {
           constancy: idConstancy,
           date: this.requisition.date,
           subject: this.requisition.subject,
-          state: 4
+          status: 4
         })
         .then((data) => {
           this.soluctionSection = false
-          EventBus.$emit('go_back')
+          EventBus.$emit('go_back', 4)
         })
         .catch((error) => {
           console.log(error.response);

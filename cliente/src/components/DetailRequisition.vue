@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-8 center text-center" id="detailSection">
       <label>Tipo de pedido</label>
-      <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.type }}</h3>
+      <h3 class="border  backgroundRequisition whiteText" :class="{request: userRequisition.type == '1', error: userRequisition.type == '2'}"></h3>
       <label>Asunto</label>
       <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.subject }}</h3>
       <label>Detalle</label>
@@ -134,5 +134,13 @@ export default {
 <style>
 .center {
   margin: 0 auto;
+}
+
+.request:before {
+  content: "REQUERIMIENTO";
+}
+
+.error:before {
+  content: "ERROR";
 }
 </style>

@@ -4,7 +4,7 @@
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
-          <h3 class="card-title whiteText">{{ requi.type }}</h3>
+          <h3 class="card-title whiteText" :class="{request: requi.type == '1', error: requi.type == '2'}"></h3>
           <div class="whiteBackground border">
             <p class="card-text textColor">{{ requi.subject }}</p>
           </div>
@@ -206,4 +206,13 @@ export default {
 .finished:before {
   content: "Terminado";
 }
+
+.request:before {
+  content: "REQUERIMIENTO";
+}
+
+.error:before {
+  content: "ERROR";
+}
+
 </style>

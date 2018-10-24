@@ -4,7 +4,7 @@
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
-          <h3 class="card-title whiteText">{{ requi.type }}</h3>
+          <h3 class="card-title whiteText" :class="{request: requi.type == '1', error: requi.type == '2'}" ></h3>
           <div class="whiteBackground border">
             <p class="card-text textColor">{{ requi.subject }}</p>
           </div>
@@ -59,7 +59,10 @@ export default {
       // user: sessionStorage.getItem('idUser'),
       requisition: null,
       requisitionSection: true,
-      requisitionDetails: false
+      requisitionDetails: false,
+      technicals: null,
+      technicalName: null
+
     }
   },
   // computed: {
@@ -74,6 +77,7 @@ export default {
   //   }
   // },
   mounted() {
+    //carga todos los pedidos en espera
     axios.get('http://127.0.0.1:8000/requisitions/status/' + 1 + '/')
       .then((response) => {
         this.inProcess = false
@@ -82,8 +86,30 @@ export default {
       .catch((error) => {
         console.log(error.response);
       });
+
+    axios.get('http://127.0.0.1:8000/user' + 1 + '/')
+      .then((response) => {
+        this.inProcess = false
+        this.requisition = response.data
+      })
+      .catch((error) => {
+        console.log(error.response);
+        });
+
     EventBus.$on('watch_requisition', (status) => {
-      // Devuelve todos los pedidos del usuario
+      this.load(status)
+    })
+    EventBus.$on('go_back', (status) => {
+      this.load(status)
+      this.requisitionSection = true
+    })
+    EventBus.$on('load_technical_name', () => {
+
+    })
+  },
+  methods: {
+    load(status) {
+      // Devuelve todos los pedidos de los usuarios
       axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/')
         .then((response) => {
           EventBus.$emit('select_nav_btn', status)
@@ -97,12 +123,7 @@ export default {
         .catch((error) => {
           console.log(error.response);
         });
-    })
-    EventBus.$on('go_back', ()=> {
-      this.requisitionSection = true
-    })
-  },
-  methods: {
+    },
     watch_requisition(id) {
       var self = this;
       this.requisition.forEach(function(requi) {
@@ -235,5 +256,13 @@ export default {
 
 .high:before {
   content: "Alta";
+}
+
+.request:before {
+  content: "REQUERIMIENTO";
+}
+
+.error:before {
+  content: "ERROR";
 }
 </style>
