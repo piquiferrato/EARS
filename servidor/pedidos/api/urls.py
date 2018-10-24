@@ -5,6 +5,8 @@ urlpatterns = [
     path('rest-auth/', include('rest_auth.urls')),
     path('users/', views.UserListView.as_view()),
     path('users/<int:id>/', views.UniqueUserListView.as_view()),
+    path('users/comunes/', views.CommonUsersListView.as_view()),
+    path('users/tecnicos/', views.TechniciansListView.as_view()),
     path('types/', views.TypesView.as_view()),
     path('status/', views.StatusView.as_view()),
     path('priority/', views.PriorityView.as_view()),
