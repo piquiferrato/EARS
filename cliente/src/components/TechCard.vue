@@ -19,7 +19,8 @@
           </div>
           <h3 class="card-title whiteText">Tomado por</h3>
           <div class="whiteBackground border">
-            <p class="card-text textColor">vacio</p>
+            <!-- <spam>{{ technician_name(requi.assignedTechnician) }}</spam> -->
+            <p class="card-text textColor">{{requi.assignedTechnician}}</p>
           </div>
           <div v-if="!inProcess">
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
@@ -60,51 +61,36 @@ export default {
       requisition: null,
       requisitionSection: true,
       requisitionDetails: false,
-      technicals: null,
-      technicalName: null
-
+      technicianName: null,
+      requisitionCard: [{
+        type: '',
+        subject: '',
+        date: '',
+        priority: null,
+        status: null
+      }]
     }
   },
   // computed: {
-  //   isHigh: function() {
-  //     return this.requisition.priority;
-  //   },
-  //   isMedium: function() {
-  //     return this.requisition.priority === 'media';
-  //   },
-  //   isLow: function() {
-  //     return this.requisition.priority === 'baja';
-  //   }
+  //   //   isHigh: function() {
+  //   //     return this.requisition.priority;
+  //   //   },
+  //   //   isMedium: function() {
+  //   //     return this.requisition.priority === 'media';
+  //   //   },
+  //   //   isLow: function() {
+  //   //     return this.requisition.priority === 'baja';
+  //   //   }
+  //
   // },
   mounted() {
-    //carga todos los pedidos en espera
-    axios.get('http://127.0.0.1:8000/requisitions/status/' + 1 + '/')
-      .then((response) => {
-        this.inProcess = false
-        this.requisition = response.data
-      })
-      .catch((error) => {
-        console.log(error.response);
-      });
-
-    axios.get('http://127.0.0.1:8000/user' + 1 + '/')
-      .then((response) => {
-        this.inProcess = false
-        this.requisition = response.data
-      })
-      .catch((error) => {
-        console.log(error.response);
-        });
-
+    this.load(1)
     EventBus.$on('watch_requisition', (status) => {
       this.load(status)
     })
     EventBus.$on('go_back', (status) => {
       this.load(status)
       this.requisitionSection = true
-    })
-    EventBus.$on('load_technical_name', () => {
-
     })
   },
   methods: {
@@ -133,6 +119,7 @@ export default {
           EventBus.$emit('requisition_detail', requi)
         }
       });
+
     },
     cancel_requisition(requisitionId) {
       var self = this
@@ -140,22 +127,15 @@ export default {
         if (requi.id === requisitionId) {
           var state = 3
           axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
-              // type: requi.type,
               assignedTechnician: null,
               subject: requi.subject,
               date: requi.date,
-              // details: requi.details,
-              // priority: requi.priority,
-              // affectedSystem: requi.affectedSystem,
-              // module: requi.module,
-              // attached_file: requi.attached_file,
               status: state
             })
             .then((data) => {
               EventBus.$emit('watch_requisition', state)
               self.requisitionSection = true
               self.requisitionDetails = false
-              // EventBus.$emit('change_section');
             })
             .catch((error) => {
               console.log(error.response);
@@ -169,28 +149,32 @@ export default {
         if (requi.id === requisitionId) {
           EventBus.$emit('save_constancy', requi)
           self.requisitionSection = false
-          // var state = 4
-          // axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
-          //     // type: requi.type,
-          //     subject: requi.subject,
-          //     date: requi.date,
-          //     // details: requi.details,
-          //     // priority: requi.priority,
-          //     // affectedSystem: requi.affectedSystem,
-          //     // module: requi.module,
-          //     // attached_file: requi.attached_file,
-          //     status: state
-          //   })
-          //   .then((data) => {
-          //     EventBus.$emit('watch_requisition', state)
-          //     self.requisitionSection = true
-          //     self.requisitionDetails = false
-          //     // EventBus.$emit('change_section');
-          //   })
-          //   .catch((error) => {
-          //     console.log(error.response);
-          //   });
         }
+      })
+    },
+    technician_name(technicianId) {
+      axios.get('http://127.0.0.1:8000/users/' + technicianId + '/')
+        .then((response) => {
+          // this.technicianName = response.data.username
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    },
+    requisition_type(){
+      axios.get('http://127.0.0.1:8000/users/' + technicianId + '/')
+        .then((response) => {
+
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    },
+    create_requisition_card(){
+      var self = this
+      this.requisition.forEach(function(requi){
+
+        assignedTechnician: self.technician_name(requi.assignedTechnician)
       })
     }
   }

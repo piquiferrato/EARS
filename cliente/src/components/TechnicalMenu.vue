@@ -6,17 +6,27 @@
       <p class="boldText text-center">BIENVENIDO {{ name }}</p>
     </div>
   </div>
+  <b-navbar toggleable="md" class="row backgroundColor">
+    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+    <b-collapse is-nav id="nav_collapse">
+      <b-navbar-nav class="center">
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText text-center mt-1">PEDIDOS TOMADOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText text-center mt-1">PEDIDOS FINALIZADOS</b-nav-item>
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
+
   <div class="row backgroundColor">
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
+    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
       <p class="boldText text-center mt-1">EN ESPERA</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
+    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
       <p class="boldText text-center mt-1">EN PROCESO</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
+    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
       <p class="boldText text-center mt-1">CANCELADO</p>
     </div>
-    <div class="btn textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
+    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
       <p class="boldText text-center mt-1">TERMINADO</p>
     </div>
   </div>
@@ -46,9 +56,9 @@ export default {
       .catch((error) => {
         console.log("No salio");
       });
-      EventBus.$on('select_nav_btn', (status) =>{
-        this.correct_section(status)
-      })
+    EventBus.$on('select_nav_btn', (status) => {
+      this.correct_section(status)
+    })
   },
   data() {
     return {
@@ -75,18 +85,18 @@ export default {
         this.inProcess = false
         this.finished = false
         this.cancelled = false
-      }else if (status === 2) {
+      } else if (status === 2) {
         this.onHold = false
         this.inProcess = true
         this.finished = false
         this.cancelled = false
-      }else if (status === 3) {
+      } else if (status === 3) {
         this.onHold = false
         this.inProcess = false
         this.finished = false
         this.cancelled = true
-      }else if (status === 4) {
-        EventBus.$emit('load_technical_name')
+      } else if (status === 4) {
+
         this.onHold = false
         this.inProcess = false
         this.finished = true

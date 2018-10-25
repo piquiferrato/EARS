@@ -54,11 +54,11 @@ class Module(models.Model):
 class Requisition(models.Model):
     type = models.ForeignKey(Type, related_name = 'type', on_delete=models.CASCADE, blank=True, null=True)
     author = models.ForeignKey(CustomUser, related_name = 'author', on_delete=models.CASCADE, blank=True, null=True)
-    assignedTechnician = models.ForeignKey(CustomUser, related_name = 'assignedTechnician', blank=True,on_delete=models.CASCADE, null=True)
+    assignedTechnician = models.ForeignKey(CustomUser, related_name = 'assignedTechnician', blank=True, on_delete=models.CASCADE, null=True)
     subject = models.TextField(blank=True, null=True)
     details = models.TextField(blank=True, null=True)
     priority = models.ForeignKey(Priority, related_name = 'priority', on_delete=models.CASCADE, blank=True, null=True)
-    affectedSystem = models.ForeignKey(System,related_name = 'affectedSystem', on_delete=models.CASCADE, blank=True, null=True)
+    affectedSystem = models.ForeignKey(System, related_name = 'affectedSystem', on_delete=models.CASCADE, blank=True, null=True)
     module = models.ForeignKey(Module, related_name = 'module', on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateField(blank=True, null=True)
     attachedFile = models.FileField(blank=True, null=True)
