@@ -220,7 +220,6 @@ class UnderwayByTechnicianView(generics.ListAPIView):
 
     def get_queryset(self):
         id = self.kwargs['id']
-        underwayId = 2
         return models.Requisition.objects.all().filter(assignedTechnician = id, status = INPROGRESS)
 
 class ImplementedByTechnicianView(generics.ListAPIView):
@@ -229,7 +228,6 @@ class ImplementedByTechnicianView(generics.ListAPIView):
 
     def get_queryset(self):
         id = self.kwargs['id']
-        doneId = 4
         return models.Requisition.objects.all().filter(assignedTechnician = id, status = DONE)
 
 # class FinishedModulesBySystem(generics.ListAPIView):
@@ -266,3 +264,27 @@ class ModulesConstancy(generics.ListAPIView):
         moduleId = self.kwargs['module']
         return models.Requisition.objects.all().filter(module = moduleId, status = DONE)
 
+class TypeObjectView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.TypeSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Type.objects.all().filter(id=id)
+
+class StatusObjectView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.StatusSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Status.objects.all().filter(id=id)
+
+class PriorityObjectView(generics.RetrieveAPIView):
+    lookup_field = 'id'
+    queryset = models.Priority.objects.all()
+    serializer_class = serializers.PrioritySerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Priority.objects.all().filter(id=id)
