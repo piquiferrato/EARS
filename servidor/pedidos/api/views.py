@@ -10,6 +10,8 @@ from rest_framework.permissions import BasePermission, IsAuthenticated
 from . import models
 from . import serializers
 
+ORDERMINORMAYOR = 0
+ORDERMAYORMINOR = 1
 WAITING = 1
 INPROGRESS = 2
 CANCELLED = 3
@@ -157,18 +159,51 @@ class RequisitionByStatusView(generics.ListAPIView):
 
 class OrderRequisitionByPriority(generics.ListAPIView):
     lookup_field = 'id'
-    queryset = models.Requisition.objects.all().order_by('priority')
     serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        queryset = models.Requisition.objects.all().order_by('priority')
+        order = self.kwargs['order']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().order_by('-priority')
+
+        return queryset
 
 class OrderRequisitionByDate(generics.ListAPIView):
     lookup_field = 'id'
-    queryset = models.Requisition.objects.all().order_by('date')
     serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        queryset = models.Requisition.objects.all().order_by('date')
+        order = self.kwargs['order']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().order_by('date')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().order_by('-date')
+
+        return queryset
 
 class OrderRequisitionByAuthor(generics.ListAPIView):
     lookup_field = 'id'
-    queryset = models.Requisition.objects.all().order_by('author')
     serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        queryset = models.Requisition.objects.all().order_by('author')
+        order = self.kwargs['order']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().order_by('author')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().order_by('-author')
+
+        return queryset
 
 class Priority(generics.RetrieveAPIView):
     lookup_field = 'id'
