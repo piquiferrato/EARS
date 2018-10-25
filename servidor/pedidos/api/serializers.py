@@ -11,8 +11,8 @@ class ModuleSerializer(serializers.ModelSerializer):
                   'system')
 
 class RequisitionSerializer(serializers.ModelSerializer):
-    subject = serializers.CharField(required=True)
-    date = serializers.DateField(required=True)
+    # subject = serializers.CharField(required=True)
+    # date = serializers.DateField(required=True)
     class Meta:
         model = models.Requisition
         fields = ('id',
