@@ -35,6 +35,23 @@ class RequisitionSerializer(serializers.ModelSerializer):
                   'constancy',
                   'status',)
 
+class RequisitionUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Requisition
+        fields = ('id',
+                  'type',
+                  'author',
+                  'assignedTechnician',
+                  'subject',
+                  'details',
+                  'priority',
+                  'affectedSystem',
+                  'module',
+                  'date',
+                  'attachedFile',
+                  'constancy',
+                  'status',)
+
 class UserSerializer(serializers.ModelSerializer):
     # author = RequisitionSerializer(many=True, read_only=True)
     class Meta:

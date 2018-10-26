@@ -56,7 +56,7 @@ class DeleteRequisitionView(generics.DestroyAPIView):
 class UpdateRequisitionView(generics.UpdateAPIView):
     lookup_field = 'id'
     queryset = models.Requisition.objects.all()
-    serializer_class = serializers.RequisitionSerializer
+    serializer_class = serializers.RequisitionUpdateSerializer
 
 class MyRequisitionsListView(generics.ListAPIView):
     lookup_field = 'id'
