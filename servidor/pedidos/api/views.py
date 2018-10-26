@@ -149,13 +149,37 @@ class PriorityView(generics.ListCreateAPIView):
     queryset = models.Priority.objects.all()
     serializer_class = serializers.PrioritySerializer
 
-class RequisitionByStatusView(generics.ListAPIView):
+class RequisitionByStatusViewAndDate(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
         id = self.kwargs['id']
-        return models.Requisition.objects.all().filter(status=id)
+        queryset = models.Requisition.objects.all().filter(status=id).order_by('date')
+        order = self.kwargs['order']
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().order_by('date')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(status=id).order_by('-date')
+
+        return queryset
+
+class RequisitionByStatusViewAndPriority(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        queryset = models.Requisition.objects.all().filter(status=id).order_by('priority')
+        order = self.kwargs['order']
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(status=id).order_by('-priority')
+
+        return queryset
 
 class OrderRequisitionByPriority(generics.ListAPIView):
     lookup_field = 'id'
@@ -229,14 +253,6 @@ class ImplementedByTechnicianView(generics.ListAPIView):
     def get_queryset(self):
         id = self.kwargs['id']
         return models.Requisition.objects.all().filter(assignedTechnician = id, status = DONE)
-
-# class FinishedModulesBySystem(generics.ListAPIView):
-#     lookup_field = 'id'
-#     serializer_class = serializers.RequerimentConstancySerializer
-#
-#     def get_queryset(self):
-#         systemId = self.kwargs['system']
-#         return models.Requisition.objects.all().filter(affectedSystem = systemId, status = DONE)
 
 class TypesView(generics.ListCreateAPIView):
     lookup_filed = 'id'
