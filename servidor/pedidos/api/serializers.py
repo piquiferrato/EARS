@@ -11,48 +11,14 @@ class ModuleSerializer(serializers.ModelSerializer):
                   'system')
 
 class RequisitionSerializer(serializers.ModelSerializer):
-    # subject = serializers.CharField(required=True)
-    # date = serializers.DateField(required=True)
-    type = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='name'
-     )
-    author = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='username'
-     )
-    assignedTechnician = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='username'
-     )
-    priority = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='name'
-     )
-    affectedSystem = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='name'
-     )
-    module = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='name'
-     )
-    constancy = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='description'
-     )
-    status = serializers.SlugRelatedField(
-        many=False,
-        read_only=True,
-        slug_field='current'
-     )
+    type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    author = serializers.SlugRelatedField(many=False, read_only=True, slug_field='username')
+    assignedTechnician = serializers.SlugRelatedField(many=False, read_only=True, slug_field='username')
+    priority = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    affectedSystem = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    module = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    constancy = serializers.SlugRelatedField(many=False, read_only=True, slug_field='description')
+    status = serializers.SlugRelatedField(many=False, read_only=True, slug_field='current')
     class Meta:
         model = models.Requisition
         fields = ('id',
@@ -102,6 +68,10 @@ class ConstancySerializer(serializers.ModelSerializer):
                   'finishDate')
 
 class RequerimentConstancySerializer(serializers.ModelSerializer):
+    affectedSystem = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    module = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
+    constancy = serializers.SlugRelatedField(many=False, read_only=True, slug_field='description')
     class Meta:
         model = models.Requisition
         fields = ('id',
