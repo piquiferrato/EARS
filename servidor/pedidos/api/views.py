@@ -174,7 +174,7 @@ class RequisitionByStatusViewAndPriority(generics.ListAPIView):
         queryset = models.Requisition.objects.all().filter(status=id).order_by('priority')
         order = self.kwargs['order']
         if order == ORDERMAYORMINOR :
-            queryset = models.Requisition.objects.all().order_by('priority')
+            queryset = models.Requisition.objects.all().filter(status=id).order_by('priority')
 
         elif order == ORDERMINORMAYOR :
             queryset = models.Requisition.objects.all().filter(status=id).order_by('-priority')
@@ -186,14 +186,15 @@ class OrderRequisitionByPriority(generics.ListAPIView):
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
+        id = self.kwargs['id']
         queryset = models.Requisition.objects.all().order_by('priority')
         order = self.kwargs['order']
 
         if order == ORDERMAYORMINOR :
-            queryset = models.Requisition.objects.all().order_by('priority')
+            queryset = models.Requisition.objects.all().filter(status=id).order_by('priority')
 
         elif order == ORDERMINORMAYOR :
-            queryset = models.Requisition.objects.all().order_by('-priority')
+            queryset = models.Requisition.objects.all().filter(status=id).order_by('-priority')
 
         return queryset
 
