@@ -214,10 +214,10 @@ class OrderRequisitionByDate(generics.ListAPIView):
         queryset = models.Requisition.objects.all().order_by('date')
         order = self.kwargs['order']
 
-        if order ==  ORDERMINORMAYOR:
+        if order ==  ORDERMAYORMINOR:
             queryset = models.Requisition.objects.all().order_by('date')
 
-        elif order == ORDERMAYORMINOR :
+        elif order == ORDERMINORMAYOR:
             queryset = models.Requisition.objects.all().order_by('-date')
 
         return queryset
