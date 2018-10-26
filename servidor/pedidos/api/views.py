@@ -166,7 +166,7 @@ class RequisitionByStatusAndDateView(generics.ListAPIView):
         queryset = models.Requisition.objects.all().filter(status=id).order_by('date')
         order = self.kwargs['order']
         if order == ORDERMAYORMINOR :
-            queryset = models.Requisition.objects.all().order_by('date')
+            queryset = models.Requisition.objects.all().filter(status=id).order_by('date')
 
         elif order == ORDERMINORMAYOR :
             queryset = models.Requisition.objects.all().filter(status=id).order_by('-date')
