@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="row" v-if="requisitionSection">
-    <div v-for="(requi , index) in requisitionEnd" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
+    <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
           <h3 class="card-title whiteText">{{ requi.type }}</h3>
@@ -10,7 +10,8 @@
           </div>
           <h3 class="card-title whiteText">Prioridad</h3>
           <div class="whiteBackground border">
-            <p class="card-text textColor">{{ requi.priority }}</p>
+            <p class="card-text textColor" :class="{high: requi.priority == 'Alta', medium: requi.priority == 'Media',
+              low: requi.priority == 'Baja'}">{{ requi.priority }}</p>
           </div>
           <h3 class="card-title whiteText">Fecha</h3>
           <div class="whiteBackground border">
@@ -18,8 +19,7 @@
           </div>
           <h3 class="card-title whiteText">Tomado por</h3>
           <div class="whiteBackground border">
-    <!-- <spam>{{ technician_name(requi.assignedTechnician) }}</spam> -->
-    <p class="card-text textColor">{{requi.assignedTechnician}}</p>
+            <p class="card-text textColor">{{requi.assignedTechnician}}</p>
           </div>
           <div v-if="!inProcess">
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
@@ -28,10 +28,10 @@
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="close_requisition(requi.id)">FINALIZAR</button>
             <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancel_requisition(requi.id)">CANCELAR</button>
           </div>
-    <!-- <div v-if="cancelled">
+          <!-- <div v-if="cancelled">
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="">VER</button>
           </div> -->
-    </div>
+        </div>
       </div>
     </div>
     <div class="textColor" id="dontExistRequisition" v-if="requisition.length == 0">
@@ -56,20 +56,10 @@ export default {
     return {
       inProcess: false,
       cancelled: false,
-      // user: sessionStorage.getItem('idUser'),
       requisition: null,
       requisitionSection: true,
       requisitionDetails: false,
-      technicianName: null,
-      requisitionCard: {
-        type: '',
-        subject: '',
-        date: '',
-        assignedTechnician: '',
-        priority: null,
-        status: null
-      },
-      requisitionEnd: []
+      technicianName: null
     }
   },
   // computed: {
@@ -87,6 +77,7 @@ export default {
   mounted() {
     this.load(1)
     EventBus.$on('watch_requisition', (status) => {
+
       this.load(status)
     })
     EventBus.$on('go_back', (status) => {
@@ -106,11 +97,11 @@ export default {
             this.inProcess = false
           }
           this.requisition = response.data
-          this.requisitionEnd = []
-          this.create_requisition_card()
+          this.requisitionSection = true
+
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error.response);
         });
     },
     watch_requisition(id) {
@@ -122,7 +113,6 @@ export default {
           EventBus.$emit('requisition_detail', requi)
         }
       });
-
     },
     cancel_requisition(requisitionId) {
       var self = this
@@ -155,64 +145,6 @@ export default {
         }
       })
     },
-    technician_name(technicianId) {
-        return axios.get('http://127.0.0.1:8000/users/' + technicianId + '/')
-          .then((response) => {
-            return response.data.username
-          })
-          .catch((error) => {
-            return {username: "Disponible"}
-            console.log(error.response);
-          });
-    },
-    requisition_type(typeId) {
-      return axios.get('http://127.0.0.1:8000/types/' + typeId)
-        .then((response) => {
-          return response.data.name
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    },
-    status_name(statusId) {
-      return axios.get('http://127.0.0.1:8000/status/' + statusId)
-        .then((response) => {
-          return response.data.current
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    },
-    priority_name(priorityId) {
-      return axios.get('http://127.0.0.1:8000/priority/' + priorityId)
-        .then((response) => {
-          return response.data.name
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
-    },
-    create_requisition_card(requisitions) {
-      var self = this
-      this.requisition.forEach(function(requi) {
-        self.requisition_type(requi.type).then(data => {
-          self.requisitionCard.type = data
-        })
-        self.technician_name(requi.assignedTechnician).then(data => {
-          self.requisitionCard.assignedTechnician = data
-        })
-        self.status_name(requi.status).then(data => {
-          self.requisitionCard.status = data
-        })
-        self.priority_name(requi.priority).then(data => {
-          self.requisitionCard.priority = data
-        })
-        self.requisitionCard.date = requi.date
-        self.requisitionCard.subject = requi.subject
-        self.requisitionEnd.push(self.requisitionCard)
-      })
-
-    }
   }
 }
 </script>
@@ -266,23 +198,4 @@ export default {
   margin: 0 auto;
 }
 
-.low:before {
-  content: "Baja";
-}
-
-.medium:before {
-  content: "Media";
-}
-
-.high:before {
-  content: "Alta";
-}
-
-.request:before {
-  content: "REQUERIMIENTO";
-}
-
-.error:before {
-  content: "ERROR";
-}
 </style>
