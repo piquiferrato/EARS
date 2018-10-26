@@ -149,7 +149,15 @@ class PriorityView(generics.ListCreateAPIView):
     queryset = models.Priority.objects.all()
     serializer_class = serializers.PrioritySerializer
 
-class RequisitionByStatusViewAndDate(generics.ListAPIView):
+class RequisitionByStatusView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        id = self.kwargs['id']
+        return models.Requisition.objects.all().filter(status = id)
+
+class RequisitionByStatusAndDateView(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
 
@@ -165,7 +173,7 @@ class RequisitionByStatusViewAndDate(generics.ListAPIView):
 
         return queryset
 
-class RequisitionByStatusViewAndPriority(generics.ListAPIView):
+class RequisitionByStatusAndPriorityView(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
 
