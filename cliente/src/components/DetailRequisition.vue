@@ -42,6 +42,7 @@ export default {
   },
   methods: {
     go_back() {
+      this.detailSection = false
       EventBus.$emit('go_back')
     },
     take_requisition(userId, requisitionId) {

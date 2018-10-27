@@ -1,17 +1,19 @@
 <template>
 <div>
   <div class="row backgroundColor">
-    <div class="whiteText col-12">
-      <a href="#" id="logOut" class="boldText whiteText" v-on:click="logOut">LOGOUT</a>
-      <p class="boldText text-center">BIENVENIDO {{ name }}</p>
-    </div>
+      <p class="boldText col-10">BIENVENIDO {{ name }}</p>
+      <a href="#" id="logOut" class="boldText whiteText col-2" v-on:click="logOut">LOGOUT</a>
+      <label class="col-2">Pedidos resueltos</label>
+      <label class="col-2">Pedidos en espera</label>
+
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="center">
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText text-center mt-1">PEDIDOS TOMADOS</b-nav-item>
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-6 boldText text-center mt-1">PEDIDOS FINALIZADOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">MIS PEDIDOS TOMADOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">MIS PEDIDOS FINALIZADOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">TODOS LOS PEDIDOS</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -35,7 +37,7 @@
 </template>
 <script>
 import axios from 'axios';
-import techCard from './TechCard'
+import techCard from './TechCard.vue'
 import EventBus from '../bus/eventBus.js';
 export default {
   components: {

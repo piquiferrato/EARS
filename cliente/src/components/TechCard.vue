@@ -1,6 +1,37 @@
 <template>
 <div>
   <div class="row" v-if="requisitionSection">
+    <div class="form-group  col-sm-6 col-md-4">
+      <label for="">Ordenar por</label>
+      <select class="form-control" v-model="orderBy" v-on:change="load(state)">
+          <option value="priority">Prioridad</option>
+          <option value="date">Fecha</option>
+        </select>
+    </div>
+    <div class="form-group col-sm-6 col-md-4">
+      <label for="">De manera</label>
+      <select class="form-control" v-model="orderType"  v-if="!dateOrder" v-on:change="load(state)">
+          <option value="0">Creciente</option>
+          <option value="1">Decreciente</option>
+        </select>
+      <select class="form-control" v-model="orderType"  v-if="dateOrder" v-on:change="load(state)">
+          <option value="0">Nuevo-Viejo</option>
+          <option value="1">Viejo-Nuevo</option>
+        </select>
+    </div>
+    <div class=" col-sm-6 col-md-4 marginButtonSearch">
+      <button type="button" class="btn btn-primary form-control" v-on:click="advanceSearch= !advanceSearch">Busqueda Avanzada</button>
+    </div>
+    <transition name="fade">
+      <div class="col-12" v-if="advanceSearch">
+        <div class="form-group">
+          <label for="">Sistema Afectado</label>
+        </div>
+        <div class="form-group">
+          <label for="">Modulo Afectado</label>
+        </div>
+      </div>
+    </transition>
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
@@ -54,12 +85,18 @@ export default {
   },
   data() {
     return {
+      advanceSearch: false,
       inProcess: false,
       cancelled: false,
       requisition: null,
       requisitionSection: true,
       requisitionDetails: false,
-      technicianName: null
+      technicianName: null,
+      state: null,
+      orderBy: 'priority',
+      orderType: '1',
+      dateOrder: false
+
     }
   },
   // computed: {
@@ -77,18 +114,23 @@ export default {
   mounted() {
     this.load(1)
     EventBus.$on('watch_requisition', (status) => {
-
+      this.state = status
       this.load(status)
     })
-    EventBus.$on('go_back', (status) => {
-      this.load(status)
+    EventBus.$on('go_back', () => {
+      // this.load(status)
       this.requisitionSection = true
     })
   },
   methods: {
     load(status) {
+      if (this.orderBy === 'date') {
+        this.dateOrder = true
+      } else {
+        this.dateOrder = false
+      }
       // Devuelve todos los pedidos de los usuarios
-      axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/')
+      axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/order/' + this.orderBy + '/' + this.orderType + '/')
         .then((response) => {
           EventBus.$emit('select_nav_btn', status)
           if (status === 2) {
@@ -198,4 +240,26 @@ export default {
   margin: 0 auto;
 }
 
+.marginButtonSearch {
+  margin-top: 30px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active in <2.1.8 */
+  {
+  opacity: 0
+}
+
+@media (max-width:768px) {
+  .marginButtonSearch {
+    margin: 0 auto;
+  }
+}
 </style>

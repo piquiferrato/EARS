@@ -58,7 +58,6 @@ export default {
   mounted() {
     EventBus.$on('edit_form', (requisition) => {
       this.requisitionEdit = null
-      console.log(requisition);
       this.editForm = true
       this.requisitionEdit = requisition
     })
@@ -69,14 +68,14 @@ export default {
       this.editForm = false;
       this.requisitionSection = true;
       axios.put('http://127.0.0.1:8000/requisitions/update/' + id + '/', {
-          type: this.requisitionEdit.type,
-          author: this.requisitionEdit.author,
+          // type: this.requisitionEdit.type,
+          // author: this.requisitionEdit.author,
           subject: this.requisitionEdit.subject,
-          date: this.requisitionEdit.date,
+          // date: this.requisitionEdit.date,
           details: this.requisitionEdit.details,
-          priority: this.requisitionEdit.priority,
-          affectedSystem: this.requisitionEdit.affectedSystem,
-          module: this.requisitionEdit.module,
+          // priority: this.requisitionEdit.priority,
+          // affectedSystem: this.requisitionEdit.affectedSystem,
+          // module: this.requisitionEdit.module,
           attached_file: this.requisitionEdit.attached_file
         })
         .then((data) => {
