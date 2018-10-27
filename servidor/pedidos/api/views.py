@@ -227,9 +227,9 @@ class PriorityAdvancedSearch(generics.ListAPIView):
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
+        queryset = models.Requisition.objects.all().order_by('priority')
         system = self.kwargs['system']
         status = self.kwargs['status']
-        queryset = models.Requisition.objects.all().order_by('priority')
         order = self.kwargs['order']
 
         if order == ORDERMAYORMINOR :
@@ -245,10 +245,11 @@ class DateAdvancedSearch(generics.ListAPIView):
     serializer_class = serializers.RequisitionSerializer
 
     def get_queryset(self):
-        system = self.kwargs['system']
-        status = self.kwargs['status']
+
         queryset = models.Requisition.objects.all().order_by('date')
         order = self.kwargs['order']
+        system = self.kwargs['system']
+        status = self.kwargs['status']
 
         if order == ORDERMAYORMINOR :
             queryset = models.Requisition.objects.all().filter(affectedSystem=system, status=status).order_by('date')
