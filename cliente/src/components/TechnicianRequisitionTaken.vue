@@ -112,6 +112,7 @@ export default {
               status: state
             })
             .then((data) => {
+              EventBus.$emit('load_quantity_requisition')
               self.load()
             })
             .catch((error) => {

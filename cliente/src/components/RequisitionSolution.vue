@@ -58,6 +58,7 @@ export default {
         .then((data) => {
           this.soluctionSection = false
           EventBus.$emit('go_back', 4)
+          EventBus.$emit('load_quantity_requisition')
         })
         .catch((error) => {
           console.log(error.response);

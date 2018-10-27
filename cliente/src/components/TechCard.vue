@@ -135,6 +135,7 @@ export default {
   },
   methods: {
     load(status) {
+      EventBus.$emit('load_quantity_requisition')
       this.state = status
       if (this.orderBy === 'date') {
         this.dateOrder = true

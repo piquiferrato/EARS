@@ -4,13 +4,13 @@
     <p class="boldText col-10">BIENVENIDO {{ name }}</p>
     <a href="#" id="logOut" class="boldText whiteText col-2" v-on:click="logOut">LOGOUT</a>
     <label class="col-2">Pedidos en espera</label>
-    <label></label>
+    <label>{{ quantityOnHold }}</label>
     <label class="col-2">Pedidos en proceso</label>
-    <label></label>
+    <label>{{ quantityInProcess }}</label>
     <label class="col-2">Pedidos cancelados</label>
-    <label></label>
+    <label>{{ quantityCancelled }}</label>
     <label class="col-2">Pedidos resueltos</label>
-    <label></label>
+    <label>{{ quantityFinished }}</label>
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -67,6 +67,10 @@ export default {
       });
     EventBus.$on('select_nav_btn', (status) => {
       this.correct_section(status)
+    })
+    this.load_quantity_requisition()
+    EventBus.$on('load_quantity_requisition', () => {
+      this.load_quantity_requisition()
     })
   },
   data() {
