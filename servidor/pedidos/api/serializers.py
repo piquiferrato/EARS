@@ -18,6 +18,7 @@ class RequisitionSerializer(serializers.ModelSerializer):
     module = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
     constancy = serializers.SlugRelatedField(many=False, read_only=True, slug_field='description')
     status = serializers.SlugRelatedField(many=False, read_only=True, slug_field='current')
+
     class Meta:
         model = models.Requisition
         fields = ('id',
@@ -32,7 +33,7 @@ class RequisitionSerializer(serializers.ModelSerializer):
                   'date',
                   'attachedFile',
                   'constancy',
-                  'status',)
+                  'status')
 
 class RequisitionUpdateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -49,7 +50,7 @@ class RequisitionUpdateSerializer(serializers.ModelSerializer):
                   'date',
                   'attachedFile',
                   'constancy',
-                  'status',)
+                  'status')
 
 class TokenSerializer(serializers.ModelSerializer):
     user = UserSerializer()
@@ -74,11 +75,13 @@ class ModuleSerializer(serializers.ModelSerializer):
                   'system')
 
 class NestedSystemModulesSerializer(serializers.ModelSerializer):
-    modules = ModuleSerializer(many=True, read_only=True)
+    system = ModuleSerializer(many=True)
 
     class Meta:
         model = models.System
-        fields = ('id', 'name', 'modules')
+        fields = ('id',
+                  'name',
+                  'system')
 
 class ConstancySerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=True)
@@ -125,9 +128,10 @@ class TypeSerializer(serializers.ModelSerializer):
                   'name')
 
 class AffectedSystemsSerializer(serializers.ModelSerializer):
+    affectedSystem = serializers.SlugRelatedField(many=False, read_only=True, slug_field= 'name')
     class Meta:
         model = models.Requisition
-        fields = 'affectedSystem'
+        fields = ('affectedSystem',)
 
 class AffectedModulesSerializer(serializers.ModelSerializer):
     class Meta:

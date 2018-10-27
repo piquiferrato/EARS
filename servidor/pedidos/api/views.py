@@ -270,7 +270,7 @@ class TypesView(generics.ListCreateAPIView):
 
 class AffectedSystems(generics.ListAPIView):
     lookup_filed = 'id'
-    queryset = models.Requisition.objects.all().filter(status = DONE)
+    queryset = models.Requisition.objects.all()
     serializer_class = serializers.AffectedSystemsSerializer
 
 class SystemAffectedModules(generics.ListAPIView):
@@ -316,6 +316,6 @@ class PriorityObjectView(generics.RetrieveAPIView):
 
 class NestedSystemsModules(generics.ListAPIView):
     lookup_field = 'id'
-    queryset = models.System.objects
+    queryset = models.System.objects.all()
     serializer_class = serializers.NestedSystemModulesSerializer
 
