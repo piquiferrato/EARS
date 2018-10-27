@@ -112,7 +112,6 @@ export default {
     })
     this.load(1)
     EventBus.$on('watch_requisition', (status) => {
-      this.state = status
       this.load(status)
     })
     EventBus.$on('go_back', () => {
@@ -130,6 +129,7 @@ export default {
   },
   methods: {
     load(status) {
+      this.state = status
       if (this.orderBy === 'date') {
         this.dateOrder = true
       } else {
@@ -194,7 +194,13 @@ export default {
       })
     },
     moduleSystem(systemId) {
-      this.requisition.affectedSystem = systemId.id;
+      axios.get('http://127.0.0.1:8000/search/' + this.orderBy + '/system/'+ systemId.id + '/status/' + this.state + '/order/' + this.orderType + '/')
+        .then((response) => {
+        this.requisition = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       axios.get('http://127.0.0.1:8000/requisitions/modules/system/' + systemId.id + '/')
         .then((response) => {
           this.module = response.data
@@ -205,7 +211,13 @@ export default {
         });
     },
     moduleId(module) {
-      this.requisition.affectedModule = module.id;
+      axios.get('http://127.0.0.1:8000/search/' + this.orderBy + '/module/'+ module.id + '/status/' + this.state + '/order/' + this.orderType + '/')
+        .then((response) => {
+        this.requisition = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   }
 }

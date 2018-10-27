@@ -3,6 +3,10 @@
   <form v-on:submit.prevent id="form">
     <label>Tipo de pedido</label>
     <div class="form-group">
+      <!-- <select required name="" class="form-control" id="select" v-model="requisition.type">
+        <option value="REQUERIMIENTO">Requerimiento</option>
+        <option value="ERROR">Error</option>
+      </select> -->
       <v-select label="name" :options="requisition.typeRequisition" :on-change="typeId" :searchable="false"></v-select>
     </div>
     <label>Asunto</label>
@@ -13,15 +17,26 @@
     <textarea class="form-control" rows="5" v-model="requisition.details"></textarea>
     <label>Prioridad</label>
     <div class="form-group">
+      <!-- <select required name="" class="form-control" id="select" v-model="requisition.priority">
+        <option value="3">Baja</option>
+        <option value="2">Media</option>
+        <option value="1">Alta</option>
+      </select> -->
       <v-select label="name" :options="requisition.priority" :on-change="priorityId" :searchable="false"></v-select>
     </div>
     <label>Sistema</label>
     <div class="form-group">
+      <!-- <select required name="" class="form-control" id="select"  v-model="requisition.affectedSystem" v-on:change="moduleSystem($event.target.value)">
+        <option v-for="(system, index) in requisition.system" :key="index" value="1">{{ system.name }}</option>
+      </select> -->
       <v-select label="name" :options="requisition.system" :on-change="moduleSystem" :searchable="false"></v-select>
     </div>
     <div v-if="moduleSelect">
       <label >Modulo</label>
       <div class="form-group">
+        <!-- <select required name="" class="form-control" id="select" v-model="requisition.affectedModule" >
+          <option v-for="(module, index) in requisition.module" :key="index" value="module">{{ module.name }}</option>
+        </select> -->
         <v-select label="name" :options="requisition.module" :on-change="moduleId" :searchable="false"></v-select>
       </div>
     </div>
@@ -44,7 +59,7 @@ export default {
 
       requisition: {
         type: '',
-        typeRequisition: '',
+        typeRequisition:'',
         author: sessionStorage.getItem('idUser'),
         subject: '',
         date: '',
@@ -143,7 +158,7 @@ export default {
       // console.log(priority.id);
       this.requisition.priority = priority.id;
     },
-    typeId(type) {
+    typeId(type){
       this.requisition.type = type.id
     }
   }

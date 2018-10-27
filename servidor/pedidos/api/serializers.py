@@ -153,9 +153,13 @@ class AffectedSystemsSerializer(serializers.ModelSerializer):
 class AffectedModulesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Requisition
-        fields = 'module'
+        fields = ('module',)
 
 class AffectedConstancySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Requisition
+<<<<<<< HEAD
         fields = 'constancy'
+=======
+        fields = ('constancy',)
+>>>>>>> 6c585e303dbf022588e46e07c595b2086d57dbb4
