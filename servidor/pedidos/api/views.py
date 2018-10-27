@@ -402,3 +402,23 @@ class NestedSystemsModules(generics.ListAPIView):
 #         moduleId = self.kwargs['moduleId']
 #         return models.Requisition.objects.all().filter(module = moduleId)
 
+
+class WaitingRequistionsView(generics.ListAPIView):
+    lookup_filed = 'id'
+    queryset = models.Requisition.objects.all().filter(status = WAITING)
+    serializer_class = serializers.RequisitionSerializer
+
+class InProgressRequistionsView(generics.ListAPIView):
+    lookup_filed = 'id'
+    queryset = models.Requisition.objects.all().filter(status = INPROGRESS)
+    serializer_class = serializers.RequisitionSerializer
+
+class CancelledRequistionsView(generics.ListAPIView):
+    lookup_filed = 'id'
+    queryset = models.Requisition.objects.all().filter(status = CANCELLED)
+    serializer_class = serializers.RequisitionSerializer
+
+class DoneRequistionsView(generics.ListAPIView):
+    lookup_filed = 'id'
+    queryset = models.Requisition.objects.all().filter(status = DONE)
+    serializer_class = serializers.RequisitionSerializer
