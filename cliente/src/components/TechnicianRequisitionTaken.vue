@@ -1,37 +1,6 @@
 <template>
 <div v-if="privateSection">
   <div class="row" v-if="requisitionSection">
-    <!-- <div class="form-group  col-sm-6 col-md-4">
-      <label for="">Ordenar por</label>
-      <select class="form-control" v-model="orderBy" v-on:change="load(state)">
-          <option value="priority">Prioridad</option>
-          <option value="date">Fecha</option>
-        </select>
-    </div>
-    <div class="form-group col-sm-6 col-md-4">
-      <label for="">De manera</label>
-      <select class="form-control" v-model="orderType"  v-if="!dateOrder" v-on:change="load(state)">
-          <option value="0">Creciente</option>
-          <option value="1">Decreciente</option>
-        </select>
-      <select class="form-control" v-model="orderType"  v-if="dateOrder" v-on:change="load(state)">
-          <option value="0">Nuevo-Viejo</option>
-          <option value="1">Viejo-Nuevo</option>
-        </select>
-    </div>
-    <div class=" col-sm-6 col-md-4 marginButtonSearch">
-      <button type="button" class="btn btn-primary form-control" v-on:click="advanceSearch= !advanceSearch">Busqueda Avanzada</button>
-    </div>
-    <transition name="fade">
-      <div class="col-12" v-if="advanceSearch">
-        <div class="form-group">
-          <label for="">Sistema Afectado</label>
-        </div>
-        <div class="form-group">
-          <label for="">Modulo Afectado</label>
-        </div>
-      </div>
-    </transition> -->
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
@@ -52,7 +21,10 @@
           <div class="whiteBackground border">
             <p class="card-text textColor">{{requi.assignedTechnician}}</p>
           </div>
-          <div>
+          <div v-if="!inProcess">
+            <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
+          </div>
+          <div v-if="inProcess">
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="close_requisition(requi.id)">FINALIZAR</button>
             <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancel_requisition(requi.id)">CANCELAR</button>
           </div>
@@ -89,28 +61,46 @@ export default {
       // orderBy: 'priority',
       // orderType: '1',
       // dateOrder: false
-      privateSection: false
+      privateSection: false,
+      inProcess: true
     }
   },
   mounted() {
     EventBus.$on('watch_my_requisitions_taken', () => {
       this.privateSection = !this.privateSection
-      this.load()
+      this.load("inProgress")
+    })
+    EventBus.$on('watch_my_requisitions_finish', () => {
+      this.privateSection = !this.privateSection
+      this.load("finish")
     })
     EventBus.$on('go_back', (status) => {
       this.load()
     })
   },
   methods: {
-    load() {
-      axios.get('http://127.0.0.1:8000/requisitions/inprogress/technician/' + sessionStorage.getItem('idUser'))
-        .then((response) => {
-          this.requisition = response.data
-          this.requisitionSection = true
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
+    load(state) {
+      if (state === 'inProgress') {
+        axios.get('http://127.0.0.1:8000/requisitions/inprogress/technician/' + sessionStorage.getItem('idUser'))
+          .then((response) => {
+            this.requisition = response.data
+            this.requisitionSection = true
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }else if (state === 'finish') {
+        axios.get('http://127.0.0.1:8000/requisitions/done/technician/' + sessionStorage.getItem('idUser'))
+          .then((response) => {
+            this.requisition = response.data
+            this.requisitionSection = true
+            this.inProcess = false
+          })
+          .catch((error) => {
+            console.log(error.response);
+          });
+      }
+
     },
     cancel_requisition(requisitionId) {
       var self = this

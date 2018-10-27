@@ -1,18 +1,24 @@
 <template>
 <div>
   <div class="row backgroundColor">
-      <p class="boldText col-10">BIENVENIDO {{ name }}</p>
-      <a href="#" id="logOut" class="boldText whiteText col-2" v-on:click="logOut">LOGOUT</a>
-      <label class="col-2">Pedidos resueltos</label>
-      <label class="col-2">Pedidos en espera</label>
+    <p class="boldText col-10">BIENVENIDO {{ name }}</p>
+    <a href="#" id="logOut" class="boldText whiteText col-2" v-on:click="logOut">LOGOUT</a>
+    <label class="col-2">Pedidos en espera</label>
+    <label></label>
+    <label class="col-2">Pedidos en proceso</label>
+    <label></label>
+    <label class="col-2">Pedidos cancelados</label>
+    <label></label>
+    <label class="col-2">Pedidos resueltos</label>
+    <label></label>
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="center">
         <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_my_requisitions_taken">MIS PEDIDOS TOMADOS</b-nav-item>
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">MIS PEDIDOS FINALIZADOS</b-nav-item>
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">TODOS LOS PEDIDOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_my_requisitions_finish">MIS PEDIDOS FINALIZADOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_all_requisitions">TODOS LOS PEDIDOS</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -70,10 +76,44 @@ export default {
       inProcess: false,
       cancelled: false,
       finished: false,
-      privateSection: false
+      privateSection: false,
+      quantityInProcess: null,
+      quantityOnHold: null,
+      quantityCancelled: null,
+      quantityFinished: null
     }
   },
   methods: {
+    load_quantity_requisition() {
+      axios.get('http://127.0.0.1:8000/requisitions/status/waiting/')
+        .then((response) => {
+          this.quantityOnHold = response.data.length
+        })
+        .catch((error) => {
+          console.log("No salio");
+        });
+      axios.get('http://127.0.0.1:8000/requisitions/status/inprogress/')
+        .then((response) => {
+          this.quantityInProcess = response.data.length
+        })
+        .catch((error) => {
+          console.log("No salio");
+        });
+      axios.get('http://127.0.0.1:8000/requisitions/status/cancelled/')
+        .then((response) => {
+          this.quantityCancelled = response.data.length
+        })
+        .catch((error) => {
+          console.log("No salio");
+        });
+      axios.get('http://127.0.0.1:8000/requisitions/status/done/')
+        .then((response) => {
+          this.quantityFinished = response.data.length
+        })
+        .catch((error) => {
+          console.log("No salio");
+        });
+    },
     logOut() {
       // axios.get('http://127.0.0.1:8000/rest-auth/logout/');
       sessionStorage.clear();
@@ -107,8 +147,16 @@ export default {
         this.cancelled = false
       }
     },
-    watch_my_requisitions_taken(){
+    watch_my_requisitions_taken() {
       EventBus.$emit('watch_my_requisitions_taken')
+      this.privateSection = !this.privateSection
+    },
+    watch_my_requisitions_finish() {
+      EventBus.$emit('watch_my_requisitions_finish')
+      this.privateSection = !this.privateSection
+    },
+    watch_all_requisitions() {
+      EventBus.$emit('watch_all_requisitions')
       this.privateSection = !this.privateSection
     }
   }

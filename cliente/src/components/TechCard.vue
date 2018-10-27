@@ -110,6 +110,12 @@ export default {
     EventBus.$on('watch_my_requisitions_taken', () => {
       this.privateSection = !this.privateSection
     })
+    EventBus.$on('watch_my_requisitions_finish', () => {
+      this.privateSection = !this.privateSection
+    })
+    EventBus.$on('watch_all_requisitions', () => {
+      this.privateSection = !this.privateSection
+    })
     this.load(1)
     EventBus.$on('watch_requisition', (status) => {
       this.load(status)
