@@ -34,10 +34,11 @@ urlpatterns = [
     path('requisitions/order/priority/<int:order>', views.OrderRequisitionByPriority.as_view()),
     path('requisitions/order/date/<int:order>', views.OrderRequisitionByDate.as_view()),
     path('requisitions/order/author/<int:order>', views.OrderRequisitionByAuthor.as_view()),
-    path('requisitions/underway/technician/<int:id>', views.UnderwayByTechnicianView.as_view()),
+    path('requisitions/inprogress/technician/<int:id>', views.UnderwayByTechnicianView.as_view()),
     path('requisitions/done/technician/<int:id>', views.ImplementedByTechnicianView.as_view()),
     path('priority/<int:id>/', views.Priority.as_view()),
     path('systems/affected/', views.AffectedSystems.as_view()),
     path('modules/done/<int:system>/', views.SystemAffectedModules.as_view()),
     path('constancys/module/<int:module>', views.ModulesConstancy.as_view()),
+    path('systems/modules/nested/', views.NestedSystemsModules.as_view()),
 ]

@@ -2,13 +2,12 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from . import models
 
-class ModuleSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(required=True)
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Module
+        model = models.CustomUser
         fields = ('id',
-                  'name',
-                  'system')
+                  'username',
+                  'isTechnician')
 
 class RequisitionSerializer(serializers.ModelSerializer):
     type = serializers.SlugRelatedField(many=False, read_only=True, slug_field='name')
@@ -52,14 +51,6 @@ class RequisitionUpdateSerializer(serializers.ModelSerializer):
                   'constancy',
                   'status',)
 
-class UserSerializer(serializers.ModelSerializer):
-    # author = RequisitionSerializer(many=True, read_only=True)
-    class Meta:
-        model = models.CustomUser
-        fields = ('id',
-                  'username',
-                  'isTechnician')
-
 class TokenSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
@@ -73,6 +64,21 @@ class SystemSerializer(serializers.ModelSerializer):
         model = models.System
         fields = ('id',
                   'name')
+
+class ModuleSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(required=True)
+    class Meta:
+        model = models.Module
+        fields = ('id',
+                  'name',
+                  'system')
+
+class NestedSystemModulesSerializer(serializers.ModelSerializer):
+    modules = ModuleSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.System
+        fields = ('id', 'name', 'modules')
 
 class ConstancySerializer(serializers.ModelSerializer):
     description = serializers.CharField(required=True)
