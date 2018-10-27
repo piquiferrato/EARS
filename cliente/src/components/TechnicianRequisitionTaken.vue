@@ -51,31 +51,35 @@ export default {
   },
   data() {
     return {
-      // advanceSearch: false,
       cancelled: false,
       requisition: null,
       requisitionSection: true,
       requisitionDetails: false,
       technicianName: null,
       state: null,
-      // orderBy: 'priority',
-      // orderType: '1',
-      // dateOrder: false
       privateSection: false,
       inProcess: true
     }
   },
   mounted() {
     EventBus.$on('watch_my_requisitions_taken', () => {
-      this.privateSection = !this.privateSection
-      this.load("inProgress")
+      if (!this.privateSection) {
+        this.privateSection = !this.privateSection
+        this.load("inProgress")
+      }else {
+        this.load("inProgress")
+      }
     })
     EventBus.$on('watch_my_requisitions_finish', () => {
-      this.privateSection = !this.privateSection
-      this.load("finish")
+      if (!this.privateSection) {
+        this.privateSection = !this.privateSection
+        this.load("finish")
+      }else {
+        this.load("finish")
+      }
     })
-    EventBus.$on('go_back', (status) => {
-      this.load()
+    EventBus.$on('go_back', () => {
+      this.load("finish")
     })
   },
   methods: {
@@ -85,6 +89,7 @@ export default {
           .then((response) => {
             this.requisition = response.data
             this.requisitionSection = true
+            this.inProcess = true
           })
           .catch((error) => {
             console.log(error.response);
@@ -100,7 +105,6 @@ export default {
             console.log(error.response);
           });
       }
-
     },
     cancel_requisition(requisitionId) {
       var self = this
@@ -113,7 +117,7 @@ export default {
             })
             .then((data) => {
               EventBus.$emit('load_quantity_requisition')
-              self.load()
+              self.load('inProgress')
             })
             .catch((error) => {
               console.log(error.response);
@@ -130,6 +134,16 @@ export default {
         }
       })
     },
+    watch_requisition(id) {
+      var self = this;
+      this.requisition.forEach(function(requi) {
+        if (requi.id == id) {
+          self.requisitionDetails = true
+          self.requisitionSection = false
+          EventBus.$emit('requisition_detail', requi)
+        }
+      });
+    }
   }
 }
 </script>

@@ -56,13 +56,13 @@
           <div class="whiteBackground border">
             <p class="card-text textColor">{{requi.assignedTechnician}}</p>
           </div>
-          <div v-if="!inProcess">
+          <!-- <div v-if="!inProcess"> -->
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
-          </div>
-          <div v-if="inProcess">
+          <!-- </div> -->
+          <!-- <div v-if="inProcess">
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="close_requisition(requi.id)">FINALIZAR</button>
             <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancel_requisition(requi.id)">CANCELAR</button>
-          </div>
+          </div> -->
           <!-- <div v-if="cancelled">
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="">VER</button>
           </div> -->
@@ -108,13 +108,17 @@ export default {
   },
   mounted() {
     EventBus.$on('watch_my_requisitions_taken', () => {
-      this.privateSection = !this.privateSection
+      if (!this.privateSection) {
+        this.privateSection = true
+      }
     })
     EventBus.$on('watch_my_requisitions_finish', () => {
-      this.privateSection = !this.privateSection
+      if (!this.privateSection) {
+        this.privateSection = true
+      }
     })
     EventBus.$on('watch_all_requisitions', () => {
-      this.privateSection = !this.privateSection
+      this.privateSection = false
     })
     this.load(1)
     EventBus.$on('watch_requisition', (status) => {
