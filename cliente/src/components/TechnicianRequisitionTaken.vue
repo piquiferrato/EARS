@@ -1,7 +1,7 @@
 <template>
-<div v-if="!privateSection">
+<div v-if="privateSection">
   <div class="row" v-if="requisitionSection">
-    <div class="form-group  col-sm-6 col-md-4">
+    <!-- <div class="form-group  col-sm-6 col-md-4">
       <label for="">Ordenar por</label>
       <select class="form-control" v-model="orderBy" v-on:change="load(state)">
           <option value="priority">Prioridad</option>
@@ -31,7 +31,7 @@
           <label for="">Modulo Afectado</label>
         </div>
       </div>
-    </transition>
+    </transition> -->
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
@@ -52,16 +52,10 @@
           <div class="whiteBackground border">
             <p class="card-text textColor">{{requi.assignedTechnician}}</p>
           </div>
-          <div v-if="!inProcess">
-            <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="watch_requisition(requi.id)">VER</button>
-          </div>
-          <div v-if="inProcess">
+          <div>
             <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="close_requisition(requi.id)">FINALIZAR</button>
             <button type="button" class="boldText marginButton btn btn-danger" v-on:click="cancel_requisition(requi.id)">CANCELAR</button>
           </div>
-          <!-- <div v-if="cancelled">
-            <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="">VER</button>
-          </div> -->
         </div>
       </div>
     </div>
@@ -85,79 +79,38 @@ export default {
   },
   data() {
     return {
-      advanceSearch: false,
-      inProcess: false,
+      // advanceSearch: false,
       cancelled: false,
       requisition: null,
       requisitionSection: true,
       requisitionDetails: false,
       technicianName: null,
       state: null,
-      orderBy: 'priority',
-      orderType: '1',
-      dateOrder: false,
+      // orderBy: 'priority',
+      // orderType: '1',
+      // dateOrder: false
       privateSection: false
     }
   },
-  // computed: {
-  //   //   isHigh: function() {
-  //   //     return this.requisition.priority;
-  //   //   },
-  //   //   isMedium: function() {
-  //   //     return this.requisition.priority === 'media';
-  //   //   },
-  //   //   isLow: function() {
-  //   //     return this.requisition.priority === 'baja';
-  //   //   }
-  //
-  // },
   mounted() {
     EventBus.$on('watch_my_requisitions_taken', () => {
       this.privateSection = !this.privateSection
+      this.load()
     })
-    this.load(1)
-    EventBus.$on('watch_requisition', (status) => {
-      this.state = status
-      this.load(status)
-    })
-    EventBus.$on('go_back', () => {
-      // this.load(status)
-      this.requisitionSection = true
+    EventBus.$on('go_back', (status) => {
+      this.load()
     })
   },
   methods: {
-    load(status) {
-      if (this.orderBy === 'date') {
-        this.dateOrder = true
-      } else {
-        this.dateOrder = false
-      }
-      // Devuelve todos los pedidos de los usuarios
-      axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/order/' + this.orderBy + '/' + this.orderType + '/')
+    load() {
+      axios.get('http://127.0.0.1:8000/requisitions/inprogress/technician/' + sessionStorage.getItem('idUser'))
         .then((response) => {
-          EventBus.$emit('select_nav_btn', status)
-          if (status === 2) {
-            this.inProcess = true
-          } else if (status != 2) {
-            this.inProcess = false
-          }
           this.requisition = response.data
           this.requisitionSection = true
-
         })
         .catch((error) => {
           console.log(error.response);
         });
-    },
-    watch_requisition(id) {
-      var self = this;
-      this.requisition.forEach(function(requi) {
-        if (requi.id == id) {
-          self.requisitionDetails = true
-          self.requisitionSection = false
-          EventBus.$emit('requisition_detail', requi)
-        }
-      });
     },
     cancel_requisition(requisitionId) {
       var self = this
@@ -166,14 +119,10 @@ export default {
           var state = 3
           axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
               assignedTechnician: null,
-              subject: requi.subject,
-              date: requi.date,
               status: state
             })
             .then((data) => {
-              EventBus.$emit('watch_requisition', state)
-              self.requisitionSection = true
-              self.requisitionDetails = false
+              self.load()
             })
             .catch((error) => {
               console.log(error.response);
@@ -185,8 +134,8 @@ export default {
       var self = this
       this.requisition.forEach(function(requi) {
         if (requi.id === requisitionId) {
-          EventBus.$emit('save_constancy', requi)
           self.requisitionSection = false
+          EventBus.$emit('save_constancy', requi)
         }
       })
     },

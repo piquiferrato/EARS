@@ -5,20 +5,18 @@
       <a href="#" id="logOut" class="boldText whiteText col-2" v-on:click="logOut">LOGOUT</a>
       <label class="col-2">Pedidos resueltos</label>
       <label class="col-2">Pedidos en espera</label>
-
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="center">
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">MIS PEDIDOS TOMADOS</b-nav-item>
+        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_my_requisitions_taken">MIS PEDIDOS TOMADOS</b-nav-item>
         <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">MIS PEDIDOS FINALIZADOS</b-nav-item>
         <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1">TODOS LOS PEDIDOS</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-
-  <div class="row backgroundColor">
+  <div class="row backgroundColor" v-if="!privateSection">
     <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
       <p class="boldText text-center mt-1">EN ESPERA</p>
     </div>
@@ -33,15 +31,18 @@
     </div>
   </div>
   <techCard></techCard>
+  <technicianRequisitionTaken></technicianRequisitionTaken>
 </div>
 </template>
 <script>
 import axios from 'axios';
 import techCard from './TechCard.vue'
+import technicianRequisitionTaken from './TechnicianRequisitionTaken.vue'
 import EventBus from '../bus/eventBus.js';
 export default {
   components: {
-    techCard
+    techCard,
+    technicianRequisitionTaken
   },
   mounted() {
     axios.get('http://127.0.0.1:8000/users/' + sessionStorage.getItem('idUser'), {
@@ -69,6 +70,7 @@ export default {
       inProcess: false,
       cancelled: false,
       finished: false,
+      privateSection: false
     }
   },
   methods: {
@@ -104,6 +106,10 @@ export default {
         this.finished = true
         this.cancelled = false
       }
+    },
+    watch_my_requisitions_taken(){
+      EventBus.$emit('watch_my_requisitions_taken')
+      this.privateSection = !this.privateSection
     }
   }
 }
