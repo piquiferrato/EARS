@@ -15,6 +15,7 @@ urlpatterns = [
     path('priority/<int:id>', views.PriorityObjectView.as_view()),
     path('requisitions/', views.RequisitionListView.as_view()),
     path('requisitions/mine/<int:id>/', views.MyRequisitionsListView.as_view()),
+    path('requisitions/technician/<int:id>', views.TechnicianRequisitionView.as_view()),
     path('requisitions/<int:id>/', views.MyRequisitionsListView.as_view()),
     path('requisitions/update/<int:id>/', views.UpdateRequisitionView.as_view()),
     path('requisitions/delete/<int:id>/', views.DeleteRequisitionView.as_view()),

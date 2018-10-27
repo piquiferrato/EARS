@@ -39,6 +39,16 @@ class TechniciansListView(generics.ListAPIView):
     queryset = models.CustomUser.objects.all().filter(isTechnician = True)
     serializer_class = serializers.UserSerializer
 
+
+class TechnicianRequisitionView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        techId = self.kwargs['id']
+        return models.Requisition.objects.filter(assignedTechnician = techId)
+
+
 class RequisitionListView(generics.ListCreateAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
