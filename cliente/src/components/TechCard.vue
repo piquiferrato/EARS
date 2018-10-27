@@ -24,11 +24,15 @@
     </div>
     <transition name="fade">
       <div class="col-12" v-if="advanceSearch">
+        <label>Sistema</label>
         <div class="form-group">
-          <label for="">Sistema Afectado</label>
+          <v-select label="name" :options="system" :on-change="moduleSystem" :searchable="false"></v-select>
         </div>
-        <div class="form-group">
-          <label for="">Modulo Afectado</label>
+        <div v-if="moduleSelect">
+          <label >Modulo</label>
+          <div class="form-group">
+            <v-select label="name" :options="module" :on-change="moduleId" :searchable="false"></v-select>
+          </div>
         </div>
       </div>
     </transition>
@@ -96,21 +100,12 @@ export default {
       orderBy: 'priority',
       orderType: '1',
       dateOrder: false,
-      privateSection: false
+      privateSection: false,
+      system: null,
+      module: null,
+      moduleSelect: false
     }
   },
-  // computed: {
-  //   //   isHigh: function() {
-  //   //     return this.requisition.priority;
-  //   //   },
-  //   //   isMedium: function() {
-  //   //     return this.requisition.priority === 'media';
-  //   //   },
-  //   //   isLow: function() {
-  //   //     return this.requisition.priority === 'baja';
-  //   //   }
-  //
-  // },
   mounted() {
     EventBus.$on('watch_my_requisitions_taken', () => {
       this.privateSection = !this.privateSection
@@ -124,6 +119,14 @@ export default {
       // this.load(status)
       this.requisitionSection = true
     })
+    //La API devuelve todos los sistemas
+    axios.get('http://127.0.0.1:8000/requisitions/systems')
+      .then((response) => {
+        this.system = response.data
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     load(status) {
@@ -189,6 +192,20 @@ export default {
           self.requisitionSection = false
         }
       })
+    },
+    moduleSystem(systemId) {
+      this.requisition.affectedSystem = systemId.id;
+      axios.get('http://127.0.0.1:8000/requisitions/modules/system/' + systemId.id + '/')
+        .then((response) => {
+          this.module = response.data
+          this.moduleSelect = true
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    moduleId(module) {
+      this.requisition.affectedModule = module.id;
     },
   }
 }
