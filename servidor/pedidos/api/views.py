@@ -41,7 +41,7 @@ class TechniciansListView(generics.ListAPIView):
 
 class RequisitionListView(generics.ListCreateAPIView):
     lookup_field = 'id'
-    serializer_class = serializers.RequisitionSerializer
+    serializer_class = serializers.RequisitionCommonSerializer
     queryset = models.Requisition.objects.all()
 
 class DeleteRequisitionView(generics.DestroyAPIView):
