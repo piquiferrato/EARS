@@ -222,6 +222,42 @@ class OrderRequisitionByDate(generics.ListAPIView):
 
         return queryset
 
+class PriorityAdvancedSearch(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        system = self.kwargs['system']
+        status = self.kwargs['status']
+        queryset = models.Requisition.objects.all().order_by('priority')
+        order = self.kwargs['order']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().filter(affectedSystem=system, status=status).order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(affectedSystem=system, status=status).order_by('-priority')
+
+        return queryset
+
+class DateAdvancedSearch(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        system = self.kwargs['system']
+        status = self.kwargs['status']
+        queryset = models.Requisition.objects.all().order_by('date')
+        order = self.kwargs['order']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().filter(affectedSystem=system, status=status).order_by('date')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(affectedSystem=system, status=status).order_by('-date')
+
+        return queryset
+
 class OrderRequisitionByAuthor(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer

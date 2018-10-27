@@ -41,4 +41,6 @@ urlpatterns = [
     path('modules/done/<int:system>/', views.SystemAffectedModules.as_view()),
     path('constancys/module/<int:module>', views.ModulesConstancy.as_view()),
     path('systems/modules/nested/', views.NestedSystemsModules.as_view()),
+    path('search/priority/system/<int:system>/status/<int:status>/order/<int:order>', views.PriorityAdvancedSearch.as_view()),
+    path('search/date/system/<int:system>/status/<int:status>/order/<int:order>', views.DateAdvancedSearch.as_view()),
 ]
