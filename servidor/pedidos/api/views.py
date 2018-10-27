@@ -313,3 +313,9 @@ class PriorityObjectView(generics.RetrieveAPIView):
     def get_queryset(self):
         id = self.kwargs['id']
         return models.Priority.objects.all().filter(id=id)
+
+class NestedSystemsModules(generics.ListAPIView):
+    lookup_field = 'id'
+    queryset = models.System.objects
+    serializer_class = serializers.NestedSystemModulesSerializer
+
