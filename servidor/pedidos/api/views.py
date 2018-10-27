@@ -41,7 +41,7 @@ class TechniciansListView(generics.ListAPIView):
 
 class RequisitionListView(generics.ListCreateAPIView):
     lookup_field = 'id'
-    serializer_class = serializers.RequisitionCommonSerializer
+    serializer_class = serializers.RequisitionSerializer
     queryset = models.Requisition.objects.all()
 
 class DeleteRequisitionView(generics.DestroyAPIView):
@@ -305,10 +305,10 @@ class TypesView(generics.ListCreateAPIView):
     queryset = models.Type.objects.all()
     serializer_class = serializers.TypeSerializer
 
-class AffectedSystems(generics.ListAPIView):
-    lookup_filed = 'id'
-    queryset = models.Requisition.objects.all()
-    serializer_class = serializers.AffectedSystemsSerializer
+# class AffectedSystems(generics.ListAPIView):
+#     lookup_filed = 'id'
+#     queryset = models.Requisition.objects.all()
+#     serializer_class = serializers.AffectedSystemsSerializer
 
 class SystemAffectedModules(generics.ListAPIView):
     lookup_filed = 'id'
@@ -355,4 +355,12 @@ class NestedSystemsModules(generics.ListAPIView):
     lookup_field = 'id'
     queryset = models.System.objects.all()
     serializer_class = serializers.NestedSystemModulesSerializer
+
+class SearchRequisitionByModule(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        moduleId = self.kwargs['moduleId']
+        return models.Requisition.objects.all().filter(module = moduleId)
 
