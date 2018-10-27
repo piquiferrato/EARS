@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import VueRouter from 'vue-router';
 import store from '../store/store';
-import TechnicalMenu from '../components/TechnicalMenu';
+import TechnicianMenu from '../components/TechnicianMenu';
 import UserMenu from '../components/UserMenu.vue';
 import Login from '../components/Login.vue';
 
@@ -27,8 +27,8 @@ export default new VueRouter({
     {path: '/user', component: UserMenu},
     {
       path: '/technicianUser',
-      name: 'TechnicalMenu',
-      component: TechnicalMenu
+      name: 'TechnicianMenu',
+      component: TechnicianMenu
     },
   ]
 

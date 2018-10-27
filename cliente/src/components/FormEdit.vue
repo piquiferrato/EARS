@@ -1,104 +1,93 @@
 <template>
-<div class="col-8 centerForm">
-  <form v-on:submit.prevent id="form">
-    <label>Tipo de pedido</label>
-    <div class="form-group">
-      <select name="" class="form-control" id="select" v-model="requisition.type">
-        <option value="requerimiento">Requerimiento</option>
-        <option value="error">Error</option>
-      </select>
+  <div>
+    <div class="col-8 " v-if="editForm">
+      <form v-on:submit.prevent id="form">
+        <!-- <label>Tipo de pedido</label>
+        <div class="form-group">
+          <select name="" class="form-control" id="select" v-model="requisitionEdit.type">
+            <option value="REQUERIMIENTO">Requerimiento</option>
+            <option value="ERROR">Error</option>
+          </select>
+        </div> -->
+        <label>Asunto</label>
+        <input type="text" id="asunto" class="form-control" v-model="requisitionEdit.subject">
+        <label>Detalle</label>
+        <textarea class="form-control" rows="5" v-model="requisitionEdit.details"></textarea>
+        <!-- <label>Prioridad</label>
+        <div class="form-group">
+          <select name="" class="form-control" id="select" v-model="requisitionEdit.priority">
+            <option value="3">Baja</option>
+            <option value="2">Media</option>
+            <option value="1">Alta</option>
+          </select>
+        </div> -->
+        <!-- <label>Sistema</label>
+        <div class="form-group">
+          <select name="" class="form-control" id="select"  v-model="requisitionEdit.affectedSystem">
+            <option value="administration">Administracion</option>
+            <option value="stock">Stock</option>
+            <option value="human resources">Recurso Humanos</option>
+          </select>
+        </div>
+        <label>Modulo</label>
+        <div class="form-group">
+          <select name="" class="form-control" id="select" v-model="requisitionEdit.module">
+            <option value="uno">uno</option>
+            <option value="dos">dos</option>
+            <option value="tres">tres</option>
+          </select>
+        </div> -->
+        <label for="inputFile">Archivo adjunto</label>
+        <input id="inputFile" type="file" >
+        <button type="submit" class="btn btn-primary form-control boldText" v-on:click="update(requisitionEdit.id)">ENVIAR</button>
+      </form>
     </div>
-    <label>Asunto</label>
-    <input type="text" id="asunto" class="form-control" v-model="requisition.subject">
-    <label>Detalle</label>
-    <textarea class="form-control" rows="5" v-model="requisition.details"></textarea>
-    <label>Prioridad</label>
-    <div class="form-group">
-      <select name="" class="form-control" id="select" v-model="requisition.priority">
-        <option value="c">Baja</option>
-        <option value="b">Media</option>
-        <option value="a">Alta</option>
-      </select>
-    </div>
-    <label>Sistema</label>
-    <div class="form-group">
-      <select name="" class="form-control" id="select"  v-model="requisition.affected_system">
-        <option value="administration">Administracion</option>
-        <option value="stock">Stock</option>
-        <option value="human resources">Recurso Humanos</option>
-      </select>
-    </div>
-    <label>Modulo</label>
-    <div class="form-group">
-      <select name="" class="form-control" id="select" v-model="requisition.module">
-        <option value="uno">uno</option>
-        <option value="dos">dos</option>
-        <option value="tres">tres</option>
-      </select>
-    </div>
-    <label for="inputFile">Archivo adjunto</label>
-    <input id="inputFile" type="file" >
-    <button type="submit" class="btn btn-primary form-control boldText" v-on:click="update">ENVIAR</button>
-  </form>
-</div>
+  </div>
 </template>
 <script>
 import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
 export default {
-
+  name: "",
   data() {
     return {
-      requisition: {
-        type: '',
-        author: sessionStorage.getItem('idUser'),
-        subject: '',
-        date: '',
-        details: '',
-        priority: '',
-        affected_system: '',
-        module: '',
-        attached_file: null
-      }
+      requisitionEdit: null,
+      editForm: false
     }
+  },
+  mounted() {
+    EventBus.$on('edit_form', (requisition) => {
+      this.requisitionEdit = null
+      this.editForm = true
+      this.requisitionEdit = requisition
+    })
+
   },
   methods: {
-    update() {
-      EventBus.$emit('change_section');
-      this.requisition = null;
-      // axios.post('', {
-      //     type: this.requisition.type,
-      //     author: this.requisition.author,
-      //     subject: this.requisition.subject,
-      //     date: this.requisition.date,
-      //     details: this.requisition.details,
-      //     priority: this.requisition.priority,
-      //     affected_system: this.requisition.affected_system,
-      //     module: this.requisition.module,
-      //     attached_file: this.requisition.attached_file
-      //   })
-      //   .then((data) => {
-      //     EventBus.$emit('change_section');
-      //   })
-      //   .catch((error) => {
-      //     console.log(error.response);
-      //   });
+    update(id) {
+      this.editForm = false;
+      this.requisitionSection = true;
+      axios.put('http://127.0.0.1:8000/requisitions/update/' + id + '/', {
+          // type: this.requisitionEdit.type,
+          // author: this.requisitionEdit.author,
+          subject: this.requisitionEdit.subject,
+          // date: this.requisitionEdit.date,
+          details: this.requisitionEdit.details,
+          // priority: this.requisitionEdit.priority,
+          // affectedSystem: this.requisitionEdit.affectedSystem,
+          // module: this.requisitionEdit.module,
+          attached_file: this.requisitionEdit.attached_file
+        })
+        .then((data) => {
+          EventBus.$emit('change_section');
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     }
-
-  },
-  created() {
-    EventBus.$on('edit_requisition', (prueba) => {
-      // this.requisition = null;
-      this.requisition = prueba;
-      console.log(prueba);
-      console.log("arranca");
-    });
-  },
-  beforeDestroy() {
-    // EventBus.$off('edit_requisition');
-  },
+  }
 }
 </script>
-<style>
-
+<style lang="scss" scoped>
 </style>
