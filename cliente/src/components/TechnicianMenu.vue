@@ -1,11 +1,11 @@
 <template>
 <div>
-  <div class="row backgroundColor">
+  <div class="row justify-content-center align-items-center minh-100 backgroundColor">
     <div class="col-10 text-center">
       <h3 class="boldText whiteText">BIENVENIDO {{ name }}</h3>
     </div>
-    <div class="col-2 text-center">
-      <!-- <a href="#" id="logOut" class="boldText whiteText" v-on:click="logOut">LOGOUT</a> -->
+    <div class="col-2 elementPosition">
+      <a href="#" id="logOut" class="boldText whiteText" v-on:click="logOut">LOGOUT</a>
     </div>
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
@@ -186,6 +186,7 @@ export default {
       this.disabledAll = true
       this.disabledFinish = false
       EventBus.$emit('watch_all_requisitions')
+      EventBus.$emit('close_my_requisition')
       this.privateSection = false
     }
   }
@@ -218,7 +219,7 @@ export default {
 
 .navBar li {
   width: calc(100% / 4);
-  height: 3em;
+  height: 4em;
   display: table;
 }
 
@@ -227,9 +228,4 @@ export default {
   vertical-align: middle;
 }
 
-
-/*
-.font {
-  font-size: 1em;
-} */
 </style>

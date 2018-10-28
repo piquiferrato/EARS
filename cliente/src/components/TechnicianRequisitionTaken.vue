@@ -1,6 +1,6 @@
 <template>
 <div v-if="privateSection">
-  <div class="row" v-if="requisitionSection">
+  <div class="row" v-if="requisitionSection && !loading">
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
@@ -35,6 +35,9 @@
       <h1>NO HAY PEDIDOS</h1>
     </div>
   </div>
+  <div class="col-12 preload ">
+    <moon-loader :loading="loading" :color="color" :size="size"></moon-loader>
+  </div>
   <detailRequisition></detailRequisition>
   <requisitionSolution></requisitionSolution>
 </div>
@@ -44,10 +47,22 @@ import axios from 'axios';
 import EventBus from '../bus/eventBus.js';
 import detailRequisition from './DetailRequisition.vue'
 import requisitionSolution from './RequisitionSolution'
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 export default {
   components: {
     detailRequisition,
-    requisitionSolution
+    requisitionSolution,
+    MoonLoader
+  },
+  props: {
+    color: {
+      type: String,
+      default: '#2699FB'
+    },
+    size: {
+      type: String,
+      default: '150px'
+    }
   },
   data() {
     return {
@@ -58,15 +73,17 @@ export default {
       technicianName: null,
       state: null,
       privateSection: false,
-      inProcess: true
+      inProcess: true,
+      loading: false
     }
   },
   mounted() {
+    this.loading = false
     EventBus.$on('watch_my_requisitions_taken', () => {
       if (!this.privateSection) {
         this.privateSection = !this.privateSection
         this.load("inProgress")
-      }else {
+      } else {
         this.load("inProgress")
       }
     })
@@ -74,9 +91,12 @@ export default {
       if (!this.privateSection) {
         this.privateSection = !this.privateSection
         this.load("finish")
-      }else {
+      } else {
         this.load("finish")
       }
+    })
+    EventBus.$on('close_my_requisition', () => {
+      this.privateSection = false
     })
     EventBus.$on('go_back', () => {
       this.load("finish")
@@ -84,20 +104,23 @@ export default {
   },
   methods: {
     load(state) {
+      this.loading = true
       if (state === 'inProgress') {
         axios.get('http://127.0.0.1:8000/requisitions/inprogress/technician/' + sessionStorage.getItem('idUser'))
           .then((response) => {
             this.requisition = response.data
+            this.loading = false
             this.requisitionSection = true
             this.inProcess = true
           })
           .catch((error) => {
             console.log(error.response);
           });
-      }else if (state === 'finish') {
+      } else if (state === 'finish') {
         axios.get('http://127.0.0.1:8000/requisitions/done/technician/' + sessionStorage.getItem('idUser'))
           .then((response) => {
             this.requisition = response.data
+            this.loading = false
             this.requisitionSection = true
             this.inProcess = false
           })
@@ -197,10 +220,6 @@ export default {
   margin: 0 auto;
 }
 
-.marginButtonSearch {
-  margin-top: 30px;
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity .5s
@@ -214,9 +233,18 @@ export default {
   opacity: 0
 }
 
+.preload {
+  position: fixed;
+  top: 50%;
+  left: 43%
+}
+
 @media (max-width:768px) {
-  .marginButtonSearch {
-    margin: 0 auto;
+
+  .preload {
+    position: fixed;
+    top: 50%;
+    left: 25%
   }
 }
 </style>

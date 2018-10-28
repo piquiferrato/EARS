@@ -1,17 +1,14 @@
 <template>
-  <div class="container">
-    <router-view></router-view>
-    <!-- <techCard></techCard> -->
-  </div>
+<div class="container">
+  <router-view></router-view>
+</div>
 </template>
 
 <script>
-import techCard from './components/RequisitionSolution.vue'
 export default {
-  components: {techCard},
+  // components: {PulseLoader},
   data() {
-    return {
-    }
+    return {}
   }
 }
 </script>
@@ -49,7 +46,21 @@ export default {
   color: #2699FB;
 }
 
-#logOut {
-  padding-left: 10px;
+@media (max-width:768px) {
+  .elementPosition {
+    padding-left: 370px;
+    padding-bottom: 5px;
+    position: fixed;
+  }
 }
+
+
+@media (max-width:360px) {
+  .elementPosition {
+    padding-left: 220px;
+    padding-bottom: 20px;
+    position: fixed;
+  }
+}
+
 </style>
