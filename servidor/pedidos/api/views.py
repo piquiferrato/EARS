@@ -39,6 +39,16 @@ class TechniciansListView(generics.ListAPIView):
     queryset = models.CustomUser.objects.all().filter(isTechnician = True)
     serializer_class = serializers.UserSerializer
 
+
+class TechnicianRequisitionView(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        techId = self.kwargs['id']
+        return models.Requisition.objects.filter(assignedTechnician = techId)
+
+
 class RequisitionListView(generics.ListCreateAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
@@ -294,6 +304,44 @@ class DateAdvancedSearchModule(generics.ListAPIView):
 
         elif order == ORDERMINORMAYOR :
             queryset = models.Requisition.objects.all().filter(module=module, status=status).order_by('-date')
+
+        return queryset
+
+class PriorityAdvancedSearchTechnician(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        queryset = models.Requisition.objects.all().order_by('priority')
+        order = self.kwargs['order']
+        technician = self.kwargs['technician']
+        status = self.kwargs['status']
+
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('-priority')
+
+        return queryset
+
+class DateAdvancedSearchTechnician(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+
+        queryset = models.Requisition.objects.all().order_by('date')
+        order = self.kwargs['order']
+        technician = self.kwargs['technician']
+        status = self.kwargs['status']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('-priority')
 
         return queryset
 

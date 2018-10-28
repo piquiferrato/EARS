@@ -15,6 +15,7 @@ urlpatterns = [
     path('priority/<int:id>', views.PriorityObjectView.as_view()),
     path('requisitions/', views.RequisitionListView.as_view()),
     path('requisitions/mine/<int:id>/', views.MyRequisitionsListView.as_view()),
+    path('requisitions/technician/<int:id>', views.TechnicianRequisitionView.as_view()),
     path('requisitions/<int:id>/', views.MyRequisitionsListView.as_view()),
     path('requisitions/update/<int:id>/', views.UpdateRequisitionView.as_view()),
     path('requisitions/delete/<int:id>/', views.DeleteRequisitionView.as_view()),
@@ -50,4 +51,6 @@ urlpatterns = [
     path('search/date/system/<int:system>/status/<int:status>/order/<int:order>/', views.DateAdvancedSearchSystem.as_view()),
     path('search/priority/module/<int:module>/status/<int:status>/order/<int:order>/',views.PriorityAdvancedSearchModule.as_view()),
     path('search/date/module/<int:module>/status/<int:status>/order/<int:order>/', views.DateAdvancedSearchModule.as_view()),
+    path('search/priority/technician/<int:technician>/status/<int:status>/order/<int:order>/',views.PriorityAdvancedSearchTechnician.as_view()),
+    path('search/date/technician/<int:technician>/status/<int:status>/order/<int:order>/',views.DateAdvancedSearchTechnician.as_view()),
 ]
