@@ -14,9 +14,14 @@
       <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.affectedSystem }}</h3>
       <label>Modulo</label>
       <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.module }}</h3>
+      <div v-if="watchConstancy">
+        <label>Constancia</label>
+        <h3 class="border  backgroundRequisition whiteText">{{ userRequisition.constancy }}</h3>
+      </div>
       <label>Descargar archivo adjunto</label>
       <h3 class="border  backgroundRequisition whiteText">ARCHIVO</h3>
-      <button type="button" class="boldText marginButton btn btn-light textColor" v-on:click="take_requisition(user, userRequisition.id)">TOMAR</button>
+      <button type="button" class="boldText marginButton btn btn-light textColor" v-if="watchButton"
+      v-on:click="take_requisition(user, userRequisition.id)">TOMAR</button>
       <button type="button" class="boldText marginButton btn btn-danger" v-on:click="go_back()">VOLVER</button>
     </div>
   </div>
@@ -31,10 +36,22 @@ export default {
       user: sessionStorage.getItem('idUser'),
       detailSection: false,
       userRequisition: null,
+      watchButton: false,
+      watchConstancy: false
     }
   },
   mounted() {
     EventBus.$on('requisition_detail', (requisition) => {
+      if (requisition.status === 'En espera' || requisition.status === 'Cancelado') {
+        this.watchButton = true
+        this.watchConstancy = false
+      } else if (requisition.status === 'Terminado') {
+        this.watchButton = false
+        this.watchConstancy = true
+      } else {
+        this.watchConstancy = false
+        this.watchButton = false
+      }
       this.detailSection = true
       this.userRequisition = requisition
     })
@@ -46,7 +63,6 @@ export default {
       EventBus.$emit('go_back')
     },
     take_requisition(userId, requisitionId) {
-      console.log(requisitionId, userId);
       var state = 2
       axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
           assignedTechnician: userId,

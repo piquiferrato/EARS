@@ -1,40 +1,45 @@
 <template>
 <div>
-  <div class="row backgroundColor">
-    <p class="boldText col-10">BIENVENIDO {{ name }}</p>
-    <a href="#" id="logOut" class="boldText whiteText col-2" v-on:click="logOut">LOGOUT</a>
-    <label class="col-2">Pedidos en espera</label>
-    <label>{{ quantityOnHold }}</label>
-    <label class="col-2">Pedidos en proceso</label>
-    <label>{{ quantityInProcess }}</label>
-    <label class="col-2">Pedidos cancelados</label>
-    <label>{{ quantityCancelled }}</label>
-    <label class="col-2">Pedidos resueltos</label>
-    <label>{{ quantityFinished }}</label>
+  <div class="row justify-content-center align-items-center minh-100 backgroundColor">
+    <div class="col-10 text-center">
+      <h3 class="boldText whiteText">BIENVENIDO {{ name }}</h3>
+    </div>
+    <div class="col-2 elementPosition">
+      <a href="#" id="logOut" class="boldText whiteText" v-on:click="logOut">LOGOUT</a>
+    </div>
   </div>
   <b-navbar toggleable="md" class="row backgroundColor">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="center">
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_my_requisitions_taken">MIS PEDIDOS TOMADOS</b-nav-item>
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_my_requisitions_finish">MIS PEDIDOS FINALIZADOS</b-nav-item>
-        <b-nav-item class="btn mBottom textColor btnNavigationBorder whiteBackground hover col-xs-12 col-md-4 boldText text-center mt-1" v-on:click="watch_all_requisitions">TODOS LOS PEDIDOS</b-nav-item>
+        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledTaken}"
+        :disabled="disabledTaken" v-on:click="watch_my_requisitions_taken">MIS PEDIDOS TOMADOS</b-nav-item>
+        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledFinish}"
+        :disabled="disabledFinish" v-on:click="watch_my_requisitions_finish">MIS PEDIDOS FINALIZADOS</b-nav-item>
+        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledAll}"
+        :disabled="disabledAll" v-on:click="watch_all_requisitions">TODOS LOS PEDIDOS</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-  <div class="row backgroundColor" v-if="!privateSection">
-    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
-      <p class="boldText text-center mt-1">EN ESPERA</p>
-    </div>
-    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
-      <p class="boldText text-center mt-1">EN PROCESO</p>
-    </div>
-    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
-      <p class="boldText text-center mt-1">CANCELADO</p>
-    </div>
-    <div class="textColor btnNavigationBorder whiteBackground hover col-3" v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
-      <p class="boldText text-center mt-1">TERMINADO</p>
-    </div>
+  <div class="row backgroundColor font" v-if="!privateSection">
+    <ul class="nav navBar">
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
+       v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
+        <span class="boldText">EN ESPERA({{ quantityOnHold }})</span>
+      </li>
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
+       v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
+        <span class="boldText">EN PROCESO({{ quantityInProcess }})</span>
+      </li>
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
+      v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
+        <span class="boldText">CANCELADO({{ quantityCancelled }})</span>
+      </li>
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
+      v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
+        <span class="boldText">TERMINADO({{ quantityFinished }})</span>
+      </li>
+    </ul>
   </div>
   <techCard></techCard>
   <technicianRequisitionTaken></technicianRequisitionTaken>
@@ -84,7 +89,10 @@ export default {
       quantityInProcess: null,
       quantityOnHold: null,
       quantityCancelled: null,
-      quantityFinished: null
+      quantityFinished: null,
+      disabledTaken: false,
+      disabledFinish: false,
+      disabledAll: true
     }
   },
   methods: {
@@ -144,7 +152,6 @@ export default {
         this.finished = false
         this.cancelled = true
       } else if (status === 4) {
-
         this.onHold = false
         this.inProcess = false
         this.finished = true
@@ -152,16 +159,35 @@ export default {
       }
     },
     watch_my_requisitions_taken() {
+      this.disabledTaken = true
+      this.disabledAll = false
+      this.disabledFinish = false
       EventBus.$emit('watch_my_requisitions_taken')
-      this.privateSection = !this.privateSection
+      if (!this.privateSection) {
+        this.privateSection = !this.privateSection
+      } else {
+        this.privateSection = true
+      }
     },
     watch_my_requisitions_finish() {
-      EventBus.$emit('watch_my_requisitions_finish')
-      this.privateSection = !this.privateSection
+      this.disabledTaken = false
+      this.disabledAll = false
+      this.disabledFinish = true
+      if (!this.privateSection) {
+        this.privateSection = !this.privateSection
+        EventBus.$emit('watch_my_requisitions_finish')
+      } else {
+        this.privateSection = true
+        EventBus.$emit('watch_my_requisitions_finish')
+      }
     },
     watch_all_requisitions() {
+      this.disabledTaken = false
+      this.disabledAll = true
+      this.disabledFinish = false
       EventBus.$emit('watch_all_requisitions')
-      this.privateSection = !this.privateSection
+      EventBus.$emit('close_my_requisition')
+      this.privateSection = false
     }
   }
 }
@@ -172,4 +198,34 @@ export default {
   color: #FFFFFF;
   border: 1px solid #FFFFFF;
 }
+
+.navbar-light .navbar-nav .nav-link.disabled{
+  color: #FFFFFF;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #2699FB;
+}
+
+@media (max-width:768px) {
+  .font {
+    font-size: 0.7em;
+  }
+}
+
+.navBar {
+  width: 100%;
+}
+
+.navBar li {
+  width: calc(100% / 4);
+  height: 4em;
+  display: table;
+}
+
+.navBar li span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 </style>
