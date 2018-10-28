@@ -1,6 +1,6 @@
 <template>
 <div>
-  <div class="row justify-content-center align-items-center minh-100 backgroundColor">
+  <div class="row justify-content-center align-items-center backgroundColor">
     <div class="col-10 text-center">
       <h3 class="boldText whiteText">BIENVENIDO {{ name }}</h3>
     </div>
@@ -12,31 +12,24 @@
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav class="center">
-        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledTaken}"
-        :disabled="disabledTaken" v-on:click="watch_my_requisitions_taken">MIS PEDIDOS TOMADOS</b-nav-item>
-        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledFinish}"
-        :disabled="disabledFinish" v-on:click="watch_my_requisitions_finish">MIS PEDIDOS FINALIZADOS</b-nav-item>
-        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledAll}"
-        :disabled="disabledAll" v-on:click="watch_all_requisitions">TODOS LOS PEDIDOS</b-nav-item>
+        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledTaken}" :disabled="disabledTaken" v-on:click="watch_my_requisitions_taken">MIS PEDIDOS TOMADOS</b-nav-item>
+        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledFinish}" :disabled="disabledFinish" v-on:click="watch_my_requisitions_finish">MIS PEDIDOS FINALIZADOS</b-nav-item>
+        <b-nav-item class="btn textColor btnNavigationBorder whiteBackground hover boldText text-center mt-1" :class="{activeButton: disabledAll}" :disabled="disabledAll" v-on:click="watch_all_requisitions">TODOS LOS PEDIDOS</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
   <div class="row backgroundColor font" v-if="!privateSection">
     <ul class="nav navBar">
-      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
-       v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item" v-on:click="search_requisitions(1)" :class="{activeButton: onHold}">
         <span class="boldText">EN ESPERA({{ quantityOnHold }})</span>
       </li>
-      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
-       v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item" v-on:click="search_requisitions(2)" :class="{activeButton: inProcess}">
         <span class="boldText">EN PROCESO({{ quantityInProcess }})</span>
       </li>
-      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
-      v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item" v-on:click="search_requisitions(3)" :class="{activeButton: cancelled}">
         <span class="boldText">CANCELADO({{ quantityCancelled }})</span>
       </li>
-      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item"
-      v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
+      <li class="text-center textColor btnNavigationBorder whiteBackground hover nav-item" v-on:click="search_requisitions(4)" :class="{activeButton: finished}">
         <span class="boldText">TERMINADO({{ quantityFinished }})</span>
       </li>
     </ul>
@@ -127,9 +120,23 @@ export default {
         });
     },
     logOut() {
-      // axios.get('http://127.0.0.1:8000/rest-auth/logout/');
-      sessionStorage.clear();
-      this.$router.push('/');
+      this.$swal({
+        title: '¿Seguro que quieres salir?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2699FB',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, estoy seguro',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.$swal(
+            'Cierre de sesion exitoso',
+          )
+          sessionStorage.clear();
+          this.$router.push('/');
+        }
+      })
     },
     search_requisitions(status) {
       this.correct_section(status)
@@ -199,12 +206,12 @@ export default {
   border: 1px solid #FFFFFF;
 }
 
-.navbar-light .navbar-nav .nav-link.disabled{
+.navbar-light .navbar-nav .nav-link.disabled {
   color: #FFFFFF;
 }
 
 .navbar-light .navbar-nav .nav-link {
-    color: #2699FB;
+  color: #2699FB;
 }
 
 @media (max-width:768px) {
@@ -227,5 +234,4 @@ export default {
   display: table-cell;
   vertical-align: middle;
 }
-
 </style>

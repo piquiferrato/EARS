@@ -23,7 +23,6 @@
       <button type="button" class="btn btn-primary form-control" v-on:click="advanceSearch= !advanceSearch">Busqueda Avanzada</button>
     </div>
     <transition name="fade">
-
       <div class="col-12">
         <div class="form-group" v-if="advanceSearch && technicians">
           <label>Técnico Asignado</label>
@@ -148,49 +147,62 @@ export default {
       this.moduleSelect = false
       this.requisitionSection = true
     })
-    //La API devuelve todos los sistemas
-    axios.get('http://127.0.0.1:8000/requisitions/systems')
-      .then((response) => {
-        this.system = response.data
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    //La API devuelve todos los tecnicos
-    axios.get('http://127.0.0.1:8000/users/technicians/')
-      .then((response) => {
-        this.technician = response.data
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.load_systems()
+    this.load_technicians()
   },
   methods: {
+    load_systems() {
+      //La API devuelve todos los sistemas
+      axios.get('http://127.0.0.1:8000/requisitions/systems')
+        .then((response) => {
+          this.system = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    load_technicians() {
+      //La API devuelve todos los tecnicos
+      axios.get('http://127.0.0.1:8000/users/technicians/')
+        .then((response) => {
+          this.technician = response.data
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     load(status) {
       this.loading = true
       EventBus.$emit('load_quantity_requisition')
       this.state = status
-      if (this.state === 2 || this.state === 4) {
-        this.technicians = true
-      } else {
-        this.technicians = false
-      }
-      if (this.orderBy === 'date') {
-        this.dateOrder = true
-      } else {
-        this.dateOrder = false
-      }
-
+      this.watch_search_by_technician()
+      this.activate_date_order()
+      this.advance_search_control(status)
+    },
+    advance_search_control(status) {
       if (this.advanceSearch) {
         if (this.moduleSelected != null) {
           this.search_by_module(this.moduleSelected)
-        }else {
+        } else {
           this.search_by_system(this.systemSelected)
         }
       } else {
         this.search_by_status(status)
       }
-
+    },
+    activate_date_order() {
+      if (this.orderBy === 'date') {
+        this.dateOrder = true
+      } else {
+        this.dateOrder = false
+      }
+    },
+    watch_search_by_technician() {
+      if (this.state === 2 || this.state === 4) {
+        this.technicians = true
+      } else {
+        this.technicians = false
+      }
     },
     watch_requisition(id) {
       var self = this;

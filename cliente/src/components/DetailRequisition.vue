@@ -69,6 +69,10 @@ export default {
           status: state
         })
         .then((data) => {
+          this.$swal({
+            type: 'success',
+            title: 'Pedido tomado'
+          })
           EventBus.$emit('watch_requisition', 2)
           this.detailSection = false;
         })

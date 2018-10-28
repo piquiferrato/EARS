@@ -80,20 +80,10 @@ export default {
   mounted() {
     this.loading = false
     EventBus.$on('watch_my_requisitions_taken', () => {
-      if (!this.privateSection) {
-        this.privateSection = !this.privateSection
-        this.load("inProgress")
-      } else {
-        this.load("inProgress")
-      }
+      this.check_state_in_profress()
     })
     EventBus.$on('watch_my_requisitions_finish', () => {
-      if (!this.privateSection) {
-        this.privateSection = !this.privateSection
-        this.load("finish")
-      } else {
-        this.load("finish")
-      }
+      this.check_state_finished()
     })
     EventBus.$on('close_my_requisition', () => {
       this.privateSection = false
@@ -103,50 +93,89 @@ export default {
     })
   },
   methods: {
+    check_state_in_profress() {
+      if (!this.privateSection) {
+        this.privateSection = !this.privateSection
+        this.load("inProgress")
+      } else {
+        this.load("inProgress")
+      }
+    },
+    check_state_finished() {
+      if (!this.privateSection) {
+        this.privateSection = !this.privateSection
+        this.load("finish")
+      } else {
+        this.load("finish")
+      }
+    },
     load(state) {
       this.loading = true
       if (state === 'inProgress') {
-        axios.get('http://127.0.0.1:8000/requisitions/inprogress/technician/' + sessionStorage.getItem('idUser'))
-          .then((response) => {
-            this.requisition = response.data
-            this.loading = false
-            this.requisitionSection = true
-            this.inProcess = true
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        this.load_in_progress()
       } else if (state === 'finish') {
-        axios.get('http://127.0.0.1:8000/requisitions/done/technician/' + sessionStorage.getItem('idUser'))
-          .then((response) => {
-            this.requisition = response.data
-            this.loading = false
-            this.requisitionSection = true
-            this.inProcess = false
-          })
-          .catch((error) => {
-            console.log(error.response);
-          });
+        this.load_finished()
       }
+    },
+    load_in_progress() {
+      axios.get('http://127.0.0.1:8000/requisitions/inprogress/technician/' + sessionStorage.getItem('idUser'))
+        .then((response) => {
+          this.requisition = response.data
+          this.loading = false
+          this.requisitionSection = true
+          this.inProcess = true
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    },
+    load_finished() {
+      axios.get('http://127.0.0.1:8000/requisitions/done/technician/' + sessionStorage.getItem('idUser'))
+        .then((response) => {
+          this.requisition = response.data
+          this.loading = false
+          this.requisitionSection = true
+          this.inProcess = false
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     },
     cancel_requisition(requisitionId) {
       var self = this
-      this.requisition.forEach(function(requi) {
-        if (requi.id === requisitionId) {
-          var state = 3
-          axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
-              assignedTechnician: null,
-              status: state
-            })
-            .then((data) => {
-              EventBus.$emit('load_quantity_requisition')
-              self.load('inProgress')
-            })
-            .catch((error) => {
-              console.log(error.response);
-            });
+      this.$swal({
+        title: '¿Estas seguro que quieres cancelar este pedido?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2699FB',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, estoy seguro',
+        cancelButtonText: 'Volver'
+      }).then((result) => {
+        if (result.value) {
+          this.$swal(
+            this.requisition.forEach(function(requi) {
+              if (requi.id === requisitionId) {
+                var state = 3
+                axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
+                    assignedTechnician: null,
+                    status: state
+                  })
+                  .then((data) => {
+                    'Pedido Cancelado',
+                    'success'
+                    EventBus.$emit('load_quantity_requisition')
+                    self.load('inProgress')
+                  })
+                  .catch((error) => {
+                    console.log(error.response);
+                  });
+              }
+            }),
+          )
         }
       })
+
     },
     close_requisition(requisitionId) {
       var self = this

@@ -30,6 +30,9 @@
       <h1>NO HAY PEDIDOS</h1>
     </div>
   </div>
+  <div class="col-12 preload ">
+    <moon-loader :loading="loading" :color="color" :size="size"></moon-loader>
+  </div>
   <formEdit></formEdit>
 </div>
 </template>
@@ -37,48 +40,64 @@
 import axios from 'axios'
 import EventBus from '../bus/eventBus.js'
 import formEdit from './FormEdit'
+import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
 export default {
   components: {
-    formEdit
+    formEdit,
+    MoonLoader
+  },
+  props: {
+    color: {
+      type: String,
+      default: '#2699FB'
+    },
+    size: {
+      type: String,
+      default: '150px'
+    }
   },
   data() {
     return {
       requisition: null,
-      requisitionSection: true
+      requisitionSection: true,
+      loading: false
     }
   },
-  computed: {
-      isHigh: function() {
-        return this.requisition.priority === "Alta"
-      },
-      isMedium: function() {
-        return this.requisition.priority === 'Media';
-      },
-      isLow: function() {
-        return this.requisition.priority === 'Baja';
-      }
-
-
-  },
   mounted() {
-    var self = this;
-    //Devuelve todos los pedidos del usuario
-    axios.get('http://127.0.0.1:8000/requisitions/mine/' + sessionStorage.getItem('idUser'))
-      .then((response) => {
-        this.requisition = response.data
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    this.loading = true
+    this.load_user_requisitions()
     EventBus.$on('change_section', () => {
       this.requisitionSection = true
     })
 
   },
   methods: {
+    load_user_requisitions() {
+      //Devuelve todos los pedidos del usuario
+      axios.get('http://127.0.0.1:8000/requisitions/mine/' + sessionStorage.getItem('idUser'))
+        .then((response) => {
+          this.requisition = response.data
+          this.loading = false
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     deletRequisition(id, index) {
-      this.requisition.splice(index, 1)
-      axios.delete('http://127.0.0.1:8000/requisitions/delete/' + id);
+      this.$swal({
+        title: '¿Estas seguro que quieres cancelar este pedido?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#2699FB',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, estoy seguro',
+        cancelButtonText: 'Volver'
+      }).then((result) => {
+        'Pedido Cancelado',
+        'success',
+        this.requisition.splice(index, 1)
+        axios.delete('http://127.0.0.1:8000/requisitions/delete/' + id);
+      })
     },
     editRequisition(id) {
       var self = this;
@@ -133,5 +152,4 @@ export default {
   border: 1px solid rgb(0, 255, 0);
   border-radius: 5px;
 }
-
 </style>

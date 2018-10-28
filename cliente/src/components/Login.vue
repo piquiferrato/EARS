@@ -45,7 +45,11 @@ export default {
           }
         })
         .catch((error) => {
-          // alert("El usuario o contraseña son incorrectos");
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Tu usuario o contraseña no es correcto',
+          })
           console.log(error.response);
         });
     },

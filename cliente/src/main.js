@@ -6,7 +6,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import router from './router/router';
 import vSelect from 'vue-select'
+import VueSweetalert2 from 'vue-sweetalert2';
 
+Vue.use(VueSweetalert2);
 Vue.component('v-select', vSelect)
 Vue.use (BootstrapVue);
 export const eventBus = new Vue();

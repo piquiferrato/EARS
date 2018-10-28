@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="row justify-content-center align-items-center">
     <div class="col-8 " v-if="editForm">
       <form v-on:submit.prevent id="form">
         <!-- <label>Tipo de pedido</label>
@@ -39,6 +39,7 @@
         </div> -->
         <label for="inputFile">Archivo adjunto</label>
         <input id="inputFile" type="file" >
+        <button type="submit" class="btn btn-light form-control boldText" v-on:click="back">VOLVER</button>
         <button type="submit" class="btn btn-primary form-control boldText" v-on:click="update(requisitionEdit.id)">ENVIAR</button>
       </form>
     </div>
@@ -79,12 +80,20 @@ export default {
           attached_file: this.requisitionEdit.attached_file
         })
         .then((data) => {
+          this.$swal({
+            type: 'success',
+            title: 'Pedido actualizado con exito'
+          })
           EventBus.$emit('change_section');
           console.log(data);
         })
         .catch((error) => {
           console.log(error.response);
         });
+    },
+    back() {
+      this.editForm = false
+      EventBus.$emit('change_section')
     }
   }
 }
