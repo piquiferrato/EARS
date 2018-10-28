@@ -51,4 +51,6 @@ urlpatterns = [
     path('search/date/system/<int:system>/status/<int:status>/order/<int:order>/', views.DateAdvancedSearchSystem.as_view()),
     path('search/priority/module/<int:module>/status/<int:status>/order/<int:order>/',views.PriorityAdvancedSearchModule.as_view()),
     path('search/date/module/<int:module>/status/<int:status>/order/<int:order>/', views.DateAdvancedSearchModule.as_view()),
+    path('search/priority/technician/<int:technician>/status/<int:status>/order/<int:order>/',views.PriorityAdvancedSearchTechnician.as_view()),
+    path('search/date/technician/<int:technician>/status/<int:status>/order/<int:order>/',views.DateAdvancedSearchTechnician.as_view()),
 ]

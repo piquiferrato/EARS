@@ -307,6 +307,44 @@ class DateAdvancedSearchModule(generics.ListAPIView):
 
         return queryset
 
+class PriorityAdvancedSearchTechnician(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+        queryset = models.Requisition.objects.all().order_by('priority')
+        order = self.kwargs['order']
+        technician = self.kwargs['technician']
+        status = self.kwargs['status']
+
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('-priority')
+
+        return queryset
+
+class DateAdvancedSearchTechnician(generics.ListAPIView):
+    lookup_field = 'id'
+    serializer_class = serializers.RequisitionSerializer
+
+    def get_queryset(self):
+
+        queryset = models.Requisition.objects.all().order_by('date')
+        order = self.kwargs['order']
+        technician = self.kwargs['technician']
+        status = self.kwargs['status']
+
+        if order == ORDERMAYORMINOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('priority')
+
+        elif order == ORDERMINORMAYOR :
+            queryset = models.Requisition.objects.all().filter(assignedTechnician=technician, status=status).order_by('-priority')
+
+        return queryset
+
 class OrderRequisitionByAuthor(generics.ListAPIView):
     lookup_field = 'id'
     serializer_class = serializers.RequisitionSerializer
