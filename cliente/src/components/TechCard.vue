@@ -25,9 +25,9 @@
     <transition name="fade">
 
       <div class="col-12">
-        <div class="form-group" v-if="advanceSearch">
+        <div class="form-group" v-if="advanceSearch && technicians">
           <label>Técnico Asignado</label>
-          <v-select label="username" :options="technician" :on-change="search_by_technician"  :searchable="false"></v-select>
+          <v-select label="username" :options="technician" :on-change="search_by_technician" :searchable="false"></v-select>
         </div>
         <div class="form-group" v-if="advanceSearch">
           <label>Sistema</label>
@@ -116,11 +116,15 @@ export default {
       module: null,
       moduleSelect: false,
       loading: false,
-      technician: null
+      technician: null,
+      technicians: false,
+      systemSelected: null,
+      moduleSelected: null
     }
   },
   mounted() {
     this.loading = false
+    this.advanceSearch = false
     EventBus.$on('watch_my_requisitions_taken', () => {
       if (!this.privateSection) {
         this.privateSection = true
@@ -166,28 +170,27 @@ export default {
       this.loading = true
       EventBus.$emit('load_quantity_requisition')
       this.state = status
+      if (this.state === 2 || this.state === 4) {
+        this.technicians = true
+      } else {
+        this.technicians = false
+      }
       if (this.orderBy === 'date') {
         this.dateOrder = true
       } else {
         this.dateOrder = false
       }
-      // Devuelve todos los pedidos de los usuarios
-      axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/order/' + this.orderBy + '/' + this.orderType + '/')
-        .then((response) => {
-          EventBus.$emit('select_nav_btn', status)
-          if (status === 2) {
-            this.inProcess = true
-          } else if (status != 2) {
-            this.inProcess = false
-          }
-          this.requisition = response.data
-          this.loading = false
-          this.requisitionSection = true
 
-        })
-        .catch((error) => {
-          console.log(error.response);
-        });
+      if (this.advanceSearch) {
+        if (this.moduleSelected != null) {
+          this.search_by_module(this.moduleSelected)
+        }else {
+          this.search_by_system(this.systemSelected)
+        }
+      } else {
+        this.search_by_status(status)
+      }
+
     },
     watch_requisition(id) {
       var self = this;
@@ -230,10 +233,31 @@ export default {
         }
       })
     },
+    search_by_status(status) {
+      // Devuelve todos los pedidos de los usuarios
+      axios.get('http://127.0.0.1:8000/requisitions/status/' + status + '/order/' + this.orderBy + '/' + this.orderType + '/')
+        .then((response) => {
+          EventBus.$emit('select_nav_btn', status)
+          if (status === 2) {
+            this.inProcess = true
+          } else if (status != 2) {
+            this.inProcess = false
+          }
+          this.requisition = response.data
+          this.loading = false
+          this.requisitionSection = true
+
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    },
     search_by_system(system) {
+      this.systemSelected = system
       axios.get('http://127.0.0.1:8000/search/' + this.orderBy + '/system/' + system.id + '/status/' + this.state + '/order/' + this.orderType + '/')
         .then((response) => {
           this.requisition = response.data
+          this.loading = false
         })
         .catch((error) => {
           console.log(error);
@@ -242,28 +266,35 @@ export default {
         .then((response) => {
           this.module = response.data
           this.moduleSelect = true
+
         })
         .catch((error) => {
           console.log(error);
         });
     },
     search_by_module(module) {
+      this.moduleSelected = module
       axios.get('http://127.0.0.1:8000/search/' + this.orderBy + '/module/' + module.id + '/status/' + this.state + '/order/' + this.orderType + '/')
         .then((response) => {
           this.requisition = response.data
+          this.loading = false
         })
         .catch((error) => {
           console.log(error);
         });
     },
-    search_by_technician(technician){
-      axios.get('http://127.0.0.1:8000/search/' + this.orderBy + '/technician/' + technician.id + '/status/' + this.state + '/order/' + this.orderType + '/')
-        .then((response) => {
-          this.requisition = response.data
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    search_by_technician(technician) {
+      if (this.state === 2 || this.state === 4) {
+        axios.get('http://127.0.0.1:8000/search/' + this.orderBy + '/technician/' + technician.id + '/status/' + this.state + '/order/' + this.orderType + '/')
+          .then((response) => {
+            this.requisition = response.data
+            this.loading = false
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+
     }
   }
 }
@@ -317,6 +348,7 @@ export default {
 .center {
   margin: 0 auto;
 }
+
 @media (min-width:768px) {
   .marginButtonSearch {
     margin-top: 30px;
