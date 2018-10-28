@@ -93,10 +93,13 @@ export default {
         confirmButtonText: 'Si, estoy seguro',
         cancelButtonText: 'Volver'
       }).then((result) => {
-        'Pedido Cancelado',
-        'success',
-        this.requisition.splice(index, 1)
-        axios.delete('http://127.0.0.1:8000/requisitions/delete/' + id);
+        if (result.value) {
+          this.$swal(
+            'Pedido Eliminado',
+            this.requisition.splice(index, 1),
+            axios.delete('http://127.0.0.1:8000/requisitions/delete/' + id),
+          )
+        }
       })
     },
     editRequisition(id) {

@@ -85,7 +85,6 @@ export default {
             title: 'Pedido actualizado con exito'
           })
           EventBus.$emit('change_section');
-          console.log(data);
         })
         .catch((error) => {
           console.log(error.response);
