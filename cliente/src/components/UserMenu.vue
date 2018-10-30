@@ -81,7 +81,7 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.$swal(
-            'Cierre de sesion exitoso',
+            'Cierre de sesión exitoso',
           )
           sessionStorage.clear();
           this.$router.push('/');

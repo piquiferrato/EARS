@@ -1,9 +1,11 @@
 <template>
 <div>
-  <div class="row justify-content-center align-items-center minh-100">
+  <div class="row justify-content-center align-items-center topLogo">
+    <img src="./logo.png" class="logo" border=0 align=center>
+  </div>
+  <div class="row justify-content-center align-items-center">
     <div class="col-xs-12 boxLogin">
       <form @submit.prevent="logIn">
-        <h1>BIENVENIDO</h1>
         <label class="blackText" for="username">Usuario:</label>
         <input required type="text" class="form-control" id="username" v-model="login.username">
         <label class="blackText" for="password">Contraseña</label>
@@ -84,5 +86,13 @@ export default {
 
 .blackText {
   color: #000000;
+}
+
+.logo {
+  width: 250px;
+}
+
+.topLogo {
+  margin-top: 15%;
 }
 </style>

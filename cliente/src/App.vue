@@ -3,11 +3,8 @@
   <router-view></router-view>
 </div>
 </template>
-
 <script>
-import orderRequisition from './components/OrderRequisition.vue'
 export default {
-  components: {orderRequisition},
   data() {
     return {}
   }
