@@ -19,27 +19,30 @@
           <option value="1">Viejo-Nuevo</option>
         </select>
     </div>
+    <!-- <orderRequisition></orderRequisition> -->
     <div class=" col-sm-6 col-md-4 marginButtonSearch">
       <button type="button" class="btn btn-primary form-control" v-on:click="advanceSearch= !advanceSearch">Busqueda Avanzada</button>
     </div>
+  </div>
+  <div class="justify-content-center align-items-center" v-if="requisitionSection && !loading">
     <transition name="fade">
-      <div class="col-12">
-        <div class="form-group" v-if="advanceSearch && technicians">
+      <div class="row">
+        <div class="col-12" v-if="advanceSearch && technicians">
           <label>Técnico Asignado</label>
           <v-select label="username" :options="technician" :on-change="search_by_technician" :searchable="false"></v-select>
         </div>
-        <div class="form-group" v-if="advanceSearch">
+        <div class="col-sm-12 col-lg-6" v-if="advanceSearch">
           <label>Sistema</label>
           <v-select label="name" :options="system" :on-change="search_by_system" :searchable="false"></v-select>
         </div>
-        <div v-if="moduleSelect">
+        <div class="col-sm-12 col-lg-6" v-if="moduleSelect && advanceSearch">
           <label >Modulo</label>
-          <div class="form-group">
-            <v-select label="name" :options="module" :on-change="search_by_module" :searchable="false"></v-select>
-          </div>
+          <v-select label="name" :options="module" :on-change="search_by_module" :searchable="false"></v-select>
         </div>
       </div>
     </transition>
+  </div>
+  <div class="row" v-if="requisitionSection && !loading">
     <div v-for="(requi , index) in requisition" :key="index" class="col-md-12 col-lg-6 " v-if="requisition">
       <div class="card card-block backgroundColor text-center boldText marginCard">
         <div class="card-body">
@@ -81,11 +84,13 @@ import EventBus from '../bus/eventBus.js';
 import detailRequisition from './DetailRequisition.vue'
 import requisitionSolution from './RequisitionSolution'
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
+// import orderRequisition from './OrderRequisition.vue'
 export default {
   components: {
     detailRequisition,
     requisitionSolution,
     MoonLoader
+    // orderRequisition
   },
   props: {
     color: {
@@ -118,12 +123,21 @@ export default {
       technician: null,
       technicians: false,
       systemSelected: null,
-      moduleSelected: null
+      moduleSelected: null,
+      orderSelect: false
     }
   },
   mounted() {
     this.loading = false
     this.advanceSearch = false
+    this.orderSelect = false
+    this.load(1)
+    EventBus.$on('load_select', (state) => {
+      this.load(state)
+    })
+    EventBus.$on('advance_search', () => {
+      this.advanceSearch = !this.advanceSearch
+    })
     EventBus.$on('watch_my_requisitions_taken', () => {
       if (!this.privateSection) {
         this.privateSection = true
@@ -137,7 +151,6 @@ export default {
     EventBus.$on('watch_all_requisitions', () => {
       this.privateSection = false
     })
-    this.load(1)
     EventBus.$on('watch_requisition', (status) => {
       this.load(status)
     })
@@ -172,9 +185,12 @@ export default {
         });
     },
     load(status) {
+      this.advanceSearch = false
       this.loading = true
       EventBus.$emit('load_quantity_requisition')
       this.state = status
+      // this.orderSelect = true
+      // EventBus.$emit('status_current', this.state )
       this.watch_search_by_technician()
       this.activate_date_order()
       this.advance_search_control(status)
@@ -198,7 +214,9 @@ export default {
       }
     },
     watch_search_by_technician() {
-      if (this.state === 2 || this.state === 4) {
+      var inProcces = 2
+      var finished = 4
+      if (this.state === inProcces || this.state === finished) {
         this.technicians = true
       } else {
         this.technicians = false
@@ -361,13 +379,6 @@ export default {
   margin: 0 auto;
 }
 
-@media (min-width:768px) {
-  .marginButtonSearch {
-    margin-top: 30px;
-  }
-}
-
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity .5s
@@ -385,6 +396,16 @@ export default {
   position: fixed;
   top: 50%;
   left: 43%
+}
+
+.selectWidth {
+  width: 50%;
+}
+
+@media (min-width:768px) {
+  .marginButtonSearch {
+    margin-top: 30px;
+  }
 }
 
 @media (max-width:768px) {

@@ -69,7 +69,6 @@ export default {
     EventBus.$on('change_section', () => {
       this.requisitionSection = true
     })
-
   },
   methods: {
     load_user_requisitions() {

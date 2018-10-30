@@ -85,7 +85,7 @@ export default {
       quantityFinished: null,
       disabledTaken: false,
       disabledFinish: false,
-      disabledAll: true
+      disabledAll: true,
     }
   },
   methods: {
@@ -143,22 +143,26 @@ export default {
       EventBus.$emit('watch_requisition', status)
     },
     correct_section(status) {
-      if (status === 1) {
+      var onHold = 1
+      var inProcess = 2
+      var cancelled = 3
+      var finished = 4
+      if (status === onHold) {
         this.onHold = true
         this.inProcess = false
         this.finished = false
         this.cancelled = false
-      } else if (status === 2) {
+      } else if (status === inProcess) {
         this.onHold = false
         this.inProcess = true
         this.finished = false
         this.cancelled = false
-      } else if (status === 3) {
+      } else if (status === cancelled) {
         this.onHold = false
         this.inProcess = false
         this.finished = false
         this.cancelled = true
-      } else if (status === 4) {
+      } else if (status === finished) {
         this.onHold = false
         this.inProcess = false
         this.finished = true

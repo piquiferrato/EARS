@@ -5,8 +5,9 @@
 </template>
 
 <script>
+import orderRequisition from './components/OrderRequisition.vue'
 export default {
-  // components: {PulseLoader},
+  components: {orderRequisition},
   data() {
     return {}
   }

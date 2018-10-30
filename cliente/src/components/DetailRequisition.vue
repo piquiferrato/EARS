@@ -63,17 +63,17 @@ export default {
       EventBus.$emit('go_back')
     },
     take_requisition(userId, requisitionId) {
-      var state = 2
+      var inProcces = 2
       axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
           assignedTechnician: userId,
-          status: state
+          status: inProcces
         })
         .then((data) => {
           this.$swal({
             type: 'success',
             title: 'Pedido tomado'
           })
-          EventBus.$emit('watch_requisition', 2)
+          EventBus.$emit('watch_requisition', inProcces)
           this.detailSection = false;
         })
         .catch((error) => {

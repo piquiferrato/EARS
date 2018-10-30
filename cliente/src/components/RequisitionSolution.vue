@@ -49,11 +49,12 @@ export default {
 
     },
     update_constancyId_requisition(idConstancy) {
+      var finished = 4
       axios.put('http://127.0.0.1:8000/requisitions/update/' + this.requisition.id + '/', {
           constancy: idConstancy,
           date: this.requisition.date,
           subject: this.requisition.subject,
-          status: 4
+          status: finished
         })
         .then((data) => {
           this.$swal({
@@ -61,8 +62,8 @@ export default {
             title: 'Pedido finalizado con exito'
           })
           this.soluctionSection = false
-          EventBus.$emit('go_back', 4)
           EventBus.$emit('load_quantity_requisition')
+          EventBus.$emit('go_back', finished)
         })
         .catch((error) => {
           console.log(error.response);

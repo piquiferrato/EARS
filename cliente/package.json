@@ -7,12 +7,15 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --progress --colors --inline --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "start": "node server.js",
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "axios-token-interceptor": "^0.1.0",
     "bootstrap-vue": "^2.0.0-rc.11",
+    "express": "^4.16.4",
     "glyphicons-only-bootstrap": "^1.0.1",
     "jquery": "^3.3.1",
     "qs": "^6.5.2",

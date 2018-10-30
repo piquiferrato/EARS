@@ -154,16 +154,15 @@ export default {
       }).then((result) => {
         if (result.value) {
           this.$swal(
+            'Pedido Cancelado',
             this.requisition.forEach(function(requi) {
               if (requi.id === requisitionId) {
-                var state = 3
+                var statusCancelled = 3
                 axios.put('http://127.0.0.1:8000/requisitions/update/' + requisitionId + '/', {
                     assignedTechnician: null,
-                    status: state
+                    status: statusCancelled
                   })
                   .then((data) => {
-                    'Pedido Cancelado',
-                    'success'
                     EventBus.$emit('load_quantity_requisition')
                     self.load('inProgress')
                   })
