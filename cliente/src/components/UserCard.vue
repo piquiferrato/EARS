@@ -104,7 +104,7 @@ export default {
     editRequisition(id) {
       var self = this
       this.requisition.forEach(function(requi) {
-        if (requi.id == id) {
+        if (requi.id === id) {
           EventBus.$emit('edit_form', requi)
           self.requisitionSection = false
         }

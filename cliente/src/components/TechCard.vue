@@ -225,7 +225,7 @@ export default {
     watch_requisition(id) {
       var self = this
       this.requisition.forEach(function(requi) {
-        if (requi.id == id) {
+        if (requi.id === id) {
           self.requisitionDetails = true
           self.requisitionSection = false
           EventBus.$emit('requisition_detail', requi)
