@@ -14,9 +14,9 @@
 #
 import os
 import sys
-autodoc_mock_imports = ['django', 'rest_framework', 'views', '.']
 
 sys.path.insert(0, os.path.abspath('../..'))
+autodoc_mock_imports = ['django', 'rest_framework', 'views', 'urls', '.']
 sys.setrecursionlimit(1500)
 
 
@@ -187,3 +187,5 @@ epub_exclude_files = ['search.html']
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {'https://docs.python.org/': None}
+
+
