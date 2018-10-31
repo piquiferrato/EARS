@@ -32,8 +32,8 @@
 </div>
 </template>
 <script>
-import axios from 'axios';
-import EventBus from '../bus/eventBus.js';
+import axios from 'axios'
+import EventBus from '../bus/eventBus.js'
 export default {
   data() {
     return {
@@ -68,30 +68,30 @@ export default {
           this.requisition.system = response.data
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     load_priorities() {
       //La API devuelve todas las prioridades
       axios.get('http://127.0.0.1:8000/priority/')
         .then((response) => {
           this.requisition.priority = response.data
-          // console.log(response.data);
+          // console.log(response.data)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     load_requisition_types() {
       //La API devuelve todos los tipos de pedidos
       axios.get('http://127.0.0.1:8000/types/')
         .then((response) => {
           this.requisition.typeRequisition = response.data
-          // console.log(response.data);
+          // console.log(response.data)
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     send() {
       axios.post('http://127.0.0.1:8000/requisitions/', {
@@ -111,28 +111,28 @@ export default {
             type: 'success',
             title: 'Pedido creado con exito'
           })
-          EventBus.$emit('change_section');
+          EventBus.$emit('change_section')
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     },
     moduleSystem(systemId) {
-      this.requisition.affectedSystem = systemId.id;
+      this.requisition.affectedSystem = systemId.id
       axios.get('http://127.0.0.1:8000/requisitions/modules/system/' + systemId.id + '/')
         .then((response) => {
           this.requisition.module = response.data
           this.moduleSelect = true
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     moduleId(module) {
-      this.requisition.affectedModule = module.id;
+      this.requisition.affectedModule = module.id
     },
     priorityId(priority) {
-      this.requisition.priority = priority.id;
+      this.requisition.priority = priority.id
     },
     typeId(type) {
       this.requisition.type = type.id

@@ -40,7 +40,6 @@ export default {
   mounted() {
     EventBus.$on('status_current', (status) => {
       this.state = status
-      console.log(status);
     })
   },
   methods: {

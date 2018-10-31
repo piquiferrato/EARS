@@ -10,6 +10,10 @@
         <input required type="text" class="form-control" id="username" v-model="login.username">
         <label class="blackText" for="password">Contraseña</label>
         <input required type="password" class="form-control" id="password" v-model="login.password">
+<<<<<<< HEAD
+=======
+        <a class="blackText" id="passwordResotore" href="#">¿Haz olvidado tu contraseña?</a>
+>>>>>>> e64c261a701306808b9249bcbbba87ef1df2132c
         <button type="submit" class="btnLogin btn" name="button" v-on:click="logIn">Acceder</button>
       </form>
     </div>
@@ -17,8 +21,8 @@
 </div>
 </template>
 <script>
-import store from '../store/store';
-import axios from 'axios';
+import store from '../store/store'
+import axios from 'axios'
 export default {
   store,
   data: function() {
@@ -36,13 +40,13 @@ export default {
           password: this.login.password
         })
         .then((data) => {
-          sessionStorage.setItem('idToken', data.data.key);
-          sessionStorage.setItem('idUser', data.data.user.id);
-          sessionStorage.setItem('authenticate', true);
+          sessionStorage.setItem('idToken', data.data.key)
+          sessionStorage.setItem('idUser', data.data.user.id)
+          sessionStorage.setItem('authenticate', true)
           if (data.data.user.isTechnician) {
-            this.$router.push('/technicianUser');
+            this.$router.push('/technicianUser')
           } else {
-            this.$router.push('/user');
+            this.$router.push('/user')
           }
         })
         .catch((error) => {
@@ -51,8 +55,8 @@ export default {
             title: 'Oops...',
             text: 'Tu usuario o contraseña no es correcto',
           })
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     },
   }
 }
