@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="row justify-content-center align-items-center topLogo">
-    <img src="./logo.png" class="logo" border=0 align=center>
+    <img src="../static/logo.png" class="logo" border=0 align=center>
   </div>
   <div class="row justify-content-center align-items-center">
     <div class="col-xs-12 boxLogin">
@@ -10,10 +10,6 @@
         <input required type="text" class="form-control" id="username" v-model="login.username">
         <label class="blackText" for="password">Contraseña</label>
         <input required type="password" class="form-control" id="password" v-model="login.password">
-<<<<<<< HEAD
-=======
-        <a class="blackText" id="passwordResotore" href="#">¿Haz olvidado tu contraseña?</a>
->>>>>>> e64c261a701306808b9249bcbbba87ef1df2132c
         <button type="submit" class="btnLogin btn" name="button" v-on:click="logIn">Acceder</button>
       </form>
     </div>
