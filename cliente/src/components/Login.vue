@@ -10,8 +10,7 @@
         <input required type="text" class="form-control" id="username" v-model="login.username">
         <label class="blackText" for="password">Contraseña</label>
         <input required type="password" class="form-control" id="password" v-model="login.password">
-        <a class="blackText" id="passwordResotore" href="#">¿Haz olvidado tu contraseña?</a>
-        <button type="submit" class="btnLogin btn" name="button" v-on:click="logIn">Ingregsar</button>
+        <button type="submit" class="btnLogin btn" name="button" v-on:click="logIn">Acceder</button>
       </form>
     </div>
   </div>
@@ -72,10 +71,11 @@ export default {
 
 .btnLogin {
   margin-top: 10px;
-  border-color: #000000;
+  border-color: #2699FB;
   background-color: #FFFFFF;
   font-weight: bold;
   border-width: 2px;
+  color: #2699FB;
 }
 
 .btnLogin:hover {
