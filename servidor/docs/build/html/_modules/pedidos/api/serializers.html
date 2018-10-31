@@ -1,0 +1,269 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>pedidos.api.serializers &#8212; EARS 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+   
+  <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for pedidos.api.serializers</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">rest_framework</span> <span class="k">import</span> <span class="n">serializers</span>
+<span class="kn">from</span> <span class="nn">rest_framework.authtoken.models</span> <span class="k">import</span> <span class="n">Token</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">models</span>
+
+
+<div class="viewcode-block" id="UserSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.UserSerializer">[docs]</a><span class="k">class</span> <span class="nc">UserSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CustomUser</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;username&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;isTechnician&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RequisitionSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.RequisitionSerializer">[docs]</a><span class="k">class</span> <span class="nc">RequisitionSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+    <span class="n">assignedTechnician</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;username&#39;</span><span class="p">)</span>
+    <span class="n">priority</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">affectedSystem</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">constancy</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;current&#39;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Requisition</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;type&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;author&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;assignedTechnician&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;subject&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;details&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;priority&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;affectedSystem&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;module&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;date&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;attachedFile&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;constancy&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;status&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RequisitionCommonSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.RequisitionCommonSerializer">[docs]</a><span class="k">class</span> <span class="nc">RequisitionCommonSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Requisition</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;type&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;author&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;assignedTechnician&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;subject&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;details&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;priority&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;affectedSystem&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;module&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;date&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;attachedFile&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;constancy&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;status&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TokenSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.TokenSerializer">[docs]</a><span class="k">class</span> <span class="nc">TokenSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">UserSerializer</span><span class="p">()</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Token</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;user&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SystemSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.SystemSerializer">[docs]</a><span class="k">class</span> <span class="nc">SystemSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">System</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;name&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ModuleSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.ModuleSerializer">[docs]</a><span class="k">class</span> <span class="nc">ModuleSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Module</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;system&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="NestedSystemModulesSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.NestedSystemModulesSerializer">[docs]</a><span class="k">class</span> <span class="nc">NestedSystemModulesSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">ModuleSerializer</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">System</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;system&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ConstancySerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.ConstancySerializer">[docs]</a><span class="k">class</span> <span class="nc">ConstancySerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">finishDate</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Constancy</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;description&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;attachedFile&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;finishDate&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RequerimentConstancySerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.RequerimentConstancySerializer">[docs]</a><span class="k">class</span> <span class="nc">RequerimentConstancySerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">affectedSystem</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+    <span class="n">constancy</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;description&#39;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Requisition</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;affectedSystem&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;type&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;module&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;constancy&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="StatusSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.StatusSerializer">[docs]</a><span class="k">class</span> <span class="nc">StatusSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">current</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Status</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;current&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PrioritySerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.PrioritySerializer">[docs]</a><span class="k">class</span> <span class="nc">PrioritySerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Priority</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;name&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TypeSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.TypeSerializer">[docs]</a><span class="k">class</span> <span class="nc">TypeSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Type</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;name&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AffectedSystemsSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.AffectedSystemsSerializer">[docs]</a><span class="k">class</span> <span class="nc">AffectedSystemsSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="n">affectedSystem</span> <span class="o">=</span> <span class="n">serializers</span><span class="o">.</span><span class="n">SlugRelatedField</span><span class="p">(</span><span class="n">many</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">slug_field</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Requisition</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;affectedSystem&#39;</span><span class="p">,)</span></div>
+
+
+<div class="viewcode-block" id="AffectedModulesSerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.AffectedModulesSerializer">[docs]</a><span class="k">class</span> <span class="nc">AffectedModulesSerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Requisition</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;module&#39;</span><span class="p">,)</span></div>
+
+
+<div class="viewcode-block" id="AffectedConstancySerializer"><a class="viewcode-back" href="../../../index.html#pedidos.api.serializers.AffectedConstancySerializer">[docs]</a><span class="k">class</span> <span class="nc">AffectedConstancySerializer</span><span class="p">(</span><span class="n">serializers</span><span class="o">.</span><span class="n">ModelSerializer</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">Requisition</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;constancy&#39;</span><span class="p">,)</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../../index.html">EARS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ferrato.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
