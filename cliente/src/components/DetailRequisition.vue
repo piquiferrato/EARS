@@ -74,11 +74,11 @@ export default {
             title: 'Pedido tomado'
           })
           EventBus.$emit('watch_requisition', inProcces)
-          this.detailSection = false;
+          this.detailSection = false
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     }
   }
 

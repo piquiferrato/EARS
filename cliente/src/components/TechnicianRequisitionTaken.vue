@@ -43,8 +43,8 @@
 </div>
 </template>
 <script>
-import axios from 'axios';
-import EventBus from '../bus/eventBus.js';
+import axios from 'axios'
+import EventBus from '../bus/eventBus.js'
 import detailRequisition from './DetailRequisition.vue'
 import requisitionSolution from './RequisitionSolution'
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
@@ -126,8 +126,8 @@ export default {
           this.inProcess = true
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     },
     load_finished() {
       axios.get('http://127.0.0.1:8000/requisitions/done/technician/' + sessionStorage.getItem('idUser'))
@@ -138,8 +138,8 @@ export default {
           this.inProcess = false
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     },
     cancel_requisition(requisitionId) {
       var self = this
@@ -167,8 +167,8 @@ export default {
                     self.load('inProgress')
                   })
                   .catch((error) => {
-                    console.log(error.response);
-                  });
+                    console.log(error.response)
+                  })
               }
             }),
           )
@@ -186,14 +186,14 @@ export default {
       })
     },
     watch_requisition(id) {
-      var self = this;
+      var self = this
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
           self.requisitionDetails = true
           self.requisitionSection = false
           EventBus.$emit('requisition_detail', requi)
         }
-      });
+      })
     }
   }
 }

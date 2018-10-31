@@ -46,8 +46,8 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
-import EventBus from '../bus/eventBus.js';
+import axios from 'axios'
+import EventBus from '../bus/eventBus.js'
 export default {
   name: "",
   data() {
@@ -66,8 +66,8 @@ export default {
   },
   methods: {
     update(id) {
-      this.editForm = false;
-      this.requisitionSection = true;
+      this.editForm = false
+      this.requisitionSection = true
       axios.put('http://127.0.0.1:8000/requisitions/update/' + id + '/', {
           // type: this.requisitionEdit.type,
           // author: this.requisitionEdit.author,
@@ -84,11 +84,11 @@ export default {
             type: 'success',
             title: 'Pedido actualizado con exito'
           })
-          EventBus.$emit('change_section');
+          EventBus.$emit('change_section')
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     },
     back() {
       this.editForm = false

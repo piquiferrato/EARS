@@ -79,8 +79,8 @@
 </div>
 </template>
 <script>
-import axios from 'axios';
-import EventBus from '../bus/eventBus.js';
+import axios from 'axios'
+import EventBus from '../bus/eventBus.js'
 import detailRequisition from './DetailRequisition.vue'
 import requisitionSolution from './RequisitionSolution'
 import MoonLoader from 'vue-spinner/src/MoonLoader.vue'
@@ -171,8 +171,8 @@ export default {
           this.system = response.data
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     load_technicians() {
       //La API devuelve todos los tecnicos
@@ -181,8 +181,8 @@ export default {
           this.technician = response.data
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     load(status) {
       this.advanceSearch = false
@@ -223,14 +223,14 @@ export default {
       }
     },
     watch_requisition(id) {
-      var self = this;
+      var self = this
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
           self.requisitionDetails = true
           self.requisitionSection = false
           EventBus.$emit('requisition_detail', requi)
         }
-      });
+      })
     },
     cancel_requisition(requisitionId) {
       var self = this
@@ -249,8 +249,8 @@ export default {
               self.requisitionDetails = false
             })
             .catch((error) => {
-              console.log(error.response);
-            });
+              console.log(error.response)
+            })
         }
       })
     },
@@ -279,8 +279,8 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     },
     search_by_system(system) {
       this.systemSelected = system
@@ -290,8 +290,8 @@ export default {
           this.loading = false
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
       axios.get('http://127.0.0.1:8000/requisitions/modules/system/' + system.id + '/')
         .then((response) => {
           this.module = response.data
@@ -299,8 +299,8 @@ export default {
 
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     search_by_module(module) {
       this.moduleSelected = module
@@ -310,8 +310,8 @@ export default {
           this.loading = false
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     search_by_technician(technician) {
       if (this.state === 2 || this.state === 4) {
@@ -321,8 +321,8 @@ export default {
             this.loading = false
           })
           .catch((error) => {
-            console.log(error);
-          });
+            console.log(error)
+          })
       }
 
     }

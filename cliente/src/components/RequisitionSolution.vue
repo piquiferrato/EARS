@@ -44,8 +44,8 @@ export default {
           this.update_constancyId_requisition(data.data.id)
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
 
     },
     update_constancyId_requisition(idConstancy) {
@@ -66,8 +66,8 @@ export default {
           EventBus.$emit('go_back', finished)
         })
         .catch((error) => {
-          console.log(error.response);
-        });
+          console.log(error.response)
+        })
     }
   }
 

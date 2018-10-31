@@ -28,11 +28,11 @@
 </div>
 </template>
 <script>
-import formRequisition from './Form.vue';
-import formEditRequisition from './FormEdit.vue';
-import userCard from './UserCard.vue';
-import axios from 'axios';
-import EventBus from '../bus/eventBus.js';
+import formRequisition from './Form.vue'
+import formEditRequisition from './FormEdit.vue'
+import userCard from './UserCard.vue'
+import axios from 'axios'
+import EventBus from '../bus/eventBus.js'
 export default {
   components: {
     formRequisition,
@@ -53,21 +53,21 @@ export default {
           }
         })
         .then((response) => {
-          this.name = response.data.username;
+          this.name = response.data.username
         })
         .catch((error) => {
-          console.log("No salio");
-        });
+          console.log("No salio")
+        })
     },
     new_requirement: function() {
-      this.requirementSection = !this.requirementSection;
-      this.errorSection = false;
-      this.userRequisition = false;
+      this.requirementSection = !this.requirementSection
+      this.errorSection = false
+      this.userRequisition = false
     },
     requisition: function() {
-      this.userRequisition = !this.userRequisition;
-      this.errorSection = false;
-      this.requirementSection = false;
+      this.userRequisition = !this.userRequisition
+      this.errorSection = false
+      this.requirementSection = false
     },
     logOut: function() {
       this.$swal({
@@ -83,25 +83,25 @@ export default {
           this.$swal(
             'Cierre de sesión exitoso',
           )
-          sessionStorage.clear();
-          this.$router.push('/');
+          sessionStorage.clear()
+          this.$router.push('/')
         }
       })
     }
   },
   created() {
     EventBus.$on('change_section', () => {
-      this.requirementSection = false;
-      this.userRequisition = true;
-    });
+      this.requirementSection = false
+      this.userRequisition = true
+    })
     // EventBus.$on('change_module', () => {
-    //   this.userRequisition = false;
-    // });
+    //   this.userRequisition = false
+    // })
 
   },
   beforeDestroy() {
-    // // EventBus.$off('change_section');
-    // EventBus.$off('view_edit_form');
+    // // EventBus.$off('change_section')
+    // EventBus.$off('view_edit_form')
 
   },
   data() {

@@ -39,10 +39,10 @@
 </div>
 </template>
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import techCard from './TechCard.vue'
 import technicianRequisitionTaken from './TechnicianRequisitionTaken.vue'
-import EventBus from '../bus/eventBus.js';
+import EventBus from '../bus/eventBus.js'
 export default {
   components: {
     techCard,
@@ -58,11 +58,11 @@ export default {
         }
       })
       .then((response) => {
-        this.name = response.data.username;
+        this.name = response.data.username
       })
       .catch((error) => {
-        console.log("No salio");
-      });
+        console.log("No salio")
+      })
     EventBus.$on('select_nav_btn', (status) => {
       this.correct_section(status)
     })
@@ -95,29 +95,29 @@ export default {
           this.quantityOnHold = response.data.length
         })
         .catch((error) => {
-          console.log("No salio");
-        });
+          console.log("No salio")
+        })
       axios.get('http://127.0.0.1:8000/requisitions/status/inprogress/')
         .then((response) => {
           this.quantityInProcess = response.data.length
         })
         .catch((error) => {
-          console.log("No salio");
-        });
+          console.log("No salio")
+        })
       axios.get('http://127.0.0.1:8000/requisitions/status/cancelled/')
         .then((response) => {
           this.quantityCancelled = response.data.length
         })
         .catch((error) => {
-          console.log("No salio");
-        });
+          console.log("No salio")
+        })
       axios.get('http://127.0.0.1:8000/requisitions/status/done/')
         .then((response) => {
           this.quantityFinished = response.data.length
         })
         .catch((error) => {
-          console.log("No salio");
-        });
+          console.log("No salio")
+        })
     },
     logOut() {
       this.$swal({
@@ -133,8 +133,8 @@ export default {
           this.$swal(
             'Cierre de sesión exitoso',
           )
-          sessionStorage.clear();
-          this.$router.push('/');
+          sessionStorage.clear()
+          this.$router.push('/')
         }
       })
     },

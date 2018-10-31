@@ -79,8 +79,8 @@ export default {
           this.loading = false
         })
         .catch((error) => {
-          console.log(error);
-        });
+          console.log(error)
+        })
     },
     deletRequisition(id, index) {
       this.$swal({
@@ -102,11 +102,11 @@ export default {
       })
     },
     editRequisition(id) {
-      var self = this;
+      var self = this
       this.requisition.forEach(function(requi) {
         if (requi.id == id) {
           EventBus.$emit('edit_form', requi)
-          self.requisitionSection = false;
+          self.requisitionSection = false
         }
       })
     },
