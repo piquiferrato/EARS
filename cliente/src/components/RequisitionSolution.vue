@@ -74,4 +74,25 @@ export default {
 }
 </script>
 <style>
+#inputFile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+label[for="inputFile"] {
+  font-size: 14px;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: #2699FB;
+  display: inline-block;
+  cursor: pointer;
+  padding: 15px 40px !important;
+  text-transform: uppercase;
+  width: fit-content;
+  text-align: center;
+}
 </style>
