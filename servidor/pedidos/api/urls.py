@@ -52,13 +52,14 @@ urlpatterns = [
          views.PriorityAdvancedSearchTechnician.as_view()),
     path('search/date/technician/<int:technician>/status/<int:status>/order/<int:order>/',
          views.DateAdvancedSearchTechnician.as_view()),
-]
+    path('users/technicians/', views.TechniciansListView.as_view()),
+    path('requisitions/search/module/<int:moduleId>/', views.SearchRequisitionByModule.as_view()),
+    path('requisitions/order/priority/<int:order>', views.OrderRequisitionByPriority.as_view()),
+    path('requisitions/order/date/<int:order>', views.OrderRequisitionByDate.as_view()),
+    path('requisitions/order/author/<int:order>', views.OrderRequisitionByAuthor.as_view()),
+    path('users/commons/', views.CommonUsersListView.as_view()),
+    path('users/technicians/', views.TechniciansListView.as_view()),
+    path('systems/affected/', views.AffectedSystems.as_view()),
+    path('systems/modules/nested/', views.NestedSystemsModules.as_view()),
 
-# path('requisitions/search/module/<int:moduleId>/', views.SearchRequisitionByModule.as_view()),
-# path('requisitions/order/priority/<int:order>', views.OrderRequisitionByPriority.as_view()),
-# path('requisitions/order/date/<int:order>', views.OrderRequisitionByDate.as_view()),
-# path('requisitions/order/author/<int:order>', views.OrderRequisitionByAuthor.as_view()),
-# path('users/commons/', views.CommonUsersListView.as_view()),
-# path('users/technicians/', views.TechniciansListView.as_view()),
-# path('systems/affected/', views.AffectedSystems.as_view()),
-# path('systems/modules/nested/', views.NestedSystemsModules.as_view()),
+]
