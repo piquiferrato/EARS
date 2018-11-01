@@ -74,6 +74,7 @@ export default {
 }
 </script>
 <style>
+<<<<<<< HEAD
 #inputFile {
   width: 0.1px;
   height: 0.1px;
@@ -95,4 +96,27 @@ label[for="inputFile"] {
   width: fit-content;
   text-align: center;
 }
+=======
+  #inputFile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  label[for="inputFile"] {
+    font-size: 14px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #2699FB;
+    display: inline-block;
+    cursor: pointer;
+    padding: 15px 40px !important;
+    text-transform: uppercase;
+    width: fit-content;
+    text-align: center;
+  }
+>>>>>>> 851084d98e37500cca94704f5ca8e7f2127302ec
 </style>
