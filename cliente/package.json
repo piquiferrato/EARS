@@ -17,7 +17,7 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "express": "^4.16.4",
     "glyphicons-only-bootstrap": "^1.0.1",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "qs": "^6.5.2",
     "select2": "^4.0.6-rc.1",
     "v-select2-component": "^0.3.1",
