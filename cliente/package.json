@@ -19,7 +19,7 @@
     "glyphicons-only-bootstrap": "^1.0.1",
     "jquery": "^3.4.0",
     "qs": "^6.5.2",
-    "select2": "^4.0.6-rc.1",
+    "select2": "^4.0.6",
     "v-select2-component": "^0.3.1",
     "vue": "^2.5.11",
     "vue-loading-spinner": "^1.0.11",
